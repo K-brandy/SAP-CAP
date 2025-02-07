@@ -1,0 +1,111 @@
+<mvc:View
+    controllerName="ns.books.controller.Booklist"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="idMainPage"
+        title="{i18n>title}"
+    >
+        <HeaderContainer id="idHeaderContainer">
+            <Toolbar id="idToolbar">
+                <Title
+                    id="idBookListTitle"
+                    text="Book List"
+                />
+                <ToolbarSpacer id="idToolbarSpacer" />
+            </Toolbar>
+        </HeaderContainer>
+        <Table
+            id="idBooksTable"
+            width="auto"
+            items="{/Books}"
+        >
+            <columns>
+                <Column id="idIdColumn">
+                    <Text
+                        id="idIdColumnText"
+                        text="Id"
+                    />
+                   </Column> 
+                <Column id="idTitleColumn">
+                    <Text
+                        id="idTitleHeaderText"
+                        text="Title"
+                    />
+                </Column>
+                <Column id="idDescrColumn">
+                    <Text
+                        id="idDescrText"
+                        text="Descr"
+                    />
+                </Column>
+                <Column id="idAuthorColumn">
+                    <Text
+                        id="idAuthorHeaderText"
+                        text="Author"
+                    />
+                </Column>
+                <Column id="idGenreIdColumn">
+                    <Text
+                        id="idGenreIdText"
+                        text="Genre"
+                    />
+                </Column>
+                <Column id="idStockColumn">
+                    <Text
+                        id="idStockText"
+                        text="Stock"
+                    />
+                </Column>
+                <Column id="idPriceColumn">
+                    <Text
+                        id="idPriceText"
+                        text="Price"
+                    />
+                </Column>
+                <Column id="idCurrencyColumn">
+                    <Text
+                        id="idCurrencyText"
+                        text="Currency"
+                    />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem id="idColumnListItem">
+                    <cells>
+                         <Text
+                            id="idIdText"
+                            text="{ID}"
+                        />
+                        <Text
+                            id="idTitleCellText"
+                            text="{title}"
+                        />
+                        <Text
+                            id="idDescrCellText"
+                            text="{descr}"
+                        />
+                        <Text
+                            id="idAuthorCellText"
+                            text="{author}"
+                        />
+                        <Text
+                            id="idGenreIdCellText"
+                            text="{path:'genre', targetType:'any'}"
+                        />
+                        <Text
+                            id="idStockCellText"
+                            text="{stock}"
+                        />
+                        <Text
+                            id="idPriceCellText"
+                            text="{price}"
+                        />
+                        <Text id="idCurrencyCodeCellText" text="{currency_code}"/>                                      
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>

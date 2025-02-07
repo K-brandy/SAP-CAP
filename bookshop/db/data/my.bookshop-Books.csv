@@ -1,0 +1,6 @@
+ID;title;descr;author_ID;genre_ID;stock;price;currency_code
+201;Wuthering Heights;A gothic novel;101;1;12;12.99;USD
+207;Jane Eyre;A romance novel;107;2;11;10.99;EUR
+251;The Raven;A poem collection;150;1;333;7.99;GBP
+252;Eleonora;A horror story;150;3;555;9.99;USD
+271;Catweazle;A fantasy novel;170;2;22;14.99;EUR
