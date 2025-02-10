@@ -3,26 +3,28 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
 >
-    <Page
-        id="idMainPage"
-        title="{i18n>title}"
-    >
-        <HeaderContainer id="idHeaderContainer">
-            <Toolbar id="idToolbar">
+   <Panel>
+        <headerToolbar>
+            <Toolbar id="idToolbar" width="100%">
                 <Title
                     id="idBookListTitle"
                     text="Book List"
                 />
-                <ToolbarSpacer id="idToolbarSpacer" />
-                <SearchField id="idSearchField"
-                     width="50%"
+                <ToolbarSpacer />
+               
+                <SearchField
+                    id="idSearchField"
+                    width="50%"
                     search=".onSearchFieldSearch"
                     ariaLabelledBy="searchFieldLabel"
                     ariaDescribedBy="searchFieldDescription"
                     placeholder="{i18n>searchFieldPlaceHolder}"
                 />
+               
+
             </Toolbar>
-        </HeaderContainer>
+        </headerToolbar>
+
         <Table
             id="idBooksTable"
             width="auto"
@@ -34,7 +36,7 @@
                         id="idIdColumnText"
                         text="{i18n>ColumnIdText}"
                     />
-                   </Column> 
+                </Column>
                 <Column id="idTitleColumn">
                     <Text
                         id="idTitleHeaderText"
@@ -79,9 +81,13 @@
                 </Column>
             </columns>
             <items>
-                <ColumnListItem id="idColumnListItem" type="Navigation" press="onColumnListItemPress">
+                <ColumnListItem
+                    id="idColumnListItem"
+                    type="Navigation"
+                    press="onColumnListItemPress"
+                >
                     <cells>
-                         <Text
+                        <Text
                             id="idIdText"
                             text="{ID}"
                         />
@@ -109,10 +115,14 @@
                             id="idPriceCellText"
                             text="{price}"
                         />
-                        <Text id="idCurrencyCodeCellText" text="{currency_code}"/>                                      
+                        <Text
+                            id="idCurrencyCodeCellText"
+                            text="{currency_code}"
+                        />
                     </cells>
                 </ColumnListItem>
             </items>
         </Table>
-    </Page>
+   
+    </Panel>
 </mvc:View>
