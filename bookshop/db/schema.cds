@@ -11,6 +11,12 @@ entity Books : managed {
   price  : Decimal(9,2);
   currency : Currency;
  test : String;
+//Additional info
+  publicationDate : Date;       
+  pageCount       : Integer;        
+  language        : String(50);   
+  publisher       : String(111);    
+  rating          : Decimal(3,2);   
 }
 
 entity Authors : managed {

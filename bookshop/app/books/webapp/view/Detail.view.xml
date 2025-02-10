@@ -1,0 +1,39 @@
+<mvc:View
+	controllerName="ns.books.controller.Detail"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	displayBlock="true"
+	height="100%"
+	busyIndicatorDelay="0"
+	xmlns:l="sap.ui.layout"
+>
+	<Page id="pageId" title="{title}">
+		<headerContent>
+			<Button id="buttonId" icon="sap-icon://nav-back" press="onNavBack"/>
+		</headerContent>
+		
+		<content>
+<ObjectHeader id="objectheaderId" title="{title}" responsive="true">
+    <attributes>
+        <ObjectAttribute title="{i18n>PublicationDate}" text="{publicationDate}" />
+        <ObjectAttribute title="{i18n>PageCount}" text="{pageCount}" />
+        <ObjectAttribute title="{i18n>Language}" text="{language}" />
+        <ObjectAttribute title="{i18n>Publisher}" text="{publisher}" />
+    </attributes>
+</ObjectHeader>
+
+</content>
+<l:VerticalLayout >
+<Label text="{i18n>Rate}" labelFor="RI_S"/>
+<RatingIndicator id="RI_S" 
+    maxValue="5" 
+    class="sapUiSmallMarginBottom" 
+    value="{rating>/rating}" 
+    iconSize="22px" 
+    liveChange=".onRatingChange"
+    tooltip="Rating Tooltip" />
+
+		</l:VerticalLayout>
+	</Page>
+</mvc:View>

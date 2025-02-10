@@ -43,7 +43,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.132.1",
       "libs": {
@@ -96,12 +96,22 @@
           "target": [
             "TargetBooklist"
           ]
+        },
+        {
+          "name": "detail",
+          "pattern": "detail/{bookID}",
+          "target":"detail"
+
         }
       ],
       "targets": {
         "TargetBooklist": {
           "id": "Booklist",
           "name": "Booklist"
+        },
+        "detail":{
+          "id": "detail",
+          "name": "Detail"
         }
       }
     },

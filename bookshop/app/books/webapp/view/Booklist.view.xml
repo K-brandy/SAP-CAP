@@ -14,6 +14,13 @@
                     text="Book List"
                 />
                 <ToolbarSpacer id="idToolbarSpacer" />
+                <SearchField id="idSearchField"
+                     width="50%"
+                    search=".onSearchFieldSearch"
+                    ariaLabelledBy="searchFieldLabel"
+                    ariaDescribedBy="searchFieldDescription"
+                    placeholder="{i18n>searchFieldPlaceHolder}"
+                />
             </Toolbar>
         </HeaderContainer>
         <Table
@@ -25,54 +32,54 @@
                 <Column id="idIdColumn">
                     <Text
                         id="idIdColumnText"
-                        text="Id"
+                        text="{i18n>ColumnIdText}"
                     />
                    </Column> 
                 <Column id="idTitleColumn">
                     <Text
                         id="idTitleHeaderText"
-                        text="Title"
+                        text="{i18n>TitleText}"
                     />
                 </Column>
                 <Column id="idDescrColumn">
                     <Text
                         id="idDescrText"
-                        text="Descr"
+                        text="{i18n>DescrText}"
                     />
                 </Column>
                 <Column id="idAuthorColumn">
                     <Text
                         id="idAuthorHeaderText"
-                        text="Author"
+                        text="{i18n>AuthorText}"
                     />
                 </Column>
                 <Column id="idGenreIdColumn">
                     <Text
                         id="idGenreIdText"
-                        text="Genre"
+                        text="{i18n>GenreText}"
                     />
                 </Column>
                 <Column id="idStockColumn">
                     <Text
                         id="idStockText"
-                        text="Stock"
+                        text="{i18n>StockText}"
                     />
                 </Column>
                 <Column id="idPriceColumn">
                     <Text
                         id="idPriceText"
-                        text="Price"
+                        text="{i18n>PriceText}"
                     />
                 </Column>
                 <Column id="idCurrencyColumn">
                     <Text
                         id="idCurrencyText"
-                        text="Currency"
+                        text="{i18n>CurrencyText}"
                     />
                 </Column>
             </columns>
             <items>
-                <ColumnListItem id="idColumnListItem">
+                <ColumnListItem id="idColumnListItem" type="Navigation" press="onColumnListItemPress">
                     <cells>
                          <Text
                             id="idIdText"
@@ -92,7 +99,7 @@
                         />
                         <Text
                             id="idGenreIdCellText"
-                            text="{path:'genre', targetType:'any'}"
+                            text="{genre}"
                         />
                         <Text
                             id="idStockCellText"
