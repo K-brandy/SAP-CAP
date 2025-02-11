@@ -33,7 +33,7 @@
             <columns>
                 <Column id="idIdColumn">
                     <Text
-                        id="idIdColumnText"
+                        id="idIdColumnText" 
                         text="{i18n>ColumnIdText}"
                     />
                 </Column>
