@@ -5,13 +5,16 @@ service CatalogService @(path:'/browse') {
    
     author.name as author,
     genre.name as genre,
-    businessPartners{ID, name, country, street, postal_code},
+   // businessPartners{ID, name, country, street, postal_code},
     } excluding { createdBy, modifiedBy };
 
 
 
     action submitOrder (book:Books:ID, amount: Integer);
 
+     entity Business_Partners as select from my.Business_Partners{*,
+
+ } excluding { createdBy, modifiedBy };
 
   }
 

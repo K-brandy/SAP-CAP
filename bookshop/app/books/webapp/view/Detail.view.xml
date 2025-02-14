@@ -109,7 +109,7 @@
             <Table
                 id="idBusinessPartnersTable"
                 width="auto"
-                items="{path:'/Books'}"
+                items="{path:'businessPartners'}"
             >
                 <headerToolbar>
                     <Toolbar>
@@ -169,13 +169,13 @@
                     <ColumnListItem>
                         <cells>
                             <ObjectNumber
-                                number="{businessPartners_ID}"
+                                number="{ID}"
                                 emphasized="false"
                             />
-                            <Text text="{businessPartners_name}" />
-                            <Text text="{businessPartners_country}" />
-                            <Text text="{businessPartners_street}" />
-                            <Text text="{businessPartners_postal_code}" />
+                            <Text text="{name}" />
+                            <Text text="{country}" />
+                            <Text text="{street}" />
+                            <Text text="{postal_code}" />
                         </cells>
                     </ColumnListItem>
                 </items>

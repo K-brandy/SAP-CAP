@@ -10,7 +10,7 @@ entity Books : managed {
   stock  : Integer;
   price  : Decimal(9,2);
   currency : Currency;
-  businessPartners : Association to Business_Partners;
+  businessPartners : Association to many Business_Partners on businessPartners.books = $self;
 
   
 //Additional info
@@ -43,6 +43,6 @@ entity Business_Partners: managed{
   country : String;
   street : String;
   postal_code : String;
-  books  : Association to many Books on books.businessPartners = $self;
+  books  : Association to Books;
 
 }
