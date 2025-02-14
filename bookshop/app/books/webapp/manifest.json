@@ -60,6 +60,7 @@
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "ns.books.i18n.i18n"
+
         }
       },
       "": {

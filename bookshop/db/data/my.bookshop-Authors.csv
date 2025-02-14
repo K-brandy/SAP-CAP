@@ -1,5 +1,6 @@
-ID;name
-101;Emily Brontë
-107;Charlotte Brontë
-150;Edgar Allen Poe
-170;Richard Carpenter
+ID;name;email;dateOfBirth;nationality
+101;Emily Brontë;emily.bronte@yahoo.com;1818-07-30;English
+107;Charlotte Brontë;charlotte.bronte@gmail.com;1816-04-21;English
+150;Edgar Allen Poe;edgar.poe@gmail.com;1809-01-19;American
+170;Richard Carpenter;richard.carpenter@yahoo.com;1946-10-15;American
+

@@ -2,21 +2,21 @@
     controllerName="ns.books.controller.Detail"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:c="sap.ui.core"
     displayBlock="true"
     height="100%"
     busyIndicatorDelay="0"
     xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
 >
     <Page
-        id="pageId"
+        id="idPage"
         title="{title}"
         showNavButton="true"
-        navButtonPress=".onNavBack"
+        navButtonPress=".onPageNavButtonPress"
     >
         <content>
             <ObjectHeader
-                id="objectheaderId"
+                id="idObjectHeader"
                 title="{title}"
                 responsive="true"
             >
@@ -40,21 +40,171 @@
                 </attributes>
             </ObjectHeader>
         </content>
-        <l:VerticalLayout class="sapUiMediumMarginBeginEnd">
+        <l:VerticalLayout
+            class="sapUiContentPadding sapUiResponsiveMargin"
+            enabled="{view>/isEditable}"
+            width="50%"
+        >
+            <Button
+                text="save"
+                press="onSaveButtonPress"
+                type="Emphasized"
+            />
+            <f:SimpleForm
+                id="idSimpleForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+            >
+                <Label text="{i18n>TitleText}" />
+                <Input
+                    id="idTitleInput"
+                    value="{title}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>DescrText}" />
+                <Input
+                    id="idDescrInput"
+                    value="{descr}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>AuthorText}" />
+                <Input
+                    id="idAuthorInput"
+                    value="{author}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>GenreText}" />
+                <Input
+                    id="idGenreInput"
+                    value="{genre}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>StockText}" />
+                <Input
+                    id="idStockInput"
+                    value="{stock}"
+                    class="sapUiMediumMarginBeginEnd"
+                    type="Number"
+                />
+
+                <Label text="{i18n>PriceText}" />
+                <Input
+                    id="idPriceInput"
+                    value="{price}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>CurrencyText}" />
+                <Input
+                    id="idCurrencyCodeInput"
+                    value="{currency_code}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+            </f:SimpleForm>
+
+            <Table
+                id="idBusinessPartnersTable"
+                width="auto"
+                items="{path:'/Books'}"
+            >
+                <headerToolbar>
+                    <Toolbar>
+                        <Title
+                            id="idBusinessPartnersTitle"
+                            text="{i18n>BusinessPartners}"
+                        />
+                        <ToolbarSpacer />
+
+                        <SearchField
+                            id="idBusinessPartnerSearchField"
+                            placeholder="Search All Columns"
+                            search=".onSearchFieldBPSearch"
+                            width="50%"
+                        />
+                    </Toolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>BusinessPartnerID}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>BusinessPartnerName}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>BusinessPartnerCountry}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>BusinessPartnerStreet}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>BusinessPostalCode}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <ObjectNumber
+                                number="{businessPartners_ID}"
+                                emphasized="false"
+                            />
+                            <Text text="{businessPartners_name}" />
+                            <Text text="{businessPartners_country}" />
+                            <Text text="{businessPartners_street}" />
+                            <Text text="{businessPartners_postal_code}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
             <Label
                 text="{i18n>Rate}"
                 labelFor="RI_S"
-                class="sapUiSmallMarginTop"
             />
             <RatingIndicator
-                id="RI_S"
-                maxValue="5"
-                class="sapUiSmallMarginBottom"
+                id="idRatingRatingIndicator"
                 value="{/rating}"
                 iconSize="22px"
                 liveChange=".onRatingChange"
                 tooltip="Rating Tooltip"
             />
         </l:VerticalLayout>
+        <footer>
+            <Bar>
+                <contentRight>
+                    <Button
+                        text="{
+                            path: 'view>/isEditable',
+                            formatter: '.formatToggleButtonText'
+                        }"
+                        press=".onIsEditableButtonPress"
+                    />
+                </contentRight>
+            </Bar>
+        </footer>
     </Page>
 </mvc:View>

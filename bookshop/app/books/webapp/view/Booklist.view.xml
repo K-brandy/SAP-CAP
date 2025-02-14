@@ -3,7 +3,7 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
 >
-   <Panel>
+   <Panel class="myPanel">
         <headerToolbar>
             <Toolbar id="idToolbar" width="100%">
                 <Title
@@ -29,11 +29,15 @@
             id="idBooksTable"
             width="auto"
             items="{/Books}"
+            class="SapUiResponsiveMargin"
+         
         >
+        
             <columns>
+            
                 <Column id="idIdColumn">
                     <Text
-                        id="idIdColumnText" 
+                        id="idIdColummnText"
                         text="{i18n>ColumnIdText}"
                     />
                 </Column>
