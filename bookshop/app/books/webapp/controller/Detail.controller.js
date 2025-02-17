@@ -22,9 +22,11 @@ sap.ui.define([
                 rating: 0
             });
             this.getView().setModel(this.oRatingModel, "rating");
+            //view model
 
             const oViewModel = new JSONModel({
-                isEditable:false
+                isEditable:false,
+                rowCount:0
 
 
             });
@@ -32,6 +34,30 @@ sap.ui.define([
 
    
           },
+          updateRowCount: function (oTable) {
+            var oTable = this.byId("idBusinessPartnersTable");
+            var oBinding = oTable.getBinding("items");
+            if (oBinding) {
+                var iCount = oBinding ? oBinding.getLength() : 0;
+                oTable.setHeaderText("Total Business Partners: " + iCount);
+                this.getView().getModel("view").setProperty("/rowCount", iCount);
+
+            }
+        },
+        onBeforeRendering: function () {
+            var oTable = this.byId("idBusinessPartnersTable");
+
+            // Ensure row count is updated before rendering
+            this.updateRowCount(oTable);
+
+            var oBinding = oTable.getBinding("items");
+            if (oBinding) {
+                oBinding.attachChange(function () {
+                    this.updateRowCount(oTable);
+                }.bind(this));
+            }
+        },
+
           _onObjectMatched: function (oEvent) {
             var sBookID = oEvent.getParameter("arguments").bookID;
         
@@ -69,7 +95,7 @@ sap.ui.define([
 
             MessageToast.show(sMessage);
         },
-        
+        //search field for business partners
         onSearchFieldBPSearch: function (oEvent) {
             const sQuery = oEvent.getParameter("query");
             const aFilters = [];
@@ -133,7 +159,6 @@ sap.ui.define([
             oContext.setProperty("genre", oView.byId("idGenreInput").getValue());
             oContext.setProperty("stock", stockValue); 
             oContext.setProperty("price", oView.byId("idPriceInput").getValue().replace(",", "."));
-
             oContext.setProperty("currency_code", oView.byId("idCurrencyCodeInput").getValue());
         
             oModel.submitBatch("BooksBatchGroup")
@@ -143,8 +168,8 @@ sap.ui.define([
                 .catch(function (oError) {
                     MessageToast.show("Error saving book details: " + oError.message);
                 });
-        }
-        
+        },
+
         
         
     });

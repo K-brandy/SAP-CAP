@@ -16,5 +16,6 @@ service CatalogService @(path:'/browse') {
 
  } excluding { createdBy, modifiedBy };
 
-  }
 
+
+  }

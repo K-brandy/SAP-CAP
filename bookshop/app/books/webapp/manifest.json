@@ -5,7 +5,24 @@
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
-      "version": "0.0.1"
+      "version": "0.0.1",
+      "crossNavigation": {
+       "inbounds": {
+       "intent1": {
+      "signature": {
+        "parameters": {},
+        "additionalParameters": "allowed"
+      },
+      "semanticObject": "Books",
+      "action": "manage",
+      "title": "{{appTitle}}",
+      "info": "{{appInfo}}",
+      "subTitle": "{{appSubTitle}}",
+      "icon": "sap-icon://book"
+    }
+  }
+ }
+
     },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",

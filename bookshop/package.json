@@ -1,0 +1,38 @@
+{
+  "name": "bookshop",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^8",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@cap-js/cds-types": "^0.8.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-books": "cds watch --open books/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-businesspartners-ui": "cds watch --open businesspartners-ui/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-businesspartners": "cds watch --open businesspartners/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db.sqlite"
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/project1",
+    "app/businesspartners-ui",
+    "app/businesspartners"
+  ]
+}

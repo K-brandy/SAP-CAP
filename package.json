@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "cds-launchpad-plugin": "^2.2.0"
+  },
+  "sapux": [
+  "app/authors",
+  "app/books",
+  "app/browse"
+]
+
+}

@@ -37,12 +37,11 @@ entity Genres : sap.common.CodeList {
   children : Composition of many Genres on children.parent = $self;
 }
 
-entity Business_Partners: managed{
+entity Business_Partners: managed {
   key ID : Integer;
   name : String;
   country : String;
   street : String;
   postal_code : String;
   books  : Association to Books;
-
 }
