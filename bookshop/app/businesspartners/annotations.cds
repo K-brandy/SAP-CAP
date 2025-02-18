@@ -1,6 +1,9 @@
 using CatalogService as service from '../../srv/cat-service';
 annotate service.Business_Partners with @(
+     
     UI.FieldGroup #GeneratedGroup : {
+        
+        
         $Type : 'UI.FieldGroupType',
         Data : [
             {
@@ -10,28 +13,30 @@ annotate service.Business_Partners with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'name',
+                Label : 'Name',
                 Value : name,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'country',
+                Label : 'Country',
                 Value : country,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'street',
+                Label : 'Street',
                 Value : street,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'postal_code',
+                Label : 'Postal Code',
                 Value : postal_code,
+        
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'books_ID',
+                Label : 'Books ID',
                 Value : books_ID,
+            
             },
         ],
     },
@@ -44,29 +49,32 @@ annotate service.Business_Partners with @(
         },
     ],
     UI.LineItem : [
+
+
         {
             $Type : 'UI.DataField',
             Label : 'ID',
             Value : ID,
+            
         },
         {
             $Type : 'UI.DataField',
-            Label : 'name',
+            Label : 'Name',
             Value : name,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'country',
+            Label : 'Country',
             Value : country,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'street',
+            Label : 'Street',
             Value : street,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'postal_code',
+            Label : 'Postal Code',
             Value : postal_code,
         },
     ],

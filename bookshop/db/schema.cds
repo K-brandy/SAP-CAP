@@ -38,6 +38,7 @@ entity Genres : sap.common.CodeList {
 }
 
 entity Business_Partners: managed {
+  
   key ID : Integer;
   name : String;
   country : String;
