@@ -45,11 +45,7 @@
             enabled="{view>/isEditable}"
             width="50%"
         >
-            <Button
-                text="save"
-                press="onSaveButtonPress"
-                type="Emphasized"
-            />
+
             <f:SimpleForm
                 id="idSimpleForm"
                 editable="true"
@@ -117,6 +113,7 @@
                             id="idBusinessPartnersTitle"
                             text="{i18n>BusinessPartners}"
                         />
+
                         <ToolbarSpacer />
 
                         <SearchField
@@ -196,6 +193,17 @@
         <footer>
             <Bar>
                 <contentRight>
+                        <Button
+                            text="Add BP"
+                            id="idButtonButton"
+                            press="onButtonButtonPress"
+                            type="Emphasized"
+                        />
+                            <Button
+                text="save"
+                press="onSaveButtonPress"
+                type="Emphasized"
+            />
                     <Button
                         text="{
                             path: 'view>/isEditable',

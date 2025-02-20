@@ -1,5 +1,13 @@
 using CatalogService as service from '../../srv/cat-service';
 annotate service.Business_Partners with @(
+    
+    UI.SelectionFields : [
+        name,
+        ID,
+        country,
+    ],
+
+ 
      
     UI.FieldGroup #GeneratedGroup : {
         
@@ -32,12 +40,7 @@ annotate service.Business_Partners with @(
                 Value : postal_code,
         
             },
-            {
-                $Type : 'UI.DataField',
-                Label : 'Books ID',
-                Value : books_ID,
-            
-            },
+
         ],
     },
     UI.Facets : [
@@ -80,33 +83,33 @@ annotate service.Business_Partners with @(
     ],
 );
 
-annotate service.Business_Partners with {
-    books @Common.ValueList : {
-        $Type : 'Common.ValueListType',
-        CollectionPath : 'Books',
-        Parameters : [
-            {
-                $Type : 'Common.ValueListParameterInOut',
-                LocalDataProperty : books_ID,
-                ValueListProperty : 'ID',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'title',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'descr',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'author',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'genre',
-            },
-        ],
-    }
-};
+// annotate service.Business_Partners with {
+//     books @Common.ValueList : {
+//         $Type : 'Common.ValueListType',
+//         CollectionPath : 'Books',
+//         Parameters : [
+//             {
+//                 $Type : 'Common.ValueListParameterInOut',
+//                 LocalDataProperty : books_ID,
+//                 ValueListProperty : 'ID',
+//             },
+//             {
+//                 $Type : 'Common.ValueListParameterDisplayOnly',
+//                 ValueListProperty : 'title',
+//             },
+//             {
+//                 $Type : 'Common.ValueListParameterDisplayOnly',
+//                 ValueListProperty : 'descr',
+//             },
+//             {
+//                 $Type : 'Common.ValueListParameterDisplayOnly',
+//                 ValueListProperty : 'author',
+//             },
+//             {
+//                 $Type : 'Common.ValueListParameterDisplayOnly',
+//                 ValueListProperty : 'genre',
+//             },
+//         ],
+//     }
+// };
 

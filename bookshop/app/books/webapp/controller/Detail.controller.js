@@ -3,11 +3,10 @@ sap.ui.define([
     "sap/ui/core/routing/History",
     "sap/m/MessageToast",
     "sap/ui/model/json/JSONModel",
-        "sap/ui/model/Filter",
+    "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     'sap/ui/core/Fragment',
-    "sap/m/MessageToast"
-], function(Controller, History, MessageToast, JSONModel,Filter,FilterOperator,MessageBox) {
+], function(Controller, History, MessageToast, JSONModel,Filter,FilterOperator,Fragment) {
     "use strict";
 
     return Controller.extend("ns.books.controller.Detail", {
@@ -147,20 +146,28 @@ sap.ui.define([
             var oView = this.getView();
             var oModel = oView.getModel(); 
             var oContext = oView.getBindingContext(); 
-            
-        // convert the value to an integer using parseInt()
-            var stockValue = oView.byId("idStockInput").getValue();
-            stockValue = stockValue ? parseInt(stockValue, 10) : 0;
-
-            // Update properties
-            oContext.setProperty("title", oView.byId("idTitleInput").getValue());
-            oContext.setProperty("descr", oView.byId("idDescrInput").getValue());
-            oContext.setProperty("author", oView.byId("idAuthorInput").getValue());
-            oContext.setProperty("genre", oView.byId("idGenreInput").getValue());
-            oContext.setProperty("stock", stockValue); 
-            oContext.setProperty("price", oView.byId("idPriceInput").getValue().replace(",", "."));
-            oContext.setProperty("currency_code", oView.byId("idCurrencyCodeInput").getValue());
         
+            // Define the fields and their corresponding input IDs
+            var fields = [
+                { property: "title", inputId: "idTitleInput" },
+                { property: "descr", inputId: "idDescrInput" },
+                { property: "author", inputId: "idAuthorInput" },
+                { property: "genre", inputId: "idGenreInput" },
+                { property: "price", inputId: "idPriceInput", transform: value => value.replace(",", ".") },
+                { property: "currency_code", inputId: "idCurrencyCodeInput" },
+                { property: "stock", inputId: "idStockInput", transform: value => parseInt(value, 10) || 0 }
+            ];
+        
+            // Iterate over fields to update properties
+            fields.forEach(function (field) {
+                var value = oView.byId(field.inputId).getValue();
+                if (field.transform) {
+                    value = field.transform(value);
+                }
+                oContext.setProperty(field.property, value);
+            });
+        
+            // Submit the batch request
             oModel.submitBatch("BooksBatchGroup")
                 .then(function () {
                     MessageToast.show("Book details saved successfully!");
@@ -169,8 +176,90 @@ sap.ui.define([
                     MessageToast.show("Error saving book details: " + oError.message);
                 });
         },
-
         
+        onButtonButtonPress: function (oEvent) {
+            var oView = this.getView();
+        
+            if (!this._pDialog) {
+                this._pDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "ns.books.view.fragment.dialog", // Make sure this path is correct
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog; // Return the dialog object
+                });
+            }
+        
+            // Ensure the dialog opens after the promise resolves
+            this._pDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+
+        onSelectDialogConfirm: function (oEvent) {
+            var oView = this.getView();
+         // Get the OData V4 model
+            var oSelectedItem = oEvent.getParameter("selectedItem");
+        
+            if (!oSelectedItem) {
+                MessageToast.show("No business partner selected.");
+                return;
+            }
+        
+            var oSelectedContext = oSelectedItem.getBindingContext();
+            if (!oSelectedContext) {
+                MessageToast.show("Error: Selected item has no data.");
+                return;
+            }
+        
+            var oSelectedBusinessPartner = oSelectedContext.getObject();
+            if (!oSelectedBusinessPartner) {
+                MessageToast.show("Error: Selected business partner data is missing.");
+                return;
+            }
+                
+            var oBPListBinding = oView.byId("idBusinessPartnersTable").getBinding("items");
+            debugger;
+            if (!oBPListBinding) {
+                return;
+            }
+        
+            // Ensure the binding supports .create()
+            if (oBPListBinding.create) {
+                oBPListBinding.create({
+                    
+                    ID: oSelectedBusinessPartner.ID, 
+                    name: oSelectedBusinessPartner.name, 
+                    country: oSelectedBusinessPartner.country,
+                    postal_code: oSelectedBusinessPartner.postal_code, 
+                    street: oSelectedBusinessPartner.street
+                });
+                
+                MessageToast.show("Business Partner added successfully!");
+            } else {
+
+            }
+        
+        },
+                            
+        onSelectDialogCancel(oEvent){
+            var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				MessageToast.show("You have chosen " + aContexts.map(function (oContext) { return oContext.getObject().Name; }).join(", "));
+			} else {
+				MessageToast.show("No new item was selected.");
+			}
+			oEvent.getSource().getBinding("items").filter([]);
+
+        },
+
+		onSelectDialogSearch: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter("name", FilterOperator.Contains, sValue);
+			var oBinding = oEvent.getParameter("itemsBinding");
+			oBinding.filter([oFilter]);
+		},
         
     });
 });
