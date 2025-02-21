@@ -6,43 +6,39 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     'sap/ui/core/Fragment',
-], function(Controller, History, MessageToast, JSONModel,Filter,FilterOperator,Fragment) {
+    "sap/m/MessageBox",
+], function (Controller, History, MessageToast, JSONModel, Filter, FilterOperator, Fragment, MessageBox) {
     "use strict";
 
     return Controller.extend("ns.books.controller.Detail", {
         onInit: function () {
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
-            
 
             // rating model
             this.oRatingModel = new JSONModel({
-               
                 rating: 0
             });
             this.getView().setModel(this.oRatingModel, "rating");
-            //view model
 
+            // view model
             const oViewModel = new JSONModel({
-                isEditable:false,
-                rowCount:0
-
-
+                isEditable: false,
+                rowCount: 0
             });
-            this.getView().setModel(oViewModel,"view");
+            this.getView().setModel(oViewModel, "view");
+        },
 
-   
-          },
-          updateRowCount: function (oTable) {
+        updateRowCount: function (oTable) {
             var oTable = this.byId("idBusinessPartnersTable");
             var oBinding = oTable.getBinding("items");
             if (oBinding) {
                 var iCount = oBinding ? oBinding.getLength() : 0;
                 oTable.setHeaderText("Total Business Partners: " + iCount);
                 this.getView().getModel("view").setProperty("/rowCount", iCount);
-
             }
         },
+
         onBeforeRendering: function () {
             var oTable = this.byId("idBusinessPartnersTable");
 
@@ -57,19 +53,18 @@ sap.ui.define([
             }
         },
 
-          _onObjectMatched: function (oEvent) {
+        _onObjectMatched: function (oEvent) {
             var sBookID = oEvent.getParameter("arguments").bookID;
-        
+
             // Reset rating to 0 when a new book is selected
             this.oRatingModel.setProperty("/rating", 0);
-        
+
             // Bind the Books entity and expand
             this.getView().bindElement({
                 path: "/Books(" + sBookID + ")",
                 parameters: { expand: "author,genre,businessPartners" }
             });
         },
-        
 
         onPageNavButtonPress: function () {
             var oHistory = History.getInstance();
@@ -88,13 +83,14 @@ sap.ui.define([
             this.oRatingModel.setProperty("/rating", fValue); // To update the rating model
 
             var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
-            var sMessage = oResourceBundle 
+            var sMessage = oResourceBundle
                 ? oResourceBundle.getText("ratingConfirmation", [fValue])
                 : "Rating: " + fValue;
 
             MessageToast.show(sMessage);
         },
-        //search field for business partners
+
+        // search field for business partners
         onSearchFieldBPSearch: function (oEvent) {
             const sQuery = oEvent.getParameter("query");
             const aFilters = [];
@@ -105,7 +101,6 @@ sap.ui.define([
                 // Apply ID filter only if sQuery is a number
                 if (!isNaN(parseInt(sQuery))) {
                     filters.push(new Filter("ID", FilterOperator.EQ, sQuery));
-            
                 }
 
                 // String filters
@@ -115,7 +110,7 @@ sap.ui.define([
                     new Filter("street", FilterOperator.Contains, sQuery),
                     new Filter("postal_code", FilterOperator.Contains, sQuery)
                 );
-   
+
                 // Combine filters using OR condition
                 aFilters.push(new Filter({
                     filters: filters,
@@ -130,23 +125,23 @@ sap.ui.define([
             }
         },
 
-
         onIsEditableButtonPress() {
-			const oViewModel = this.getView().getModel("view");
-			const pageIsEditable = oViewModel.getProperty("/isEditable");
+            const oViewModel = this.getView().getModel("view");
+            const pageIsEditable = oViewModel.getProperty("/isEditable");
 
-			// Toggle `isEditable` state
-			oViewModel.setProperty("/isEditable", !pageIsEditable);
-		},
+            // Toggle `isEditable` state
+            oViewModel.setProperty("/isEditable", !pageIsEditable);
+        },
 
-		formatToggleButtonText(isEditable) {
-			return isEditable ? "Read" : "Edit";
-		},
+        formatToggleButtonText(isEditable) {
+            return isEditable ? "Read" : "Edit";
+        },
+
         onSaveButtonPress: function () {
             var oView = this.getView();
-            var oModel = oView.getModel(); 
-            var oContext = oView.getBindingContext(); 
-        
+            var oModel = oView.getModel();
+            var oContext = oView.getBindingContext();
+
             // Define the fields and their corresponding input IDs
             var fields = [
                 { property: "title", inputId: "idTitleInput" },
@@ -157,7 +152,7 @@ sap.ui.define([
                 { property: "currency_code", inputId: "idCurrencyCodeInput" },
                 { property: "stock", inputId: "idStockInput", transform: value => parseInt(value, 10) || 0 }
             ];
-        
+
             // Iterate over fields to update properties
             fields.forEach(function (field) {
                 var value = oView.byId(field.inputId).getValue();
@@ -166,7 +161,7 @@ sap.ui.define([
                 }
                 oContext.setProperty(field.property, value);
             });
-        
+
             // Submit the batch request
             oModel.submitBatch("BooksBatchGroup")
                 .then(function () {
@@ -176,10 +171,10 @@ sap.ui.define([
                     MessageToast.show("Error saving book details: " + oError.message);
                 });
         },
-        
+
         onButtonButtonPress: function (oEvent) {
             var oView = this.getView();
-        
+
             if (!this._pDialog) {
                 this._pDialog = Fragment.load({
                     id: oView.getId(),
@@ -190,76 +185,66 @@ sap.ui.define([
                     return oDialog; // Return the dialog object
                 });
             }
-        
+
             // Ensure the dialog opens after the promise resolves
             this._pDialog.then(function (oDialog) {
                 oDialog.open();
             });
         },
 
-        onSelectDialogConfirm: function (oEvent) {
-            var oView = this.getView();
-         // Get the OData V4 model
-            var oSelectedItem = oEvent.getParameter("selectedItem");
-        
-            if (!oSelectedItem) {
-                MessageToast.show("No business partner selected.");
-                return;
-            }
-        
-            var oSelectedContext = oSelectedItem.getBindingContext();
-            if (!oSelectedContext) {
-                MessageToast.show("Error: Selected item has no data.");
-                return;
-            }
-        
-            var oSelectedBusinessPartner = oSelectedContext.getObject();
-            if (!oSelectedBusinessPartner) {
-                MessageToast.show("Error: Selected business partner data is missing.");
-                return;
-            }
-                
-            var oBPListBinding = oView.byId("idBusinessPartnersTable").getBinding("items");
-            debugger;
-            if (!oBPListBinding) {
-                return;
-            }
-        
-            // Ensure the binding supports .create()
-            if (oBPListBinding.create) {
-                oBPListBinding.create({
-                    
-                    ID: oSelectedBusinessPartner.ID, 
-                    name: oSelectedBusinessPartner.name, 
-                    country: oSelectedBusinessPartner.country,
-                    postal_code: oSelectedBusinessPartner.postal_code, 
-                    street: oSelectedBusinessPartner.street
-                });
-                
-                MessageToast.show("Business Partner added successfully!");
-            } else {
+        onBusinessPartnersSelectDialogConfirm: async function (oEvent) {
 
+            let oTable = this.byId("idSelectDialog");
+            console.log(oTable);
+            let aSelectedItems = oEvent.getParameter("selectedItems");
+
+            let oModel = this.getView().getModel();
+
+            if (!aSelectedItems.length) {
+                MessageToast.show("Please select at least one business partner.");
+                return;
             }
-        
+
+            // Get Selected Business Partner IDs
+            let aBPIds = aSelectedItems.map(item => item.getBindingContext().getObject().ID);
+
+            // Get Current Book ID
+            let oBookContext = this.getView().getBindingContext();
+            let sBookID = oBookContext.getObject().ID;
+
+            // Prepare Payload
+            let oPayload = aBPIds.map(bpID => ({ ID: bpID }));
+
+            try {
+                // Send PATCH request to update the relationship
+                await oModel.create(`/Books(${sBookID})/businesspartners`, oPayload, { groupId: "batchUpdate" });
+                oModel.submitBatch("batchUpdate");
+
+                MessageToast.show("Business partners assigned successfully.");
+                this.byId("bpDialog").close();
+
+                // Refresh the list
+                this.getView().getElementBinding().refresh();
+            } catch (error) {
+                MessageBox.error("Error while assigning business partners.");
+            }
         },
-                            
-        onSelectDialogCancel(oEvent){
+
+        onSelectDialogCancel: function (oEvent) {
             var aContexts = oEvent.getParameter("selectedContexts");
-			if (aContexts && aContexts.length) {
-				MessageToast.show("You have chosen " + aContexts.map(function (oContext) { return oContext.getObject().Name; }).join(", "));
-			} else {
-				MessageToast.show("No new item was selected.");
-			}
-			oEvent.getSource().getBinding("items").filter([]);
-
+            if (aContexts && aContexts.length) {
+                MessageToast.show("You have chosen " + aContexts.map(function (oContext) { return oContext.getObject().Name; }).join(", "));
+            } else {
+                MessageToast.show("No new item was selected.");
+            }
+            oEvent.getSource().getBinding("items").filter([]);
         },
 
-		onSelectDialogSearch: function (oEvent) {
-			var sValue = oEvent.getParameter("value");
-			var oFilter = new Filter("name", FilterOperator.Contains, sValue);
-			var oBinding = oEvent.getParameter("itemsBinding");
-			oBinding.filter([oFilter]);
-		},
-        
+        onSelectDialogSearch: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new Filter("name", FilterOperator.Contains, sValue);
+            var oBinding = oEvent.getParameter("itemsBinding");
+            oBinding.filter([oFilter]);
+        },
     });
 });
