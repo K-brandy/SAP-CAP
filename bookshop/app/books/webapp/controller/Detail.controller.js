@@ -191,15 +191,14 @@ sap.ui.define([
                 oDialog.open();
             });
         },
-
         onBusinessPartnersSelectDialogConfirm: async function (oEvent) {
-            debugger;
+           // debugger;
             let oTable = this.byId("idBusinessPartnersTable");
             console.log(oTable);
         
-            // Get the selected items
+            // Get the selected item
             let aSelectedItem = oEvent.getParameter("selectedItem");
-            debugger;
+            //debugger;
             console.log(aSelectedItem);
             console.log(oEvent);
         
@@ -210,36 +209,35 @@ sap.ui.define([
         
             let oModel = this.getView().getModel();
         
-            // Get Selected Business Partner IDs
-            //let aBPIds = aSelectedItem.map(item => item.getBindingContext().getObject().ID);
-        
             // Get Current Book ID
             let oBookContext = this.getView().getBindingContext();
             let sBookID = oBookContext.getObject().ID;
         
-            // Prepare Payload and Submit Batch Requests
+            // Prepare Payload
+            let bpID = aSelectedItem.getBindingContext().getObject().ID;
+            let oPayload = { ID: bpID };
+        
+            console.log("Payload:", oPayload);
+        
+            // Create a new context
+            let oBusinessPartnerBinding = oModel.bindList(`/Books(${sBookID})/businessPartners`, oPayload);
+        
             try {
-                let bpID = aSelectedItem.getBindingContext().getObject().ID;
+                // Create the entry
 
-                    let oPayload = { ID: bpID };
-                    oModel.bindList(`/Books(${sBookID})/businessPartners`, oPayload);
-    
-        
+                
                 // Submit the batch update
-                //oModel.submitBatch("batchUpdate");
-               // MessageToast.show("Business partners assigned successfully.");
+                await oModel.submitBatch("batchUpdate");
         
-                // Close the dialog
-                this.byId("idSelectDialog").close();
-        
+                MessageToast.show("Business partner assigned successfully.");
+              //  this.byId("idSelectDialog").close();
                 // Refresh the list
                 this.getView().getElementBinding().refresh();
             } catch (error) {
-                MessageBox.error("Error while assigning business partners.");
+                MessageBox.error("Error while assigning business partners: " + error.message);
             }
         },
         
-
         
 
         onSelectDialogCancel: function (oEvent) {
