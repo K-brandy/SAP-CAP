@@ -193,42 +193,54 @@ sap.ui.define([
         },
 
         onBusinessPartnersSelectDialogConfirm: async function (oEvent) {
-
-            let oTable = this.byId("idSelectDialog");
+            debugger;
+            let oTable = this.byId("idBusinessPartnersTable");
             console.log(oTable);
-            let aSelectedItems = oEvent.getParameter("selectedItems");
-
-            let oModel = this.getView().getModel();
-
-            if (!aSelectedItems.length) {
+        
+            // Get the selected items
+            let aSelectedItem = oEvent.getParameter("selectedItem");
+            debugger;
+            console.log(aSelectedItem);
+            console.log(oEvent);
+        
+            if (!aSelectedItem) {
                 MessageToast.show("Please select at least one business partner.");
                 return;
             }
-
+        
+            let oModel = this.getView().getModel();
+        
             // Get Selected Business Partner IDs
-            let aBPIds = aSelectedItems.map(item => item.getBindingContext().getObject().ID);
-
+            //let aBPIds = aSelectedItem.map(item => item.getBindingContext().getObject().ID);
+        
             // Get Current Book ID
             let oBookContext = this.getView().getBindingContext();
             let sBookID = oBookContext.getObject().ID;
-
-            // Prepare Payload
-            let oPayload = aBPIds.map(bpID => ({ ID: bpID }));
-
+        
+            // Prepare Payload and Submit Batch Requests
             try {
-                // Send PATCH request to update the relationship
-                await oModel.create(`/Books(${sBookID})/businesspartners`, oPayload, { groupId: "batchUpdate" });
-                oModel.submitBatch("batchUpdate");
+                let bpID = aSelectedItem.getBindingContext().getObject().ID;
 
-                MessageToast.show("Business partners assigned successfully.");
-                this.byId("bpDialog").close();
-
+                    let oPayload = { ID: bpID };
+                    oModel.bindList(`/Books(${sBookID})/businessPartners`, oPayload);
+    
+        
+                // Submit the batch update
+                //oModel.submitBatch("batchUpdate");
+               // MessageToast.show("Business partners assigned successfully.");
+        
+                // Close the dialog
+                this.byId("idSelectDialog").close();
+        
                 // Refresh the list
                 this.getView().getElementBinding().refresh();
             } catch (error) {
                 MessageBox.error("Error while assigning business partners.");
             }
         },
+        
+
+        
 
         onSelectDialogCancel: function (oEvent) {
             var aContexts = oEvent.getParameter("selectedContexts");
