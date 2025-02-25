@@ -192,50 +192,39 @@ sap.ui.define([
             });
         },
         onBusinessPartnersSelectDialogConfirm: async function (oEvent) {
-           // debugger;
-            let oTable = this.byId("idBusinessPartnersTable");
-            console.log(oTable);
-        
-            // Get the selected item
+            const oView = this.getView();
+            const oBookContext = oView.getBindingContext();
+            const oModel = oView.getModel();
+            
+           //
+           //  let sBookID = oBookContext.getObject().ID;
+            
+            // Assuming you've already gotten the selected Business Partner from the dialog
             let aSelectedItem = oEvent.getParameter("selectedItem");
-            //debugger;
-            console.log(aSelectedItem);
-            console.log(oEvent);
-        
-            if (!aSelectedItem) {
-                MessageToast.show("Please select at least one business partner.");
-                return;
-            }
-        
-            let oModel = this.getView().getModel();
-        
-            // Get Current Book ID
-            let oBookContext = this.getView().getBindingContext();
-            let sBookID = oBookContext.getObject().ID;
-        
-            // Prepare Payload
             let bpID = aSelectedItem.getBindingContext().getObject().ID;
+               
+            var oObject = aSelectedItem.getBindingContext().getObject();
+            console.log("Bound Object:", oObject);
+            console.log(aSelectedItem.getBindingContext().getPath());
+
+            //debugger;
+
+       
+            // Prepare Payload for Business Partner
             let oPayload = { ID: bpID };
         
-            console.log("Payload:", oPayload);
+            // Add Business Partner to the Book using create() method for the association
+            let oBookPath = oBookContext.getPath();
+            let oBPBinding = oModel.bindList(oBookPath + "/businessPartners");
         
-            // Create a new context
-            let oBusinessPartnerBinding = oModel.bindList(`/Books(${sBookID})/businessPartners`, oPayload);
+            oBPBinding.create(oPayload); // Add the new business partner to the list
         
-            try {
-                // Create the entry
-
-                
-                // Submit the batch update
-                await oModel.submitBatch("batchUpdate");
-        
-                MessageToast.show("Business partner assigned successfully.");
-              //  this.byId("idSelectDialog").close();
-                // Refresh the list
-                this.getView().getElementBinding().refresh();
-            } catch (error) {
-                MessageBox.error("Error while assigning business partners: " + error.message);
-            }
+            // Submit the changes
+            oModel.submitBatch("myBatchGroupId").then(() => {
+                MessageToast.show("Business Partner added successfully!");
+            }).catch((oError) => {
+                MessageBox.error("Failed to assign Business Partner: " + oError.message);
+            });
         },
         
         
