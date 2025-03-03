@@ -54,16 +54,17 @@ sap.ui.define([
         },
 
         _onObjectMatched: function (oEvent) {
-            var sBookID = oEvent.getParameter("arguments").bookID;
+            var sVisitID = oEvent.getParameter("arguments").bookID;
 
             // Reset rating to 0 when a new book is selected
             this.oRatingModel.setProperty("/rating", 0);
 
             // Bind the Books entity and expand
             this.getView().bindElement({
-                path: "/Books(" + sBookID + ")",
-                parameters: { expand: "author,genre,businessPartners" }
+                path: "/Visits(" + sVisitID + ")",
+                parameters: { expand: "visitors,businessPartners" }
             });
+          
         },
 
         onPageNavButtonPress: function () {
@@ -121,7 +122,8 @@ sap.ui.define([
             const oBinding = oTable.getBinding("items");
 
             if (oBinding) {
-                oBinding.filter(aFilters);  // Apply the filters to the table
+                oBinding.filter(aFilters);
+               // Apply the filters to the table
             }
         },
 
@@ -144,13 +146,13 @@ sap.ui.define([
 
             // Define the fields and their corresponding input IDs
             var fields = [
-                { property: "title", inputId: "idTitleInput" },
-                { property: "descr", inputId: "idDescrInput" },
-                { property: "author", inputId: "idAuthorInput" },
-                { property: "genre", inputId: "idGenreInput" },
-                { property: "price", inputId: "idPriceInput", transform: value => value.replace(",", ".") },
-                { property: "currency_code", inputId: "idCurrencyCodeInput" },
-                { property: "stock", inputId: "idStockInput", transform: value => parseInt(value, 10) || 0 }
+                { property: "visitorName", inputId: "idVisitorNameInput" },
+                { property: "visitDate", inputId: "idVisitDateInput" },
+                { property: "email", inputId: "idEmailInput" },
+                { property: "contact", inputId: "idContactInput" },
+                { property: "purpose", inputId: "idPurposeInput" },
+                { property: "location", inputId: "idLocationInput" }
+
             ];
 
             // Iterate over fields to update properties
@@ -163,12 +165,12 @@ sap.ui.define([
             });
 
             // Submit the batch request
-            oModel.submitBatch("BooksBatchGroup")
+            oModel.submitBatch("VisitsBatchGroup")
                 .then(function () {
-                    MessageToast.show("Book details saved successfully!");
+                    MessageToast.show("Visit details saved successfully!");
                 })
                 .catch(function (oError) {
-                    MessageToast.show("Error saving book details: " + oError.message);
+                    MessageToast.show("Error saving visit details: " + oError.message);
                 });
         },
 
@@ -191,43 +193,51 @@ sap.ui.define([
                 oDialog.open();
             });
         },
+
+
+        // Example function to call when the user confirms in the dialog: onBusinessPartnerDialogConfirm
         onBusinessPartnersSelectDialogConfirm: async function (oEvent) {
             const oView = this.getView();
-            const oBookContext = oView.getBindingContext();
             const oModel = oView.getModel();
-            
-           //
-           //  let sBookID = oBookContext.getObject().ID;
-            
-            // Assuming you've already gotten the selected Business Partner from the dialog
-            let aSelectedItem = oEvent.getParameter("selectedItem");
-            let bpID = aSelectedItem.getBindingContext().getObject().ID;
-               
-            var oObject = aSelectedItem.getBindingContext().getObject();
-            console.log("Bound Object:", oObject);
-            console.log(aSelectedItem.getBindingContext().getPath());
+            const oBookContext = oView.getBindingContext();
 
+            if (!oBookContext) {
+                MessageBox.error("No book selected!");
+                return;
+            }
+
+            let aSelectedItem = oEvent.getParameter("selectedItem");
+            if (!aSelectedItem) {
+                MessageBox.error("No Business Partner selected!");
+                return;
+            }
+
+            let bpID = aSelectedItem.getBindingContext().getObject().ID;
+            let bookID = oBookContext.getObject().ID;
+            console.log(bpID);
+            console.log(bookID);
             //debugger;
 
-       
-            // Prepare Payload for Business Partner
-            let oPayload = { ID: bpID };
-        
-            // Add Business Partner to the Book using create() method for the association
-            let oBookPath = oBookContext.getPath();
-            let oBPBinding = oModel.bindList(oBookPath + "/businessPartners");
-        
-            oBPBinding.create(oPayload); // Add the new business partner to the list
-        
-            // Submit the changes
-            oModel.submitBatch("myBatchGroupId").then(() => {
-                MessageToast.show("Business Partner added successfully!");
-            }).catch((oError) => {
-                MessageBox.error("Failed to assign Business Partner: " + oError.message);
-            });
+            //v4 functionImport
+            var oActionODataContextBinding = oModel.bindContext("/assignBusinessPartnerToBook(...)");
+            oActionODataContextBinding.setParameter("bookID", bookID)
+            oActionODataContextBinding.setParameter("bpID", bpID)
+
+
+            
+            oActionODataContextBinding.execute().then(
+                function() {
+                    MessageBox.success("Business Partner successfully assigned to the Book.");
+                    // Refresh the Business Partner list to reflect the change immediately
+                     oModel.refresh();
+                }.bind(this),
+                function(oError) {
+                    MessageBox.error("Error assigning Business Partner: ");
+                }.bind(this)
+            );
+            
         },
-        
-        
+
 
         onSelectDialogCancel: function (oEvent) {
             var aContexts = oEvent.getParameter("selectedContexts");

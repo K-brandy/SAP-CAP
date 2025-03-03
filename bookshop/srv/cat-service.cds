@@ -2,17 +2,22 @@ using { my.bookshop as my } from '../db/schema';
 
 service CatalogService @(path:'/browse') {
 
-    entity Books as SELECT from my.Books {
+    entity Visits as SELECT from my.Visits {
+        key ID,
         *,
-        author.name as author,
-        genre.name as genre
-    } excluding { createdBy, modifiedBy };
+        visitors.name as visitors
+    } excluding { createdAt, modifiedAt };
 
-    action submitOrder (book: Books:ID, amount: Integer);
-
+    action submitOrder(visit: Visits:ID, amount: Integer) returns String;
 
     @odata.draft.enabled
-    entity Business_Partners as select from my.Business_Partners { 
+    entity Visitors as SELECT from my.Visitors { 
         *        
-    } excluding { createdBy, modifiedBy };
+    } excluding { createdAt, modifiedAt };
+
+    action assignVisitorToVisit(
+        visitId: Visits:ID,
+        visitorID: Visitors:ID
+    ) returns Visits;
+
 }

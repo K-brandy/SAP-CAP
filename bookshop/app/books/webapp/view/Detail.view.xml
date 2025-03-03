@@ -45,61 +45,47 @@
             enabled="{view>/isEditable}"
             width="50%"
         >
-
             <f:SimpleForm
                 id="idSimpleForm"
                 editable="true"
                 layout="ResponsiveGridLayout"
             >
-                <Label text="{i18n>TitleText}" />
+                <Label text="{i18n>VisitorNameText}" />
                 <Input
-                    id="idTitleInput"
-                    value="{title}"
+                    id="idVisitorNameInput"
+                    value="{visitorName}"
                     class="sapUiMediumMarginBeginEnd"
                 />
 
-                <Label text="{i18n>DescrText}" />
+                <Label text="{i18n>emailText}" />
                 <Input
-                    id="idDescrInput"
-                    value="{descr}"
+                    id="idEmailInput"
+                    value="{email}"
                     class="sapUiMediumMarginBeginEnd"
                 />
 
-                <Label text="{i18n>AuthorText}" />
+                <Label text="{i18n>contactText}" />
                 <Input
-                    id="idAuthorInput"
-                    value="{author}"
+                    id="idContactInput"
+                    value="{contact}"
                     class="sapUiMediumMarginBeginEnd"
                 />
 
-                <Label text="{i18n>GenreText}" />
+                <Label text="{i18n>purposeText}" />
                 <Input
-                    id="idGenreInput"
-                    value="{genre}"
+                    id="idPurposeInput"
+                    value="{purpose}"
                     class="sapUiMediumMarginBeginEnd"
                 />
 
-                <Label text="{i18n>StockText}" />
+                <Label text="{i18n>locationText}" />
                 <Input
-                    id="idStockInput"
-                    value="{stock}"
+                    id="idLocationInput"
+                    value="{location}"
                     class="sapUiMediumMarginBeginEnd"
                     type="Number"
                 />
 
-                <Label text="{i18n>PriceText}" />
-                <Input
-                    id="idPriceInput"
-                    value="{price}"
-                    class="sapUiMediumMarginBeginEnd"
-                />
-
-                <Label text="{i18n>CurrencyText}" />
-                <Input
-                    id="idCurrencyCodeInput"
-                    value="{currency_code}"
-                    class="sapUiMediumMarginBeginEnd"
-                />
             </f:SimpleForm>
 
             <Table
@@ -115,7 +101,12 @@
                         />
 
                         <ToolbarSpacer />
-
+                        <Button
+                            text="Add BP"
+                            id="idButtonButton"
+                            press="onButtonButtonPress"
+                            type="Emphasized"
+                        />
                         <SearchField
                             id="idBusinessPartnerSearchField"
                             placeholder="Search All Columns"
@@ -193,17 +184,11 @@
         <footer>
             <Bar>
                 <contentRight>
-                        <Button
-                            text="Add BP"
-                            id="idButtonButton"
-                            press="onButtonButtonPress"
-                            type="Emphasized"
-                        />
-                            <Button
-                text="save"
-                press="onSaveButtonPress"
-                type="Emphasized"
-            />
+                    <Button
+                        text="save"
+                        press="onSaveButtonPress"
+                        type="Emphasized"
+                    />
                     <Button
                         text="{
                             path: 'view>/isEditable',

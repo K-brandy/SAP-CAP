@@ -7,8 +7,9 @@
      noDataText="Business Partner not Found"
      title="Select Business Partner"
      search="onSelectDialogSearch"
-     confirm="onSelectDialogConfirm"
+     confirm="onBusinessPartnersSelectDialogConfirm"
      cancel="onSelectDialogCancel"
+    
      items="{
            path:'/Business_Partners'  
            }"

@@ -1,48 +1,27 @@
-using { Currency, managed, sap } from '@sap/cds/common';
+using {  managed, sap } from '@sap/cds/common';
 namespace my.bookshop;
 
-entity Books : managed {
+entity Visits : managed {
   key ID : Integer;
-  title  :  String(111);
-  descr  :  String(1111);
-  author : Association to Authors;
-  genre  : Association to Genres;
-  stock  : Integer;
-  price  : Decimal(9,2);
-  currency : Currency;
-  businessPartners : Association to many Business_Partners on businessPartners.books = $self;
-
+  visitorName  :  String(111);
+  visitDate  :  DateTime;
+  email : String;
+  contact  : Integer;
+  purpose  : Integer;
+  location  : String(111);
+  visitors : Association to many Visitors on visitors.visits = $self;
   
-//Additional info
-  publicationDate : Date;       
-  pageCount       : Integer;        
-  language        : String(50);   
-  publisher       : String(111);    
-  rating          : Decimal(3,2);   
 }
 
-entity Authors : managed {
-  key ID : Integer;
-  name   : String(111);
-  books  : Association to many Books on books.author = $self;
-  email: String;
-  dateOfBirth : Date;
-  nationality: String;
-}
 
-/** Hierarchically organized Code List for Genres */
-entity Genres : sap.common.CodeList {
-  key ID   : Integer;
-  parent   : Association to Genres;
-  children : Composition of many Genres on children.parent = $self;
-}
 
-entity Business_Partners: managed {
+
+entity Visitors: managed {
   
   key ID : Integer;
   name : String;
   country : String;
   street : String;
   postal_code : String;
-  books  : Association to Books;
+  visits  : Association to Visits;
 }
