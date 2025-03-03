@@ -9,12 +9,16 @@ entity Visits : managed {
   contact  : Integer;
   purpose  : Integer;
   location  : String(111);
-  visitors : Association to many Visitors on visitors.visits = $self;
+  visitors : Association to Visitors;
+
   
+//Additional info
+  publicationDate : Date;       
+  pageCount       : Integer;        
+  language        : String(50);   
+  publisher       : String(111);    
+  rating          : Decimal(3,2);   
 }
-
-
-
 
 entity Visitors: managed {
   

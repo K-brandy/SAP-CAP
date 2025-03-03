@@ -3,21 +3,21 @@ using { my.bookshop as my } from '../db/schema';
 service CatalogService @(path:'/browse') {
 
     entity Visits as SELECT from my.Visits {
-        key ID,
         *,
-        visitors.name as visitors
+        visitors.name as visitors,
     } excluding { createdAt, modifiedAt };
 
-    action submitOrder(visit: Visits:ID, amount: Integer) returns String;
+    action submitOrder (visit: Visits:ID, amount: Integer);
+
 
     @odata.draft.enabled
-    entity Visitors as SELECT from my.Visitors { 
+    entity Visitors as select from my.Visitors { 
         *        
     } excluding { createdAt, modifiedAt };
-
-    action assignVisitorToVisit(
-        visitId: Visits:ID,
+    action assignBusinessPartnerToVisit(
+        visitId:Visits:ID,
         visitorID: Visitors:ID
-    ) returns Visits;
 
+
+        ) returns Visits;
 }
