@@ -10,33 +10,18 @@
 >
     <Page
         id="idPage"
-        title="{title}"
+        title="{i18n>title}"
         showNavButton="true"
         navButtonPress=".onPageNavButtonPress"
     >
         <content>
             <ObjectHeader
                 id="idObjectHeader"
-                title="{title}"
+                title="{ID}"
                 responsive="true"
             >
                 <attributes>
-                    <ObjectAttribute
-                        title="{i18n>PublicationDate}"
-                        text="{publicationDate}"
-                    />
-                    <ObjectAttribute
-                        title="{i18n>PageCount}"
-                        text="{pageCount}"
-                    />
-                    <ObjectAttribute
-                        title="{i18n>Language}"
-                        text="{language}"
-                    />
-                    <ObjectAttribute
-                        title="{i18n>Publisher}"
-                        text="{publisher}"
-                    />
+
                 </attributes>
             </ObjectHeader>
         </content>
@@ -50,17 +35,16 @@
                 editable="true"
                 layout="ResponsiveGridLayout"
             >
-                <Label text="{i18n>VisitorNameText}" />
+               <Label text="{i18n>visitDateInputText}" />
                 <Input
-                    id="idVisitorNameInput"
-                    value="{visitorName}"
+                    id="idVisitDateInput"
+                    value="{visitDate}"
                     class="sapUiMediumMarginBeginEnd"
                 />
-
-                <Label text="{i18n>emailText}" />
+                <Label text="{i18n>statusText}" />
                 <Input
-                    id="idEmailInput"
-                    value="{email}"
+                    id="idStatusInput"
+                    value="{status}"
                     class="sapUiMediumMarginBeginEnd"
                 />
 
@@ -69,6 +53,7 @@
                     id="idContactInput"
                     value="{contact}"
                     class="sapUiMediumMarginBeginEnd"
+                    
                 />
 
                 <Label text="{i18n>purposeText}" />
@@ -83,32 +68,31 @@
                     id="idLocationInput"
                     value="{location}"
                     class="sapUiMediumMarginBeginEnd"
-                    type="Number"
                 />
 
             </f:SimpleForm>
 
             <Table
-                id="idBusinessPartnersTable"
+                id="idVisitorsTable"
                 width="auto"
-                items="{path:'businessPartners'}"
+                items="{path:'visitors'}"
             >
                 <headerToolbar>
                     <Toolbar>
                         <Title
-                            id="idBusinessPartnersTitle"
-                            text="{i18n>BusinessPartners}"
+                            id="idVisitorsTitle"
+                            text="{i18n>Visitors}"
                         />
 
                         <ToolbarSpacer />
                         <Button
-                            text="Add BP"
+                            text="Add Visitor"
                             id="idButtonButton"
                             press="onButtonButtonPress"
                             type="Emphasized"
                         />
                         <SearchField
-                            id="idBusinessPartnerSearchField"
+                            id="idVisitorSearchField"
                             placeholder="Search All Columns"
                             search=".onSearchFieldBPSearch"
                             width="50%"
@@ -122,35 +106,35 @@
                         minScreenWidth="Small"
                         demandPopin="true"
                     >
-                        <Text text="{i18n>BusinessPartnerID}" />
+                        <Text text="{i18n>VisitorID}" />
                     </Column>
                     <Column
                         hAlign="Left"
                         minScreenWidth="Small"
                         demandPopin="true"
                     >
-                        <Text text="{i18n>BusinessPartnerName}" />
+                        <Text text="{i18n>VisitorName}" />
                     </Column>
                     <Column
                         hAlign="Left"
                         minScreenWidth="Small"
                         demandPopin="true"
                     >
-                        <Text text="{i18n>BusinessPartnerCountry}" />
+                        <Text text="{i18n>visitorCountry}" />
                     </Column>
                     <Column
                         hAlign="Left"
                         minScreenWidth="Small"
                         demandPopin="true"
                     >
-                        <Text text="{i18n>BusinessPartnerStreet}" />
+                        <Text text="{i18n>visitorStreet}" />
                     </Column>
                     <Column
                         hAlign="Left"
                         minScreenWidth="Small"
                         demandPopin="true"
                     >
-                        <Text text="{i18n>BusinessPostalCode}" />
+                        <Text text="{i18n>visitorPostalCode}" />
                     </Column>
                 </columns>
                 <items>

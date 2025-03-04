@@ -1,6 +1,11 @@
-ID;visitorName;visitDate;email;contact;purpose;location
-1;John Doe;2024-03-01T09:30:00Z;john.doe@example.com;1234567890;1;Main Office
-2;Jane Smith;2024-03-02T11:00:00Z;jane.smith@example.com;9876543210;2;Branch Office
-3;Alice Johnson;2024-03-03T14:00:00Z;alice.j@example.com;1231231234;3;HQ Lobby
-4;Bob Williams;2024-03-04T10:45:00Z;bob.w@example.com;4567891230;1;Main Office
+ID,visitDate,status,contact,purpose,location
+101,2024-03-01T09:30:00Z,scheduled,1234567890,Business Meeting,Main Office
+102,2024-03-02T11:00:00Z,scheduled,9876543210,Site Inspection:,Branch Office
+103,2024-03-03T14:00:00Z,completed,1231231234,Sales Visit,HQ Lobby
+104,2024-03-04T10:45:00Z,cancelled,4567891230,Training Session,Main Office
+105,2024-03-05T13:00:00Z,completed,7896541230,Networking Event,Customer Support Center
+
+
+
+
 

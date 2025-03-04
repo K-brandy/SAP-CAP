@@ -38,11 +38,12 @@
                 <Column>
                     <Text text="{i18n>ColumnIdText}" />
                 </Column>
+
                 <Column>
-                    <Text text="{i18n>VisitorNameText}" />
+                    <Text text="{i18n>VisitDateText}" />
                 </Column>
                 <Column>
-                    <Text text="{i18n>emailText}" />
+                    <Text text="{i18n>statusText}" />
                 </Column>
                 <Column>
                     <Text text="{i18n>contactText}" />
@@ -61,11 +62,10 @@
                     press="onColumnListItemPress"
                 >
                     <cells>
-                        <Text text="{ID}" />
-                        <Text text="{visitorName}" />
+                        <Text text="{ID}" />                        
                         <Text text="{visitDate}" />
-                        <Text text="{email}" />
-                        <Text text="{contact}" />
+                        <Text text="{status}" />
+                        <Text text="{contact}"/>
                         <Text text="{purpose}" />
                         <Text text="{location}" />
                     </cells>

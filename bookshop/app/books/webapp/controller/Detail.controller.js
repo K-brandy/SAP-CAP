@@ -30,7 +30,7 @@ sap.ui.define([
         },
 
         updateRowCount: function (oTable) {
-            var oTable = this.byId("idBusinessPartnersTable");
+            var oTable = this.byId("idVisitorsTable");
             var oBinding = oTable.getBinding("items");
             if (oBinding) {
                 var iCount = oBinding ? oBinding.getLength() : 0;
@@ -40,7 +40,7 @@ sap.ui.define([
         },
 
         onBeforeRendering: function () {
-            var oTable = this.byId("idBusinessPartnersTable");
+            var oTable = this.byId("idVisitorsTable");
 
             // Ensure row count is updated before rendering
             this.updateRowCount(oTable);
@@ -62,7 +62,7 @@ sap.ui.define([
             // Bind the Books entity and expand
             this.getView().bindElement({
                 path: "/Visits(" + sVisitID + ")",
-                parameters: { expand: "visitors,businessPartners" }
+                parameters: { expand: "visitors" }
             });
           
         },
@@ -118,7 +118,7 @@ sap.ui.define([
                     and: false
                 }));
             }
-            const oTable = this.byId("idBusinessPartnersTable");
+            const oTable = this.byId("idVisitorsTable");
             const oBinding = oTable.getBinding("items");
 
             if (oBinding) {
@@ -146,9 +146,8 @@ sap.ui.define([
 
             // Define the fields and their corresponding input IDs
             var fields = [
-                { property: "visitorName", inputId: "idVisitorNameInput" },
                 { property: "visitDate", inputId: "idVisitDateInput" },
-                { property: "email", inputId: "idEmailInput" },
+                { property: "status", inputId: "idStatusInput" },
                 { property: "contact", inputId: "idContactInput" },
                 { property: "purpose", inputId: "idPurposeInput" },
                 { property: "location", inputId: "idLocationInput" }

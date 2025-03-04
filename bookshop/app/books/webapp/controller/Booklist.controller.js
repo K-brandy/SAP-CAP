@@ -34,64 +34,45 @@ sap.ui.define([
 
 
         onSearchFieldSearch: function (oEvent) {
-          
             const sQuery = oEvent.getParameter("query");
-           
             const aFilters = [];
-
+        
             if (sQuery) {
-                const inputPrice = parseFloat(sQuery);
-                const isNumber = !isNaN(inputPrice);
                 const filters = [];
-
-                // Apply ID filter only if sQuery is a number
+        
+                // Check if the query is a number
                 if (!isNaN(parseInt(sQuery))) {
                     filters.push(new Filter("ID", FilterOperator.EQ, sQuery));
-                    filters.push(new Filter("stock", FilterOperator.EQ, sQuery));
+                    filters.push(new Filter("contact", FilterOperator.EQ, sQuery));
+                    filters.push(new Filter("purpose", FilterOperator.EQ, sQuery));
                 }
-
-                // String filters
+        
+                // String-based filters
                 filters.push(
-                    new Filter("visitorName", FilterOperator.Contains, sQuery),
-                    new Filter("descr", FilterOperator.Contains, sQuery),
-                    new Filter("currency_code", FilterOperator.Contains, sQuery),
-                    new Filter("author", FilterOperator.Contains, sQuery),
-                    new Filter("genre", FilterOperator.Contains, sQuery),
+                    new Filter("location", FilterOperator.Contains, sQuery),
+                    new Filter("email", FilterOperator.Contains, sQuery)
                 );
-
-                // Numeric filter
-                if (isNumber) {
-                    filters.push(
-                        new Filter({
-                            filters: [
-                                new Filter("price", FilterOperator.GE, inputPrice),
-                                new Filter("price", FilterOperator.LT, inputPrice + 1)
-                            ],
-                            and: true
-                        })
-                    );
-                }
-
+        
                 // Combine filters using OR condition
                 aFilters.push(new Filter({
                     filters: filters,
                     and: false
                 }));
             }
+        
+            // Bind the filters to the table
             const oTable = this.byId("idVisitsTable");
             const oBinding = oTable.getBinding("items");
-
+        
             if (oBinding) {
-                if(!sQuery){
-                    this._applyCurrencyFilter(this._getSelectedCurrency()); //reset the table with the appropriate currency filter (USD or EUR).
-                }else{
+                if (!sQuery) {
+                    oBinding.filter([]); // Clear filters if search is empty
+                } else {
                     oBinding.filter(aFilters);  // Apply the filters to the table
-
                 }
-               
             }
         },
-
+        
 
         onColumnListItemPress: function (oEvent) {
             var oItem = oEvent.getSource();
