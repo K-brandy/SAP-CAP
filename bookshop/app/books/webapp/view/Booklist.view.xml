@@ -26,7 +26,21 @@
                 />
             </Toolbar>
         </headerToolbar>
-
+        <IconTabBar
+            id="idIconTabBar"
+            select=".onIconTabBarSelect"
+        >
+            <items>
+                <IconTabFilter
+                    key="All"
+                    text="All Visits"
+                />
+                <IconTabFilter
+                    key="Completed"
+                    text="Completed Visits"
+                />
+            </items>
+        </IconTabBar>
 
         <Table
             id="idVisitsTable"
@@ -51,10 +65,12 @@
                 <Column>
                     <Text text="{i18n>purposeText}" />
                 </Column>
-                                <Column>
+                <Column>
                     <Text text="{i18n>locationText}" />
                 </Column>
-
+                <Column>
+                    <Text text="{i18n>descriptionText}" />
+                </Column>
             </columns>
             <items>
                 <ColumnListItem
@@ -62,12 +78,13 @@
                     press="onColumnListItemPress"
                 >
                     <cells>
-                        <Text text="{ID}" />                        
+                        <Text text="{ID}" />
                         <Text text="{visitDate}" />
-                        <Text text="{status}" />
-                        <Text text="{contact}"/>
+                        <Text text="{statusName}" />
+                        <Text text="{contact}" />
                         <Text text="{purpose}" />
-                        <Text text="{location}" />
+                        <Text text="{locationName}" />
+                        <Text text="{description}"/>
                     </cells>
                 </ColumnListItem>
             </items>

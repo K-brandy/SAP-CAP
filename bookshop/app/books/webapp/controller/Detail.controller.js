@@ -62,9 +62,9 @@ sap.ui.define([
             // Bind the Books entity and expand
             this.getView().bindElement({
                 path: "/Visits(" + sVisitID + ")",
-                parameters: { expand: "visitors" }
+                parameters: { expand: "visitors,location,status" }
             });
-          
+
         },
 
         onPageNavButtonPress: function () {
@@ -123,7 +123,7 @@ sap.ui.define([
 
             if (oBinding) {
                 oBinding.filter(aFilters);
-               // Apply the filters to the table
+                // Apply the filters to the table
             }
         },
 
@@ -140,39 +140,83 @@ sap.ui.define([
         },
 
         onSaveButtonPress: function () {
+
             var oView = this.getView();
+
             var oModel = oView.getModel();
+
             var oContext = oView.getBindingContext();
 
+
+
             // Define the fields and their corresponding input IDs
+
             var fields = [
-                { property: "visitDate", inputId: "idVisitDateInput" },
-                { property: "status", inputId: "idStatusInput" },
+
+                { property: "visitDate", inputId: "idVisitDateDatePicker" },
+
+               // { property: "statusName", inputId: "idStatusComboBox" },
+
                 { property: "contact", inputId: "idContactInput" },
+
                 { property: "purpose", inputId: "idPurposeInput" },
-                { property: "location", inputId: "idLocationInput" }
+
+              //  { property: "locationName", inputId: "idLocationComboBox" }
+
+
 
             ];
 
+
+
             // Iterate over fields to update properties
+
             fields.forEach(function (field) {
+
                 var value = oView.byId(field.inputId).getValue();
+
                 if (field.transform) {
+
                     value = field.transform(value);
+
                 }
+
                 oContext.setProperty(field.property, value);
+
             });
 
-            // Submit the batch request
-            oModel.submitBatch("VisitsBatchGroup")
-                .then(function () {
-                    MessageToast.show("Visit details saved successfully!");
-                })
-                .catch(function (oError) {
-                    MessageToast.show("Error saving visit details: " + oError.message);
-                });
-        },
 
+
+
+
+            // Submit the batch request
+
+            oModel.submitBatch("VisitsBatchGroup")
+
+                .then(function () {
+
+                    MessageToast.show("Visit details saved successfully!");
+
+                })
+
+                .catch(function (oError) {
+
+                    MessageToast.show("Error saving visit details: " + oError.message);
+
+                });
+
+        },
+        onDateChange: function (oEvent) {
+
+            var sSelectedDate = oEvent.getParameter("value");
+            console.log("Selected Date: " + sSelectedDate);
+        }
+        ,
+        onSelectStatusChange: function (oEvent) {
+            var sSelectedStatus = oEvent.getParameter("value");
+            console.log("selected value" + sSelectedStatus)
+
+        },
         onButtonButtonPress: function (oEvent) {
             var oView = this.getView();
 
@@ -223,18 +267,18 @@ sap.ui.define([
             oActionODataContextBinding.setParameter("bpID", bpID)
 
 
-            
+
             oActionODataContextBinding.execute().then(
-                function() {
+                function () {
                     MessageBox.success("Business Partner successfully assigned to the Book.");
                     // Refresh the Business Partner list to reflect the change immediately
-                     oModel.refresh();
+                    oModel.refresh();
                 }.bind(this),
-                function(oError) {
+                function (oError) {
                     MessageBox.error("Error assigning Business Partner: ");
                 }.bind(this)
             );
-            
+
         },
 
 

@@ -7,6 +7,7 @@
     busyIndicatorDelay="0"
     xmlns:l="sap.ui.layout"
     xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
 >
     <Page
         id="idPage"
@@ -20,9 +21,7 @@
                 title="{ID}"
                 responsive="true"
             >
-                <attributes>
-
-                </attributes>
+                <attributes />
             </ObjectHeader>
         </content>
         <l:VerticalLayout
@@ -35,25 +34,36 @@
                 editable="true"
                 layout="ResponsiveGridLayout"
             >
-               <Label text="{i18n>visitDateInputText}" />
-                <Input
-                    id="idVisitDateInput"
-                    value="{visitDate}"
+                <Label text="{i18n>visitDateInputText}" />
+                <DatePicker
+                    id="visitDatePicker"
                     class="sapUiMediumMarginBeginEnd"
+                    value="{visitDate}"
+                    displayFormat="yyyy-MM-dd"
+                    change="onDateChange"
+                    placeholder="Select Visit Date"
                 />
                 <Label text="{i18n>statusText}" />
-                <Input
-                    id="idStatusInput"
-                    value="{status}"
-                    class="sapUiMediumMarginBeginEnd"
-                />
+                <ComboBox
+                    id="idStatusComboBox"
+                    items="{
+                       path: '/Status',
+                       sorter: { path: 'name' }
+                    }"
+                    selectedKey="{status/ID}"
+                    change="onSelectStatusChange"
+                >
+                    <core:Item
+                        key="{ID}"
+                        text="{name}"
+                    />
+                </ComboBox>
 
                 <Label text="{i18n>contactText}" />
                 <Input
                     id="idContactInput"
                     value="{contact}"
                     class="sapUiMediumMarginBeginEnd"
-                    
                 />
 
                 <Label text="{i18n>purposeText}" />
@@ -64,12 +74,20 @@
                 />
 
                 <Label text="{i18n>locationText}" />
-                <Input
-                    id="idLocationInput"
-                    value="{location}"
-                    class="sapUiMediumMarginBeginEnd"
-                />
-
+                <ComboBox
+                    id="idLocationComboBox"
+                    items="{
+                    path: '/Location',
+                    sorter: { path: 'name ' }
+                    
+    }"
+                    selectedKey="{location/ID}"
+                >
+                    <core:Item
+                        key="{ID}"
+                        text="{name}"
+                    />
+                </ComboBox>
             </f:SimpleForm>
 
             <Table

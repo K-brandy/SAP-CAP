@@ -26,7 +26,7 @@ sap.ui.define([
             if (oBinding) {
                 const aContexts = oBinding.getContexts();
                 if (aContexts && aContexts.length === 0) {
-                    //this._applyCurrencyFilter("USD");
+                    this._applyStatusFilter("All");
                 }
             }
         },
@@ -36,7 +36,8 @@ sap.ui.define([
         onSearchFieldSearch: function (oEvent) {
             const sQuery = oEvent.getParameter("query");
             const aFilters = [];
-        
+
+
             if (sQuery) {
                 const filters = [];
         
@@ -44,13 +45,14 @@ sap.ui.define([
                 if (!isNaN(parseInt(sQuery))) {
                     filters.push(new Filter("ID", FilterOperator.EQ, sQuery));
                     filters.push(new Filter("contact", FilterOperator.EQ, sQuery));
-                    filters.push(new Filter("purpose", FilterOperator.EQ, sQuery));
+                    
                 }
         
                 // String-based filters
                 filters.push(
-                    new Filter("location", FilterOperator.Contains, sQuery),
-                    new Filter("email", FilterOperator.Contains, sQuery)
+                    new Filter("locationName", FilterOperator.Contains, sQuery),
+                    new Filter("purpose", FilterOperator.Contains, sQuery),
+                    new Filter("statusName", FilterOperator.Contains, sQuery)
                 );
         
                 // Combine filters using OR condition
@@ -108,32 +110,36 @@ sap.ui.define([
                 }.bind(this));
             }
         },
-        // onIconTabBarSelect: function (oEvent) {
-        //     const sKey = oEvent.getParameter("key");
-        //     this._applyCurrencyFilter(sKey);
-            
-
-
-        // },
-
-        // _applyCurrencyFilter: function (sCurrency) {
-        //     const oTable = this.byId("idBooksTable");
-        //     const oBinding = oTable.getBinding("items");
-
-        //     if (oBinding) {
-        //         const oFilter = new Filter("currency_code", FilterOperator.EQ, sCurrency);
-        //         oBinding.filter([oFilter]);
-        //     } else {
-        //         console.warn("Binding not ready.");
-        //     }
-        // },
-        // _getSelectedCurrency: function () {
-        //     const oIconTabBar = this.byId("idIconTabBar");
-        //     const selectedKey = oIconTabBar.getSelectedKey();
-
-        //     return selectedKey === "USD" ? "USD" : "EUR";
-        // }
-
+        onIconTabBarSelect: function (oEvent) {
+            const sKey = oEvent.getParameter("key");
+            this._applyStatusFilter(sKey); 
+        },
+        
+        _applyStatusFilter: function (sStatus) {
+            const oTable = this.byId("idVisitsTable");
+            const oBinding = oTable.getBinding("items");
+        
+            if (oBinding) {
+                if (sStatus === "Completed") {
+                    const oFilter = new Filter("statusName", FilterOperator.EQ, "Completed");
+                    oBinding.filter([oFilter]);
+                } else {
+                    oBinding.filter([]); // Clear filter for other tabs
+                }
+            } else {
+                console.warn("Binding not ready");
+            }
+        },
+        
+         _getSelectedStatus: function () {
+         const oIconTabBar = this.byId("idIconTabBar");
+             const selectedKey = oIconTabBar.getSelectedKey();
+        
+        //     // Return 'Completed' or clear the filter
+             return selectedKey === "Completed" ? "Completed" : "";
+         }
+        
+        
 
 
     });

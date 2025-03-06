@@ -1,0 +1,11 @@
+ID,name,type,capacity,availability
+1,Conference Room A,Meeting Room,12,true
+2,Open Workspace,Shared Desk,20,true
+3,Private Office 101,Private Office,4,false
+4,Lounge Area,Common Space,15,true
+5,Training Room,Classroom,30,true
+6,Rooftop Terrace,Event Space,50,true
+7,Coding Lab,Tech Space,10,false
+8,Phone Booth A,Private Booth,1,true
+9,Design Studio,Creative Space,8,true
+10,Cafeteria,Common Space,40,true

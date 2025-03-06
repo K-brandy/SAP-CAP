@@ -1,11 +1,14 @@
-ID,visitDate,status,contact,purpose,location
-101,2024-03-01T09:30:00Z,scheduled,1234567890,Business Meeting,Main Office
-102,2024-03-02T11:00:00Z,scheduled,9876543210,Site Inspection:,Branch Office
-103,2024-03-03T14:00:00Z,completed,1231231234,Sales Visit,HQ Lobby
-104,2024-03-04T10:45:00Z,cancelled,4567891230,Training Session,Main Office
-105,2024-03-05T13:00:00Z,completed,7896541230,Networking Event,Customer Support Center
-
-
+ID,visitDate,status_ID,contact,purpose,location_ID,description
+101,2024-03-01T09:30:00Z,1,1234567890,Business Meeting,1,Client meeting to discuss project milestones.
+102,2024-03-02T11:00:00Z,1,9876543210,Site Inspection,2,Routine maintenance check for office equipment.
+103,2024-03-03T14:00:00Z,3,1231231234,Sales Visit,3,Presenting products and solutions to clients.
+104,2024-03-04T10:45:00Z,4,4567891230,Training Session,4,Workshop to enhance team skills.
+105,2024-03-05T13:00:00Z,3,7896541230,Networking Event,5,Connect and explore collaborations.
+106,2024-03-06T09:00:00Z,1,3216549870,Product Demo,6,Showcasing product features live.
+107,2024-03-07T15:30:00Z,2,1472583690,Consultation,7,Advisory session with tailored strategies.
+108,2024-03-08T10:15:00Z,3,9638527410,Team Building,8,Activities to boost teamwork and morale.
+109,2024-03-09T14:45:00Z,1,2581473690,Partnership Meeting,9,Facility tour for prospective partners.
+110,2024-03-10T12:00:00Z,4,3692581470,Investor Pitch,10,Presentation of business potential to investors.
 
 
 
