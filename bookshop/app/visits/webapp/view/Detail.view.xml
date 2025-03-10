@@ -38,6 +38,7 @@
                 id="idSimpleForm"
                 editable="true"
                 layout="ResponsiveGridLayout"
+                width="95%"
             >
                 <Label text="{i18n>visitDateInputText}" />
                 <DatePicker
@@ -72,6 +73,7 @@
                     id="idContactInput"
                     value="{contact}"
                     class="sapUiMediumMarginBeginEnd"
+                    width="95%"
                 />
 
                 <Label text="{i18n>purposeText}" />
@@ -79,6 +81,7 @@
                     id="idPurposeInput"
                     value="{purpose}"
                     class="sapUiMediumMarginBeginEnd"
+                    width="95%"
                 />
 
                 <Label text="{i18n>locationText}" />
@@ -88,6 +91,7 @@
                     items="{/Location}"
                     selectedKey="{ path: 'locationID', type: 'sap.ui.model.type.String' }"
                     selectionChange="onLocationSelectionChange"
+                    class="sapUiMediumMarginBegin"
                 >
                     <core:Item
                         key="{ID}"
@@ -100,6 +104,7 @@
                     id="idDescriptionInput"
                     value="{description}"
                     class="sapUiMediumMarginBeginEnd"
+                    width="95%"
                 />
                 <Label text="{i18n>spacesText}" />
                 <ComboBox
@@ -108,6 +113,7 @@
                     items="{/Spaces}"
                     selectedKey="{ path: 'spaceID', type: 'sap.ui.model.type.String' }"
                     selectionChange="onSpaceSelectionChange"
+                    class="sapUiMediumMarginBegin"
                 >
                     <core:Item
                         key="{ID}"
