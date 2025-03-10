@@ -22,10 +22,10 @@
                 responsive="true"
             >
                 <attributes>
-                   <ObjectAttribute 
-                   title="{i18n>descriptionText}"
-                      text="{description}"
-                   />
+                    <ObjectAttribute
+                        title="{i18n>descriptionText} "
+                        text="{description}"
+                    />
                 </attributes>
             </ObjectHeader>
         </content>
@@ -51,15 +51,15 @@
                 />
                 <Label text="{i18n>statusText}" />
                 <ComboBox
-                width="95%"
+                    width="95%"
                     id="idStatusComboBox"
                     items="{
                        path: '/Status',
                        sorter: { path: 'name' }
                     }"
-                selectedKey="{status/ID}"
                     change="onSelectStatusChange"
                     class="sapUiMediumMarginBegin"
+                    selectedKey="{ path: 'statusID', type: 'sap.ui.model.type.String' }"
                 >
                     <core:Item
                         key="{ID}"
@@ -83,37 +83,31 @@
 
                 <Label text="{i18n>locationText}" />
                 <ComboBox
-                width="95%"
                     id="idLocationComboBox"
-                    items="{
-                    path: '/Location',
-                    sorter: { path: 'name ' }
-                    
-    }"
-                    selectedKey="{location/ID}"
-                    class="sapUiMediumMarginBeginEnd"
+                    width="95%"
+                    items="{/Location}"
+                    selectedKey="{ path: 'locationID', type: 'sap.ui.model.type.String' }"
+                    selectionChange="onLocationSelectionChange"
                 >
                     <core:Item
                         key="{ID}"
                         text="{name}"
                     />
                 </ComboBox>
+
                 <Label text="{i18n>descriptionText}" />
                 <Input
                     id="idDescriptionInput"
                     value="{description}"
                     class="sapUiMediumMarginBeginEnd"
                 />
-                                <Label text="{i18n>spacesText}" />
-                <ComboBox selectionChange="onSelectionChange"
-                width="95%"
+                <Label text="{i18n>spacesText}" />
+                <ComboBox
                     id="idSpaceComboBox"
-                    items="{
-                       path: '/Spaces',
-                       sorter: { path: 'name' }
-                    }"
-                    selectedKey="{spaces/ID}"
-                    class="sapUiMediumMarginBegin"
+                    width="95%"
+                    items="{/Spaces}"
+                    selectedKey="{ path: 'spaceID', type: 'sap.ui.model.type.String' }"
+                    selectionChange="onSpaceSelectionChange"
                 >
                     <core:Item
                         key="{ID}"
@@ -121,7 +115,7 @@
                     />
                 </ComboBox>
             </f:SimpleForm>
-    
+
             <Table
                 id="idVisitorsTable"
                 width="auto"

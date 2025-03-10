@@ -140,39 +140,62 @@ sap.ui.define([
         },
 
         onSaveButtonPress: function () {
+
             var oView = this.getView();
+
             var oModel = oView.getModel();
+
             var oContext = oView.getBindingContext();
-        
-            // Collect direct fields and associations
+
+            // Define the fields and their corresponding input IDs
+
             var fields = [
+
                 { property: "visitDate", inputId: "idVisitDateDatePicker" },
+
+                { property: "statusID", inputId: "idStatusComboBox" },
+
                 { property: "contact", inputId: "idContactInput" },
+
                 { property: "purpose", inputId: "idPurposeInput" },
+
+                 { property: "locationID", inputId: "idLocationComboBox" },
+                 { property: "spaceID", inputId: "idSpaceComboBox" }
+
             ];
-        
-            // Add associations
-            var associations = [
-                { property: "spaces_ID", inputId: "idSpaceComboBox" },
-                { property: "status_ID", inputId: "idStatusComboBox" },
-                { property: "location_ID", inputId: "idLocationComboBox" }
-            ];
-        
+
+            //  update properties
 
             fields.forEach(function (field) {
-                var value = oView.byId(field.inputId).getValue();
-                oContext.setProperty(field.property, value);
-            });
-        
-            associations.forEach(function (assoc) {
-                var oComboBox = oView.byId(assoc.inputId);
-                var sSelectedKey = oComboBox.getSelectedKey();
-        
-                if (sSelectedKey) {
-                    oContext.setProperty(assoc.property, sSelectedKey);
+                var oControl = oView.byId(field.inputId);
+            
+                if (oControl) {
+                    var value;
+
+                    if (oControl.isA("sap.m.ComboBox")) {
+                        value = oControl.getSelectedKey(); // for ComboBox
+                        console.log(value);
+                    } else if (oControl.isA("sap.m.DatePicker")) {
+                        value = oControl.getDateValue(); //  for DatePicker
+                    } else {
+                        value = oControl.getValue(); //for Input fields
+                    }
+            
+                    console.log(field.property  + ":" + value);
+            
+                    if (value !== undefined) {
+                        oContext.setProperty(field.property, value);
+                    }
+                } else {
+                    console.warn("Control with ID " + field.inputId + " not found.");
                 }
             });
-        
+            
+
+
+
+
+
             // Submit the batch request
             oModel.submitBatch("VisitsBatchGroup")
                 .then(function () {
@@ -181,8 +204,8 @@ sap.ui.define([
                 .catch(function (oError) {
                     MessageToast.show("Error saving visit details: " + oError.message);
                 });
-        
-        
+
+
 
             // Submit the batch request
 
@@ -208,12 +231,23 @@ sap.ui.define([
             console.log("Selected Date: " + sSelectedDate);
         }
         ,
-        // onSelectStatusChange: function (oEvent) {
-        //     var sSelectedStatus = oEvent.getParameter("value");
-        //     console.log("selected value" + sSelectedStatus)
-        //     this.getView().getModel().setProperty("status/ID", sKey);
 
-        // },
+        onLocationSelectionChange: function (oEvent) { 
+            var oComboBox = this.byId("idSpaceComboBox");
+            var sSelectedLocationID = oEvent.getParameter("selectedItem").getKey();
+            
+            if (sSelectedLocationID) {
+                var oBinding = oComboBox.getBinding("items");
+                var oFilter = new Filter("locationID", FilterOperator.EQ, sSelectedLocationID);
+        
+                oBinding.filter([oFilter]);
+            } else {
+         //clear if nothing is selected
+                oComboBox.getBinding("items").filter([]);
+            }
+        }
+        ,
+        
         onButtonButtonPress: function (oEvent) {
             var oView = this.getView();
 

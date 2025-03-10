@@ -4,14 +4,14 @@
 >
 <SelectDialog 
      id="idSelectDialog"
-     noDataText="Business Partner not Found"
-     title="Select Business Partner"
+     noDataText="Visitor not Found"
+     title="Select Visitor"
      search="onSelectDialogSearch"
      confirm="onBusinessPartnersSelectDialogConfirm"
      cancel="onSelectDialogCancel"
     
      items="{
-           path:'/Business_Partners'  
+           path:'/Visitors'  
            }"
 >
 <StandardListItem 
