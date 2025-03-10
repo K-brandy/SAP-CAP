@@ -1,0 +1,93 @@
+<mvc:View
+    controllerName="ns.visits.controller.Booklist"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+>
+    <Panel class="myPanel">
+        <headerToolbar>
+            <Toolbar
+                id="idToolbar"
+                width="100%"
+            >
+                <Title
+                    id="idVisitListTitle"
+                    text="Visit List"
+                />
+                <ToolbarSpacer />
+
+                <SearchField
+                    id="idSearchField"
+                    width="50%"
+                    search=".onSearchFieldSearch"
+                    ariaLabelledBy="searchFieldLabel"
+                    ariaDescribedBy="searchFieldDescription"
+                    placeholder="{i18n>searchFieldPlaceHolder}"
+                />
+            </Toolbar>
+        </headerToolbar>
+        <IconTabBar
+            id="idIconTabBar"
+            select=".onIconTabBarSelect"
+        >
+            <items>
+                <IconTabFilter
+                    key="All"
+                    text="All Visits"
+                />
+                <IconTabFilter
+                    key="Completed"
+                    text="Completed Visits"
+                />
+            </items>
+        </IconTabBar>
+
+        <Table
+            id="idVisitsTable"
+            width="auto"
+            items="{/Visits}"
+            class="SapUiResponsiveMargin"
+        >
+            <columns>
+                <Column>
+                    <Text text="{i18n>ColumnIdText}" />
+                </Column>
+
+                <Column>
+                    <Text text="{i18n>VisitDateText}" />
+                </Column>
+                <Column>
+                    <Text text="{i18n>statusText}" />
+                </Column>
+                <Column>
+                    <Text text="{i18n>contactText}" />
+                </Column>
+                <Column>
+                    <Text text="{i18n>purposeText}" />
+                </Column>
+                <Column>
+                    <Text text="{i18n>locationText}" />
+                </Column>
+                <Column>
+                    <Text text="{i18n>descriptionText}" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem
+                    type="Navigation"
+                    press="onColumnListItemPress"
+                >
+                    <cells>
+                        <Text text="{ID}" />
+                        <Text text="{visitDate}" />
+                        <Text text="{statusName}" />
+                        <Text text="{contact}" />
+                        <Text text="{purpose}" />
+                        <Text text="{locationName}" />
+                        <Text text="{description}"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Panel>
+</mvc:View>

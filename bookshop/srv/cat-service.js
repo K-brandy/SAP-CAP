@@ -33,7 +33,7 @@ module.exports = cds.service.impl(async function () {
     
 
         const existingAssignment = await db.read('my.bookshop.Business_Partners')
-            .where({ ID: bpID, 'books.ID': visitId });  // Adjust this part if needed based on your relationship
+            .where({ ID: bpID, 'visits.ID': visitId });  // Adjust this part if needed based on your relationship
     
         if (existingAssignment.length > 0) {
             req.error(400, 'This Business Partner is already assigned to this Book');
@@ -41,7 +41,7 @@ module.exports = cds.service.impl(async function () {
         }
     
         await db.update('my.bookshop.Business_Partners')
-            .set({ 'books.ID': visitId })  // Assign the Book to the Business Partner
+            .set({ 'visits.ID': visitId })  // Assign the Book to the Business Partner
             .where({ ID: bpID });
     
         // Optionally, you can return the updated Business Partner or Book

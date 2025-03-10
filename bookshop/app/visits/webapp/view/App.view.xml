@@ -1,0 +1,10 @@
+<mvc:View controllerName="ns.visits.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+  >
+
+  <App class="AppPage" id="idApp"
+  >
+  </App>
+</mvc:View>

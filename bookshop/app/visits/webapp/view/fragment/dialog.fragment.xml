@@ -1,0 +1,23 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+<SelectDialog 
+     id="idSelectDialog"
+     noDataText="Business Partner not Found"
+     title="Select Business Partner"
+     search="onSelectDialogSearch"
+     confirm="onBusinessPartnersSelectDialogConfirm"
+     cancel="onSelectDialogCancel"
+    
+     items="{
+           path:'/Business_Partners'  
+           }"
+>
+<StandardListItem 
+       title="{name}"
+       description="{= ${ID} + ' - ' + ${country} + ','+ ${street}+','+${postal_code}}"
+       type="Active"
+/>
+</SelectDialog>
+</c:FragmentDefinition>

@@ -1,0 +1,237 @@
+<mvc:View
+    controllerName="ns.visits.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        id="idPage"
+        title="{i18n>title}"
+        showNavButton="true"
+        navButtonPress=".onPageNavButtonPress"
+    >
+        <content>
+            <ObjectHeader
+                id="idObjectHeader"
+                title="{ID}"
+                responsive="true"
+            >
+                <attributes>
+                   <ObjectAttribute 
+                   title="{i18n>descriptionText}"
+                      text="{description}"
+                   />
+                </attributes>
+            </ObjectHeader>
+        </content>
+        <l:VerticalLayout
+            class="sapUiContentPadding sapUiResponsiveMargin"
+            enabled="{view>/isEditable}"
+            width="50%"
+        >
+            <f:SimpleForm
+                id="idSimpleForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+            >
+                <Label text="{i18n>visitDateInputText}" />
+                <DatePicker
+                    id="visitDatePicker"
+                    class="sapUiMediumMarginBeginEnd"
+                    value="{visitDate}"
+                    displayFormat="yyyy-MM-dd"
+                    change="onDateChange"
+                    placeholder="Select Visit Date"
+                    width="95%"
+                />
+                <Label text="{i18n>statusText}" />
+                <ComboBox
+                width="95%"
+                    id="idStatusComboBox"
+                    items="{
+                       path: '/Status',
+                       sorter: { path: 'name' }
+                    }"
+                selectedKey="{status/ID}"
+                    change="onSelectStatusChange"
+                    class="sapUiMediumMarginBegin"
+                >
+                    <core:Item
+                        key="{ID}"
+                        text="{name}"
+                    />
+                </ComboBox>
+
+                <Label text="{i18n>contactText}" />
+                <Input
+                    id="idContactInput"
+                    value="{contact}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>purposeText}" />
+                <Input
+                    id="idPurposeInput"
+                    value="{purpose}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+
+                <Label text="{i18n>locationText}" />
+                <ComboBox
+                width="95%"
+                    id="idLocationComboBox"
+                    items="{
+                    path: '/Location',
+                    sorter: { path: 'name ' }
+                    
+    }"
+                    selectedKey="{location/ID}"
+                    class="sapUiMediumMarginBeginEnd"
+                >
+                    <core:Item
+                        key="{ID}"
+                        text="{name}"
+                    />
+                </ComboBox>
+                <Label text="{i18n>descriptionText}" />
+                <Input
+                    id="idDescriptionInput"
+                    value="{description}"
+                    class="sapUiMediumMarginBeginEnd"
+                />
+                                <Label text="{i18n>spacesText}" />
+                <ComboBox selectionChange="onSelectionChange"
+                width="95%"
+                    id="idSpaceComboBox"
+                    items="{
+                       path: '/Spaces',
+                       sorter: { path: 'name' }
+                    }"
+                    selectedKey="{spaces/ID}"
+                    class="sapUiMediumMarginBegin"
+                >
+                    <core:Item
+                        key="{ID}"
+                        text="{name}"
+                    />
+                </ComboBox>
+            </f:SimpleForm>
+    
+            <Table
+                id="idVisitorsTable"
+                width="auto"
+                items="{path:'visitors'}"
+            >
+                <headerToolbar>
+                    <Toolbar>
+                        <Title
+                            id="idVisitorsTitle"
+                            text="{i18n>Visitors}"
+                        />
+
+                        <ToolbarSpacer />
+                        <Button
+                            text="Add Visitor"
+                            id="idButtonButton"
+                            press="onButtonButtonPress"
+                            type="Emphasized"
+                        />
+                        <SearchField
+                            id="idVisitorSearchField"
+                            placeholder="Search All Columns"
+                            search=".onSearchFieldBPSearch"
+                            width="50%"
+                        />
+                    </Toolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>VisitorID}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>VisitorName}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>visitorCountry}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>visitorStreet}" />
+                    </Column>
+                    <Column
+                        hAlign="Left"
+                        minScreenWidth="Small"
+                        demandPopin="true"
+                    >
+                        <Text text="{i18n>visitorPostalCode}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <ObjectNumber
+                                number="{ID}"
+                                emphasized="false"
+                            />
+                            <Text text="{name}" />
+                            <Text text="{country}" />
+                            <Text text="{street}" />
+                            <Text text="{postal_code}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+            <Label
+                text="{i18n>Rate}"
+                labelFor="RI_S"
+            />
+            <RatingIndicator
+                id="idRatingRatingIndicator"
+                value="{/rating}"
+                iconSize="22px"
+                liveChange=".onRatingChange"
+                tooltip="Rating Tooltip"
+            />
+        </l:VerticalLayout>
+        <footer>
+            <Bar>
+                <contentRight>
+                    <Button
+                        text="save"
+                        press="onSaveButtonPress"
+                        type="Emphasized"
+                    />
+                    <Button
+                        text="{
+                            path: 'view>/isEditable',
+                            formatter: '.formatToggleButtonText'
+                        }"
+                        press=".onIsEditableButtonPress"
+                    />
+                </contentRight>
+            </Bar>
+        </footer>
+    </Page>
+</mvc:View>

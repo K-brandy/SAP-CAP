@@ -10,6 +10,7 @@ entity Visits : managed {
     location : Association to Location;
     visitors : Association to many Visitors on visitors.visits = $self;
     description: String;
+    spaces: Association to Spaces;
 }
 
 entity Location : managed {
@@ -38,7 +39,7 @@ entity Visitors : managed {
     street : String;
     postal_code : String;
     visits : Association to Visits;
-    spaces: Association to Spaces;
+   
 }
 
 entity Spaces : managed {
@@ -47,5 +48,5 @@ entity Spaces : managed {
     type: String;
     capacity: Integer;
     availability: Boolean;
-    visitors: Association to many Visitors on visitors.spaces = $self;
+    visits: Association to many Visits on visits.spaces = $self;
 }
