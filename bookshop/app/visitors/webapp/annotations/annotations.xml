@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" 
+             xmlns:ui="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+  
+  <!-- Add a Button in the header or line item -->
+  <Annotation Term="UI.LineItem">
+    <Collection>
+      <Record Type="UI.DataFieldForAction">
+        <PropertyValue Property="Action" String="namespace.OpenDialog" />
+        <PropertyValue Property="Label" String="Open Business Partners" />
+        <PropertyValue Property="Facets" String="LineItem" />
+      </Record>
+    </Collection>
+  </Annotation>
+</Annotations>
+

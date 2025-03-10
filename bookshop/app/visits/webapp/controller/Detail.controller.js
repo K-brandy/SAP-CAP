@@ -34,7 +34,7 @@ sap.ui.define([
             var oBinding = oTable.getBinding("items");
             if (oBinding) {
                 var iCount = oBinding ? oBinding.getLength() : 0;
-                oTable.setHeaderText("Total Business Partners: " + iCount);
+                oTable.setHeaderText("Total Visitors: " + iCount);
                 this.getView().getModel("view").setProperty("/rowCount", iCount);
             }
         },
@@ -91,7 +91,7 @@ sap.ui.define([
             MessageToast.show(sMessage);
         },
 
-        // search field for business partners
+        // search field for visitors
         onSearchFieldBPSearch: function (oEvent) {
             const sQuery = oEvent.getParameter("query");
             const aFilters = [];
@@ -269,8 +269,8 @@ sap.ui.define([
         },
 
 
-        // Example function to call when the user confirms in the dialog: onBusinessPartnerDialogConfirm
-        onBusinessPartnersSelectDialogConfirm: async function (oEvent) {
+        // Example function to call when the user confirms in the dialog: onVisitorsDialogConfirm
+        onVisitorsSelectDialogConfirm: async function (oEvent) {
             const oView = this.getView();
             const oModel = oView.getModel();
             const oBookContext = oView.getBindingContext();
@@ -282,7 +282,7 @@ sap.ui.define([
 
             let aSelectedItem = oEvent.getParameter("selectedItem");
             if (!aSelectedItem) {
-                MessageBox.error("No Business Partner selected!");
+                MessageBox.error("No Visitors selected!");
                 return;
             }
 
@@ -293,20 +293,20 @@ sap.ui.define([
             //debugger;
 
             //v4 functionImport
-            var oActionODataContextBinding = oModel.bindContext("/assignBusinessPartnerToBook(...)");
-            oActionODataContextBinding.setParameter("bookID", bookID)
-            oActionODataContextBinding.setParameter("bpID", bpID)
+            var oActionODataContextBinding = oModel.bindContext("/assignVisitorToVisit(...)");
+            oActionODataContextBinding.setParameter("visitID", visitID)
+            oActionODataContextBinding.setParameter("visitorID", visitorID)
 
 
 
             oActionODataContextBinding.execute().then(
                 function () {
-                    MessageBox.success("Business Partner successfully assigned to the Book.");
-                    // Refresh the Business Partner list to reflect the change immediately
+                    MessageBox.success("Visitor successfully assigned to the Book.");
+                    // Refresh the Visitors list to reflect the change immediately
                     oModel.refresh();
                 }.bind(this),
                 function (oError) {
-                    MessageBox.error("Error assigning Business Partner: ");
+                    MessageBox.error("Error assigning Visitors: ");
                 }.bind(this)
             );
 

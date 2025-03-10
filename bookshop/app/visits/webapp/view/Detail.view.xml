@@ -23,8 +23,9 @@
             >
                 <attributes>
                     <ObjectAttribute
-                        title="{i18n>descriptionText} "
+                        title="{i18n>descriptionText}"
                         text="{description}"
+                        class="customObjectAttribute" 
                     />
                 </attributes>
             </ObjectHeader>

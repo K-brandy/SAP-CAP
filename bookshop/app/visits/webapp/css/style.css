@@ -1,0 +1,14 @@
+/* Enter your custom styles here */
+.myPanel {
+    padding: 20px;
+}
+
+/* Adds space after the title without affecting the title text */
+.customObjectAttribute .sapMObjectAttributeTitle {
+    display: inline-block;
+}
+
+.customObjectAttribute .sapMObjectAttributeText {
+    margin-left: 5px; 
+}
+

@@ -24,8 +24,8 @@
                   "id": "BrowseGenres",
                   "tileType": "sap.ushell.ui.tile.StaticTile",
                   "properties": {
-                    "title": "Browse Business Partners",
-                    "targetURL": "businesspartners/webapp"
+                    "title": "Browse Visitors",
+                    "targetURL": "visitors/webapp"
                   }
                 }
               ]
@@ -42,16 +42,16 @@
                   "tileType": "sap.ushell.ui.tile.StaticTile",
                   "properties": {
                     "title": "Manage Books",
-                    "targetURL": "books/webapp"
+                    "targetURL": "visits/webapp"
                   }
                 }
                 ,
                 {
-                  "id": "ManageBusinessPartners",
+                  "id": "ManageVisitors",
                   "tileType": "sap.ushell.ui.tile.StaticTile",
                   "properties": {
-                    "title": "Manage Business Partners",
-                    "targetURL": "businesspartners/webapp"
+                    "title": "Manage Visitors",
+                    "targetURL": "visitors/webapp"
                   }
                 }
 
@@ -88,7 +88,7 @@
               "resolutionResult": {
                 "applicationType": "SAPUI5",
                 "additionalInformation": "SAPUI5.Component=bookshop",
-                "url": "books/webapp"
+                "url": "visits/webapp"
               }
             },
             "BrowseAuthors": {
@@ -128,17 +128,17 @@
               }
             },
             "ManageBooks": {
-              "semanticObject": "Books",
+              "semanticObject": "Visits",
               "action": "manage",
-              "title": "Manage Books",
+              "title": "Manage Visits",
               "signature": {
                 "parameters": {},
                 "additionalParameters": "allowed"
               },
               "resolutionResult": {
                 "applicationType": "SAPUI5",
-                "additionalInformation": "SAPUI5.Component=books",
-                "url": "/books/webapp"
+                "additionalInformation": "SAPUI5.Component=visits",
+                "url": "/visits/webapp"
               }
             },
             "ManageOrders": {

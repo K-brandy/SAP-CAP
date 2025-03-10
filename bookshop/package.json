@@ -15,10 +15,10 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-books": "cds watch --open books/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-visits": "cds watch --open visits/webapp/index.html?sap-ui-xx-viewCache=false",
     "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-businesspartners-ui": "cds watch --open businesspartners-ui/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-businesspartners": "cds watch --open businesspartners/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-visitors-ui": "cds watch --open visitors-ui/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-visitors": "cds watch --open visitors/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -32,7 +32,7 @@
   },
   "sapux": [
     "app/project1",
-    "app/businesspartners-ui",
-    "app/businesspartners"
+    "app/visitors-ui",
+    "app/visitors"
   ]
 }

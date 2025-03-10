@@ -7,7 +7,7 @@
      noDataText="Visitor not Found"
      title="Select Visitor"
      search="onSelectDialogSearch"
-     confirm="onBusinessPartnersSelectDialogConfirm"
+     confirm="onVisitorsSelectDialogConfirm"
      cancel="onSelectDialogCancel"
     
      items="{

@@ -16,7 +16,7 @@ service CatalogService @(path:'/browse') {
         *        
     } excluding { createdBy, modifiedBy };
 
-    action assignBusinessPartnerToVisit(
+    action assignVisitorToVisit(
         visitId: Visits:ID,
         visitorID: Visitors:ID
     ) returns Visits;

@@ -1,4 +1,4 @@
 
-using from './books/annotations';
+using from './visits/annotations';
 
-using from './businesspartners/annotations';
+using from './visitors/annotations';
