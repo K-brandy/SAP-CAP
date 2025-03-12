@@ -1,17 +1,12 @@
 using CatalogService as service from '../../srv/cat-service';
-annotate service.Business_Partners with @(
-    
-    UI.SelectionFields : [
+annotate service.Visitors with @(
+
+        UI.SelectionFields : [
         name,
         ID,
         country,
     ],
-
- 
-     
     UI.FieldGroup #GeneratedGroup : {
-        
-        
         $Type : 'UI.FieldGroupType',
         Data : [
             {
@@ -21,26 +16,39 @@ annotate service.Business_Partners with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Name',
+                Label : 'name',
                 Value : name,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Country',
+                Label : 'email',
+                Value : email,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'company',
+                Value : company,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'country',
                 Value : country,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Street',
+                Label : 'street',
                 Value : street,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Postal Code',
+                Label : 'postal_code',
                 Value : postal_code,
-        
             },
-
+            {
+                $Type : 'UI.DataField',
+                Label : 'visits_ID',
+                Value : visits_ID,
+            },
         ],
     },
     UI.Facets : [
@@ -52,62 +60,59 @@ annotate service.Business_Partners with @(
         },
     ],
     UI.LineItem : [
-
-
         {
             $Type : 'UI.DataField',
             Label : 'ID',
             Value : ID,
-            
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Name',
+            Label : 'name',
             Value : name,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Country',
+            Label : 'email',
+            Value : email,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'company',
+            Value : company,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'country',
             Value : country,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'Street',
-            Value : street,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'Postal Code',
-            Value : postal_code,
         },
     ],
 );
 
-// annotate service.Business_Partners with {
-//     books @Common.ValueList : {
+// annotate service.Visitors with {
+//     visits @Common.ValueList : {
 //         $Type : 'Common.ValueListType',
-//         CollectionPath : 'Books',
+//         CollectionPath : 'Visits',
 //         Parameters : [
 //             {
 //                 $Type : 'Common.ValueListParameterInOut',
-//                 LocalDataProperty : books_ID,
+//                 LocalDataProperty : visits_ID,
 //                 ValueListProperty : 'ID',
 //             },
 //             {
 //                 $Type : 'Common.ValueListParameterDisplayOnly',
-//                 ValueListProperty : 'title',
+//                 ValueListProperty : 'visitDate',
 //             },
 //             {
 //                 $Type : 'Common.ValueListParameterDisplayOnly',
-//                 ValueListProperty : 'descr',
+//                 ValueListProperty : 'contact',
 //             },
 //             {
 //                 $Type : 'Common.ValueListParameterDisplayOnly',
-//                 ValueListProperty : 'author',
+//                 ValueListProperty : 'purpose',
 //             },
 //             {
 //                 $Type : 'Common.ValueListParameterDisplayOnly',
-//                 ValueListProperty : 'genre',
+//                 ValueListProperty : 'description',
 //             },
 //         ],
 //     }

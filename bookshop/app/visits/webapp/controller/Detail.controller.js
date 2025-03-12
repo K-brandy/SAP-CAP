@@ -242,7 +242,6 @@ sap.ui.define([
         
                 oBinding.filter([oFilter]);
             } else {
-         //clear if nothing is selected
                 oComboBox.getBinding("items").filter([]);
             }
         }
@@ -286,15 +285,15 @@ sap.ui.define([
                 return;
             }
 
-            let bpID = aSelectedItem.getBindingContext().getObject().ID;
-            let bookID = oBookContext.getObject().ID;
-            console.log(bpID);
-            console.log(bookID);
+            let visitorID = aSelectedItem.getBindingContext().getObject().ID;
+            let visitId = oBookContext.getObject().ID;
+            console.log(visitorID);
+            console.log(visitId);
             //debugger;
 
             //v4 functionImport
             var oActionODataContextBinding = oModel.bindContext("/assignVisitorToVisit(...)");
-            oActionODataContextBinding.setParameter("visitID", visitID)
+            oActionODataContextBinding.setParameter("visitId", visitId)
             oActionODataContextBinding.setParameter("visitorID", visitorID)
 
 
@@ -329,5 +328,7 @@ sap.ui.define([
             var oBinding = oEvent.getParameter("itemsBinding");
             oBinding.filter([oFilter]);
         },
+
+        
     });
 });

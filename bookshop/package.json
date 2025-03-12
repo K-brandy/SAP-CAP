@@ -33,6 +33,7 @@
   "sapux": [
     "app/project1",
     "app/visitors-ui",
+    "app/visitors",
     "app/visitors"
   ]
 }

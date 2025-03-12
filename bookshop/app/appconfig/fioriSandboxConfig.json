@@ -16,8 +16,8 @@
                   "id": "BrowseBooks",
                   "tileType": "sap.ushell.ui.tile.StaticTile",
                   "properties": {
-                    "title": "Browse Books",
-                    "targetURL": "books/webapp"
+                    "title": "Browse Visits",
+                    "targetURL": "visits/webapp"
                   }
                 },
                 {
@@ -41,7 +41,7 @@
                   "id": "ManageBooks",
                   "tileType": "sap.ushell.ui.tile.StaticTile",
                   "properties": {
-                    "title": "Manage Books",
+                    "title": "Manage Visits",
                     "targetURL": "visits/webapp"
                   }
                 }

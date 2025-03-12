@@ -1,7 +1,7 @@
 {
   "_version": "1.65.0",
   "sap.app": {
-    "id": "ns.businesspartners",
+    "id": "visitors.visitors",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -12,17 +12,15 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
-      "version": "1.16.3",
-      "toolsId": "c8fd0162-4f2d-4c69-8980-404d9fda1c04"
+      "version": "1.16.5",
+      "toolsId": "cd499b36-7e3b-4113-a971-d21c16e4f672"
     },
     "dataSources": {
       "mainService": {
         "uri": "/browse/",
         "type": "OData",
         "settings": {
-          "annotations": [
-            "webapp/annotations/annotations.xml"
-          ],
+          "annotations": [],
           "odataVersion": "4.0"
         }
       }
@@ -47,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.132.1",
+      "minUI5Version": "1.133.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -62,7 +60,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "ns.businesspartners.i18n.i18n"
+          "bundleName": "visitors.visitors.i18n.i18n"
         }
       },
       "": {
@@ -87,28 +85,28 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "Business_PartnersList",
-          "target": "Business_PartnersList"
+          "name": "VisitorsList",
+          "target": "VisitorsList"
         },
         {
-          "pattern": "Business_Partners({key}):?query:",
-          "name": "Business_PartnersObjectPage",
-          "target": "Business_PartnersObjectPage"
+          "pattern": "Visitors({key}):?query:",
+          "name": "VisitorsObjectPage",
+          "target": "VisitorsObjectPage"
         }
       ],
       "targets": {
-        "Business_PartnersList": {
+        "VisitorsList": {
           "type": "Component",
-          "id": "Business_PartnersList",
+          "id": "VisitorsList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/Business_Partners",
+              "contextPath": "/Visitors",
               "variantManagement": "Page",
               "navigation": {
-                "Business_Partners": {
+                "Visitors": {
                   "detail": {
-                    "route": "Business_PartnersObjectPage"
+                    "route": "VisitorsObjectPage"
                   }
                 }
               },
@@ -122,14 +120,14 @@
             }
           }
         },
-        "Business_PartnersObjectPage": {
+        "VisitorsObjectPage": {
           "type": "Component",
-          "id": "Business_PartnersObjectPage",
+          "id": "VisitorsObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Business_Partners"
+              "contextPath": "/Visitors"
             }
           }
         }
