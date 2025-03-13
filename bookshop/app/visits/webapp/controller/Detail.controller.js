@@ -232,19 +232,34 @@ sap.ui.define([
         }
         ,
 
-        onLocationSelectionChange: function (oEvent) { 
+        onLocationSelectionChange: function (oEvent) {
             var oComboBox = this.byId("idSpaceComboBox");
-            var sSelectedLocationID = oEvent.getParameter("selectedItem").getKey();
+            var sSelectedLocationID = oEvent.getParameter("selectedItem")?.getKey();
             
             if (sSelectedLocationID) {
                 var oBinding = oComboBox.getBinding("items");
                 var oFilter = new Filter("locationID", FilterOperator.EQ, sSelectedLocationID);
-        
+                
                 oBinding.filter([oFilter]);
+        
+                // Check matching items
+                oBinding.attachEventOnce("change", function (oChangeEvent) {
+                    var aFilteredItems = oChangeEvent.getSource().getCurrentContexts();
+                    
+                    if (aFilteredItems.length === 0) {
+                        MessageBox.error("No spaces are available for the selected location. Please update the space data or choose another location.");
+                        oComboBox.setEnabled(false); 
+                    } else {
+                        oComboBox.setEnabled(true);
+                    }
+                });
+        
             } else {
                 oComboBox.getBinding("items").filter([]);
+                oComboBox.setEnabled(true); 
             }
         }
+        
         ,
         
         onButtonButtonPress: function (oEvent) {
@@ -328,7 +343,25 @@ sap.ui.define([
             var oBinding = oEvent.getParameter("itemsBinding");
             oBinding.filter([oFilter]);
         },
-
+        onVisitorPress: function (oEvent) {
+            var oVisitContext = this.getView().getBindingContext(); // Get current Visit context
+        
+            if (!this._pVisitorDialog) {
+                this._pVisitorDialog = Fragment.load({
+                    name: "ns.visits.view.fragment.visitorDialog",
+                    controller: this
+                }).then(function (oDialog) {
+                    this.getView().addDependent(oDialog);
+                    return oDialog;
+                }.bind(this));
+            }
+        
+            this._pVisitorDialog.then(function (oDialog) {
+                oDialog.setBindingContext(oVisitContext); // Set context for the fragment
+                oDialog.open();
+            }.bind(this));
+        }
+        
         
     });
 });
