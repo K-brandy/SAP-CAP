@@ -15,6 +15,11 @@
                     text="Visit List"
                 />
                 <ToolbarSpacer />
+                <Button
+                    text="New Visit"
+                    press="onCreateVisitPress"
+                    type="Emphasized"
+                />
 
                 <SearchField
                     id="idSearchField"
@@ -84,7 +89,7 @@
                         <Text text="{contact}" />
                         <Text text="{purpose}" />
                         <Text text="{locationName}" />
-                        <Text text="{description}"/>
+                        <Text text="{description}" />
                     </cells>
                 </ColumnListItem>
             </items>

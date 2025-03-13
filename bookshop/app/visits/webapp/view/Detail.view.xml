@@ -25,7 +25,7 @@
                     <ObjectAttribute
                         title="{i18n>descriptionText}"
                         text="{description}"
-                        class="customObjectAttribute" 
+                    
                     />
                 </attributes>
             </ObjectHeader>
@@ -113,7 +113,7 @@
                     width="95%"
                     items="{/Spaces}"
                     selectedKey="{ path: 'spaceID', type: 'sap.ui.model.type.String' }"
-                    selectionChange="onSpaceSelectionChange"
+                    change="onSpaceSelectionChange"
                     class="sapUiMediumMarginBegin"
                 >
                     <core:Item
@@ -123,11 +123,15 @@
                 </ComboBox>
             </f:SimpleForm>
 
-            <Table
-                id="idVisitorsTable"
-                width="auto"
-                items="{path:'visitors'}"
-            >
+<Table
+    id="idVisitorsTable"
+    items="{
+        path: 'visitors'
+
+    }"
+    itemPress="onVisitorPress"
+>
+
                 <headerToolbar>
                     <Toolbar>
                         <Title
@@ -187,9 +191,13 @@
                     >
                         <Text text="{i18n>visitorPostalCode}" />
                     </Column>
+                   
                 </columns>
                 <items>
-                    <ColumnListItem>
+                                   <ColumnListItem
+                    type="Navigation"
+                    press="onVisitorPress"
+                >
                         <cells>
                             <ObjectNumber
                                 number="{ID}"
@@ -199,6 +207,9 @@
                             <Text text="{country}" />
                             <Text text="{street}" />
                             <Text text="{postal_code}" />
+                              
+                
+                             <Button text="More Info" press="onVisitorPress" />
                         </cells>
                     </ColumnListItem>
                 </items>

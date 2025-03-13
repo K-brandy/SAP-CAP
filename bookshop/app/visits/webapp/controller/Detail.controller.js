@@ -360,7 +360,12 @@ sap.ui.define([
                 oDialog.setBindingContext(oVisitContext); // Set context for the fragment
                 oDialog.open();
             }.bind(this));
-        }
+        },
+          
+          onCloseDialog: function() {
+            this._oVisitorDialog.close();
+          }
+          
         
         
     });

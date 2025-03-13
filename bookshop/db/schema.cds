@@ -3,18 +3,31 @@ namespace my.bookshop;
 
 entity Visits : managed {
     key ID : Integer;
-    visitDate : DateTime;   
+    visitDate : DateTime;
+    duration: String;  
     status : Association to Status on status.ID = statusID;
     contact : String;
     purpose : String;
     location : Association to Location on location.ID=locationID;
-    visitors : Association to many Visitors on visitors.visits = $self;
+    visitors : Association to many Visitors on visitors.visits_ID = ID;
     description: String;
     spaces: Association to Spaces on spaces.ID=spaceID;
     statusID: Integer;
     locationID: Integer;
     spaceID:Integer;
    
+}
+entity Visitors : managed {
+    key ID : Integer;
+    name : String;
+    email: String;
+    phone: Integer;
+    company: String;
+    country : String;
+    street : String;
+    postal_code : String;
+    visits:Association to Visits on visits.ID=visits_ID;
+    visits_ID:Integer;  
 }
 
 entity Location : managed {
@@ -24,8 +37,8 @@ entity Location : managed {
     postalCode : String;
     country : String;
     visits : Association to many Visits on visits.location = $self;
-    spaces: Association to Spaces on spaces.ID=spaceID;
-    spaceID: Integer
+    spaces: Association to many Spaces on spaces.locationID = ID;
+  
 }
 
 entity Spaces : managed {
@@ -35,7 +48,7 @@ entity Spaces : managed {
     capacity: Integer;
     availability: Boolean;
     visits: Association to many Visits on visits.spaces = $self;
-    location: Association to many Location on location.spaces = $self;
+    location: Association to Location on location.ID = locationID;
     locationID: Integer
 
 }
@@ -47,16 +60,5 @@ entity Status : managed {
 
 }
 
-entity Visitors : managed {
-    key ID : Integer;
-    name : String;
-    email: String;
-    company: String;
-    country : String;
-    street : String;
-    postal_code : String;
-    visits : Association to Visits;
-   
-}
 
 

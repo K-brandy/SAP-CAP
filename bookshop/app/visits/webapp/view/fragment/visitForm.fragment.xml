@@ -1,0 +1,45 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+    <Dialog
+        id="createVisitDialog"
+        title="Create New Visit"
+        xmlns="sap.m"
+        class="sapUiSmallMargin"
+        >
+        <content>
+            <VBox>
+                <Label text="Visit ID" />
+                <Input id="visitID" value="{ID}" enabled="false"/>
+
+                <Label text="Visit Date" />
+                <DatePicker id="visitDate" value="{visitDate}" />
+
+                <Label text="Status" />
+                <ComboBox id="status" selectedKey="{statusID}">
+                    <items>
+                        <core:Item key="{ID}" text="{name}" />
+                    </items>
+                </ComboBox>
+
+                <Label text="Contact Person" />
+                <Input id="contact" value="{contact}" />
+
+                <Label text="Purpose" />
+                <Input id="purpose" value="{purpose}" />
+
+                <Label text="Location" />
+                <ComboBox id="location" selectedKey="{locationID}">
+                    <items>
+                        <core:Item key="{ID}" text="{name}" />
+                    </items>
+                </ComboBox>
+
+                <Label text="Description" />
+                <TextArea id="description" value="{description}" />
+            </VBox>
+        </content>
+        <buttons>
+            <Button text="Save" press="onSaveVisit" />
+            <Button text="Cancel" press="onCancelVisit" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>
