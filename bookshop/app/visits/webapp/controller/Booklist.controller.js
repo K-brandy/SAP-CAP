@@ -2,8 +2,9 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
-], (Controller, JSONModel, Filter, FilterOperator) => {
+    "sap/ui/model/FilterOperator",
+    'sap/ui/core/Fragment',
+], (Controller, JSONModel, Filter, FilterOperator,Fragment) => {
     "use strict";
 
     return Controller.extend("ns.visits.controller.Booklist", {
@@ -138,73 +139,51 @@ sap.ui.define([
         //     // Return 'Completed' or clear the filter
              return selectedKey === "Completed" ? "Completed" : "";
          },
+
          onCreateVisitPress: function() {
-            // Check if the dialog exists
-            if (!this._oCreateVisitDialog) {
-                this._oCreateVisitDialog = sap.ui.xmlfragment("ns.visits.view.fragment.visitForm", this);
-                this.getView().addDependent(this._oCreateVisitDialog);
+            if (!this._oCreateVisitFragment) { // loads fragment
+                Fragment.load({
+                    name: "ns.visits.view.fragment.visitForm",
+                    id: this.getView().getId(), // Set the fragment ID to the view ID
+                    controller: this
+                }).then(function(oFragment) {
+                    this._oCreateVisitFragment = oFragment;
+                    this.getView().addDependent(this._oCreateVisitFragment);
+                    this._oCreateVisitFragment.open();
+                }.bind(this)).catch(function(oError) {
+                    MessageBox.error("Failed to load fragment: " + oError.message);
+                });
+            } else {
+                this._oCreateVisitFragment.open();
             }
-        
-            // Create an empty data model for new visit
-            var oModel = new sap.ui.model.json.JSONModel({
-                ID: "",
-                visitDate: null,
-                statusName: "",
-                contact: "",
-                purpose: "",
-                location: "",
-                description: "",
-                statusID: null, 
-                locationID: null 
-            });
-        
-            // Set the model on the dialog fragment
-            this._oCreateVisitDialog.setModel(oModel);
-        
-        
-            this._oCreateVisitDialog.open();
         },
         
-        onSaveVisit: function() {
-            // Get the model data from the dialog
-            var oModel = this._oCreateVisitDialog.getModel();
-            var oData = oModel.getData();
-        
-            // Data to be sent in the bckend
-            var oVisitData = {
-                visitDate: oData.visitDate,
-                statusID: oData.statusID,
-                locationID: oData.locationID,
-                contact: oData.contact,
-                purpose: oData.purpose,
-                description: oData.description
+        onCreateVisit: function() {
+            var oFragmentId = this.getView().getId(); // fragment ID
+            var oListBinding = this.getView().byId("idVisitsTable").getBinding("items");
+
+            var oData = {
+                ID: Fragment.byId(oFragmentId, "id").getValue(),
+                visitDate: Fragment.byId(oFragmentId, "visitDate").getValue(),
+                statusID: Fragment.byId(oFragmentId, "status").getSelectedKey(),
+                contact: Fragment.byId(oFragmentId, "contact").getValue(),
+                purpose: Fragment.byId(oFragmentId, "purpose").getValue(),
+                locationID: Fragment.byId(oFragmentId, "location").getSelectedKey(),
+                description: Fragment.byId(oFragmentId, "description").getValue()
             };
 
-            //create visit in the backend using odata model
-            var oVisitModel = this.getView().getModel();
+            // Create the new visit entity
+            oListBinding.create(oData);
+
+            MessageBox.success("Visit created successfully");
         
-            // Create the new visit
-            oVisitModel.create("/Visits", oVisitData, {
-                success: function() {
-                    sap.m.MessageToast.show("Visit created successfully!");
-                    this._oCreateVisitDialog.close();
-                }.bind(this),
-                error: function() {
-                    sap.m.MessageToast.show("Error creating visit.");
-                }
-            });
+          
+        },
+        onCancelDialog: function() {
+            if (this._oCreateVisitFragment) {
+                this._oCreateVisitFragment.close(); 
+            }
         },
         
-        onCancelVisit: function() {
-            this._oCreateVisitDialog.close();
-        }
-        
-        
-      
-        
-        
-        
-
-
     });
 });
