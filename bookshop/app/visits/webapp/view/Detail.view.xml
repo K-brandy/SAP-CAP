@@ -25,7 +25,6 @@
                     <ObjectAttribute
                         title="{i18n>descriptionText}"
                         text="{description}"
-                    
                     />
                 </attributes>
             </ObjectHeader>
@@ -35,185 +34,290 @@
             enabled="{view>/isEditable}"
             width="50%"
         >
-            <f:SimpleForm
-                id="idSimpleForm"
-                editable="true"
-                layout="ResponsiveGridLayout"
-                width="95%"
+            <IconTabBar
+                id="IconTabBarId"
+                select=".onSelectIconTabBar"
             >
-                <Label text="{i18n>visitDateInputText}" />
-                <DatePicker
-                    id="visitDatePicker"
-                    class="sapUiMediumMarginBeginEnd"
-                    value="{visitDate}"
-                    displayFormat="yyyy-MM-dd"
-                    change="onDateChange"
-                    placeholder="Select Visit Date"
-                    width="95%"
-                />
-                <Label text="{i18n>statusText}" />
-                <ComboBox
-                    width="95%"
-                    id="idStatusComboBox"
-                    items="{
+                <items>
+                    <IconTabFilter
+                        key="Main"
+                        text="Main"
+                    >
+                        <f:SimpleForm
+                            id="idSimpleForm"
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            width="95%"
+                        >
+                            <Label text="{i18n>visitDateInputText}" />
+                            <DatePicker
+                                id="visitDatePicker"
+                                class="sapUiMediumMarginBeginEnd"
+                                value="{visitDate}"
+                                displayFormat="yyyy-MM-dd"
+                                change="onDateChange"
+                                placeholder="Select Visit Date"
+                                width="95%"
+                            />
+                            <Label text="{i18n>statusText}" />
+                            <ComboBox
+                                width="95%"
+                                id="idStatusComboBox"
+                                items="{
                        path: '/Status',
                        sorter: { path: 'name' }
                     }"
-                    change="onSelectStatusChange"
-                    class="sapUiMediumMarginBegin"
-                    selectedKey="{ path: 'statusID', type: 'sap.ui.model.type.String' }"
-                >
-                    <core:Item
-                        key="{ID}"
-                        text="{name}"
-                    />
-                </ComboBox>
+                                change="onSelectStatusChange"
+                                class="sapUiMediumMarginBegin"
+                                selectedKey="{ path: 'statusID', type: 'sap.ui.model.type.String' }"
+                            >
+                                <core:Item
+                                    key="{ID}"
+                                    text="{name}"
+                                />
+                            </ComboBox>
 
-                <Label text="{i18n>contactText}" />
-                <Input
-                    id="idContactInput"
-                    value="{contact}"
-                    class="sapUiMediumMarginBeginEnd"
-                    width="95%"
-                />
+                            <Label text="{i18n>contactText}" />
+                            <Input
+                                id="idContactInput"
+                                value="{contact}"
+                                class="sapUiMediumMarginBeginEnd"
+                                width="95%"
+                            />
 
-                <Label text="{i18n>purposeText}" />
-                <Input
-                    id="idPurposeInput"
-                    value="{purpose}"
-                    class="sapUiMediumMarginBeginEnd"
-                    width="95%"
-                />
+                            <Label text="{i18n>purposeText}" />
+                            <Input
+                                id="idPurposeInput"
+                                value="{purpose}"
+                                class="sapUiMediumMarginBeginEnd"
+                                width="95%"
+                            />
 
-                <Label text="{i18n>locationText}" />
-                <ComboBox
-                    id="idLocationComboBox"
-                    width="95%"
-                    items="{/Location}"
-                    selectedKey="{ path: 'locationID', type: 'sap.ui.model.type.String' }"
-                    selectionChange="onLocationSelectionChange"
-                    class="sapUiMediumMarginBegin"
-                >
-                    <core:Item
-                        key="{ID}"
-                        text="{name}"
-                    />
-                </ComboBox>
+                            <Label text="{i18n>locationText}" />
+                            <ComboBox
+                                id="idLocationComboBox"
+                                width="95%"
+                                items="{/Location}"
+                                selectedKey="{ path: 'locationID', type: 'sap.ui.model.type.String' }"
+                                selectionChange="onLocationSelectionChange"
+                                class="sapUiMediumMarginBegin"
+                            >
+                                <core:Item
+                                    key="{ID}"
+                                    text="{name}"
+                                />
+                            </ComboBox>
 
-                <Label text="{i18n>descriptionText}" />
-                <Input
-                    id="idDescriptionInput"
-                    value="{description}"
-                    class="sapUiMediumMarginBeginEnd"
-                    width="95%"
-                />
-                <Label text="{i18n>spacesText}" />
-                <ComboBox
-                    id="idSpaceComboBox"
-                    width="95%"
-                    items="{/Spaces}"
-                    selectedKey="{ path: 'spaceID', type: 'sap.ui.model.type.String' }"
-                    change="onSpaceSelectionChange"
-                    class="sapUiMediumMarginBegin"
-                >
-                    <core:Item
-                        key="{ID}"
-                        text="{name}"
-                    />
-                </ComboBox>
-            </f:SimpleForm>
+                            <Label text="{i18n>descriptionText}" />
+                            <Input
+                                id="idDescriptionInput"
+                                value="{description}"
+                                class="sapUiMediumMarginBeginEnd"
+                                width="95%"
+                            />
+                            <Label text="{i18n>spacesText}" />
+                            <ComboBox
+                                id="idSpaceComboBox"
+                                width="95%"
+                                items="{/Spaces}"
+                                selectedKey="{ path: 'spaceID', type: 'sap.ui.model.type.String' }"
+                                change="onSpaceSelectionChange"
+                                class="sapUiMediumMarginBegin"
+                            >
+                                <core:Item
+                                    key="{ID}"
+                                    text="{name}"
+                                />
+                            </ComboBox>
+                        </f:SimpleForm>
 
-<Table
-    id="idVisitorsTable"
-    items="{
+                        <Table
+                            id="idVisitorsTable"
+                            items="{
         path: 'visitors'
 
     }"
-    itemPress="onVisitorPress"
->
+                            itemPress="onVisitorPress"
+                        >
+                            <headerToolbar>
+                                <Toolbar>
+                                    <Title
+                                        id="idVisitorsTitle"
+                                        text="{i18n>Visitors}"
+                                    />
 
-                <headerToolbar>
-                    <Toolbar>
-                        <Title
-                            id="idVisitorsTitle"
-                            text="{i18n>Visitors}"
-                        />
+                                    <ToolbarSpacer />
+                                    <Button
+                                        text="Add Visitor"
+                                        id="idButtonButton"
+                                        press="onButtonButtonPress"
+                                        type="Emphasized"
+                                    />
+                                    <SearchField
+                                        id="idVisitorSearchField"
+                                        placeholder="Search All Columns"
+                                        search=".onSearchFieldBPSearch"
+                                        width="50%"
+                                    />
+                                </Toolbar>
+                            </headerToolbar>
 
-                        <ToolbarSpacer />
-                        <Button
-                            text="Add Visitor"
-                            id="idButtonButton"
-                            press="onButtonButtonPress"
-                            type="Emphasized"
-                        />
-                        <SearchField
-                            id="idVisitorSearchField"
-                            placeholder="Search All Columns"
-                            search=".onSearchFieldBPSearch"
-                            width="50%"
-                        />
-                    </Toolbar>
-                </headerToolbar>
+                            <columns>
+                                <Column
+                                    hAlign="Left"
+                                    minScreenWidth="Small"
+                                    demandPopin="true"
+                                >
+                                    <Text text="{i18n>VisitorID}" />
+                                </Column>
+                                <Column
+                                    hAlign="Left"
+                                    minScreenWidth="Small"
+                                    demandPopin="true"
+                                >
+                                    <Text text="{i18n>VisitorName}" />
+                                </Column>
+                                <Column
+                                    hAlign="Left"
+                                    minScreenWidth="Small"
+                                    demandPopin="true"
+                                >
+                                    <Text text="{i18n>visitorCountry}" />
+                                </Column>
+                                <Column
+                                    hAlign="Left"
+                                    minScreenWidth="Small"
+                                    demandPopin="true"
+                                >
+                                    <Text text="{i18n>visitorStreet}" />
+                                </Column>
+                                <Column
+                                    hAlign="Left"
+                                    minScreenWidth="Small"
+                                    demandPopin="true"
+                                >
+                                    <Text text="{i18n>visitorPostalCode}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    type="Navigation"
+                                    press="onVisitorPress"
+                                >
+                                    <cells>
+                                        <ObjectNumber
+                                            number="{ID}"
+                                            emphasized="false"
+                                        />
+                                        <Text text="{name}" />
+                                        <Text text="{country}" />
+                                        <Text text="{street}" />
+                                        <Text text="{postal_code}" />
 
-                <columns>
-                    <Column
-                        hAlign="Left"
-                        minScreenWidth="Small"
-                        demandPopin="true"
+                                        <Button
+                                            text="More Info"
+                                            press="onVisitorPress"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        key="Agenda"
+                        text="Agenda"
                     >
-                        <Text text="{i18n>VisitorID}" />
-                    </Column>
-                    <Column
-                        hAlign="Left"
-                        minScreenWidth="Small"
-                        demandPopin="true"
-                    >
-                        <Text text="{i18n>VisitorName}" />
-                    </Column>
-                    <Column
-                        hAlign="Left"
-                        minScreenWidth="Small"
-                        demandPopin="true"
-                    >
-                        <Text text="{i18n>visitorCountry}" />
-                    </Column>
-                    <Column
-                        hAlign="Left"
-                        minScreenWidth="Small"
-                        demandPopin="true"
-                    >
-                        <Text text="{i18n>visitorStreet}" />
-                    </Column>
-                    <Column
-                        hAlign="Left"
-                        minScreenWidth="Small"
-                        demandPopin="true"
-                    >
-                        <Text text="{i18n>visitorPostalCode}" />
-                    </Column>
-                   
-                </columns>
-                <items>
-                                   <ColumnListItem
-                    type="Navigation"
-                    press="onVisitorPress"
-                >
-                        <cells>
-                            <ObjectNumber
-                                number="{ID}"
-                                emphasized="false"
-                            />
-                            <Text text="{name}" />
-                            <Text text="{country}" />
-                            <Text text="{street}" />
-                            <Text text="{postal_code}" />
-                              
-                
-                             <Button text="More Info" press="onVisitorPress" />
-                        </cells>
-                    </ColumnListItem>
+                        <Table
+                            id="idAgendaTable"
+                            items="{agenda>/agendaData}"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar id="otbSubheader">
+                                    <Title
+                                        text="Agenda and Result"
+                                        level="H2"
+                                    />
+                                    <ToolbarSpacer />
+                                    <Button
+                                        id="editButton"
+                                        text="Edit"
+                                        type="Transparent"
+                                        press="onEdit"
+                                        icon="sap-icon://edit"
+                                    />
+                                    <Button id="addRow" press="onAdd" text="Add Row"/>
+                                    <Button
+                                        id="saveButton"
+                                        text="Save"
+                                        type="Transparent"
+                                        press="onSave"
+                                        visible="false"
+                                    />
+                                    <Button
+                                        id="cancelButton"
+                                        text="Cancel"
+                                        type="Transparent"
+                                        press="onCancel"
+                                        visible="false"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column width="12em">
+                                    <Text text="Visitor" />
+                                </Column>
+                                <Column width="12em">
+                                    <Text text="Topic" />
+                                </Column>
+                                <Column width="12em">
+                                    <Text text="Description" />
+                                </Column>
+                                <Column width="12em">
+                                    <Text text="Outcome" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                    
+                                        <ComboBox items="{visitors}"
+                                        editable="false"
+                                        
+                                        >
+                                            <core:Item
+                                                key="{ID}"
+                                                text="{name}"
+                                            />
+                                            
+                                        </ComboBox>
+
+                                        <ComboBox
+                                            items="{topics>/agendaTopics}"
+                                            selectedKey="{agenda>topic}"
+                                            editable="false"
+                                        >
+                                            <core:Item
+                                                key="{topics>key}"
+                                                text="{topics>text}"
+                                            />
+                                        </ComboBox>
+
+                                        <Input
+                                            value="{agenda>description}"
+                                            editable="false"
+                                        />
+                                        <Input
+                                            value="{agenda>outcome}"
+                                            editable="false"
+                                        />
+
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
                 </items>
-            </Table>
+            </IconTabBar>
 
             <Label
                 text="{i18n>Rate}"
