@@ -17,6 +17,7 @@ entity Visits : managed {
     spaceID:Integer;
    
 }
+
 entity Visitors : managed {
     key ID : Integer;
     name : String;
@@ -27,8 +28,19 @@ entity Visitors : managed {
     street : String;
     postal_code : String;
     visits:Association to Visits on visits.ID=visits_ID;
-    visits_ID:Integer;  
+    visits_ID:Integer;
+     agenda: Association to Visitors on agenda.ID=agendaID;
+     agendaID: Integer;  
 }
+
+ entity Agenda {
+     key ID         : Integer;
+    visitorID      : Integer;
+     topic          : String;
+     description    : String;
+     outcome        : String;
+    visitors       : Association to many Visitors on visitors.visits_ID = ID;
+ }
 
 entity Location : managed {
     key ID : Integer;

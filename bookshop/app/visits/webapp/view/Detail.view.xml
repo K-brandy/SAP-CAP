@@ -136,7 +136,9 @@
                             items="{
         path: 'visitors'
 
+
     }"
+                        
                             itemPress="onVisitorPress"
                         >
                             <headerToolbar>
@@ -230,10 +232,12 @@
                         <Table
                             id="idAgendaTable"
                             items="{agenda>/agendaData}"
+                            selectionChange=".onSelectionChange" mode="MultiSelect"
                         >
                             <headerToolbar>
                                 <OverflowToolbar id="otbSubheader">
-                                    <Title
+                                <content>
+                                 <Title
                                         text="Agenda and Result"
                                         level="H2"
                                     />
@@ -260,6 +264,23 @@
                                         press="onCancel"
                                         visible="false"
                                     />
+                                    <Button
+                                        id="deleteButton"
+                                        text="Delete"
+                                        type="Transparent"
+                                        press="onDelete"
+                                        icon="sap-icon://delete"
+                                        enabled="{view>/isDeleteEnabled}"
+                                    />
+                                                                        <Button
+                                        id="refreshButton"
+                                        type="Transparent"
+                                        press="onRefresh"
+                                        icon="sap-icon://refresh"
+                                    />
+
+                                </content>
+                                   
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -280,15 +301,12 @@
                                 <ColumnListItem>
                                     <cells>
                                     
-                                        <ComboBox items="{visitors}"
+                                        <ComboBox items="{agenda>visitors}"
+                                        selectedKey="{agenda>visitorID}"
                                         editable="false"
                                         
                                         >
-                                            <core:Item
-                                                key="{ID}"
-                                                text="{name}"
-                                            />
-                                            
+                                            <core:Item key="{agenda>ID}" text="{agenda>name}" />
                                         </ComboBox>
 
                                         <ComboBox
@@ -339,7 +357,7 @@
                         press="onSaveButtonPress"
                         type="Emphasized"
                     />
-                    <Button
+  <Button
                         text="{
                             path: 'view>/isEditable',
                             formatter: '.formatToggleButtonText'
