@@ -18,14 +18,16 @@
         <content>
             <ObjectHeader
                 id="idObjectHeader"
-                title="{ID}"
+    title="{visitDate}"
+    number="{status/name}"
+   
+    icon="sap-icon://appointment"
+
                 responsive="true"
             >
                 <attributes>
-                    <ObjectAttribute
-                        title="{i18n>descriptionText}"
-                        text="{description}"
-                    />
+        <ObjectAttribute text="Location: {location/name}" />
+        <ObjectAttribute text="Space: {spaces/name}" />
                 </attributes>
             </ObjectHeader>
         </content>
@@ -134,10 +136,8 @@
                         <Table
                             id="idVisitorsTable"
                             items="{
-        path: 'visitors'
-
-
-    }"
+                            path: 'visitors'
+                            }"
                         
                             itemPress="onVisitorPress"
                         >
@@ -200,6 +200,7 @@
                                 >
                                     <Text text="{i18n>visitorPostalCode}" />
                                 </Column>
+
                             </columns>
                             <items>
                                 <ColumnListItem
@@ -215,6 +216,7 @@
                                         <Text text="{country}" />
                                         <Text text="{street}" />
                                         <Text text="{postal_code}" />
+
 
                                         <Button
                                             text="More Info"
@@ -271,12 +273,6 @@
                                         press="onDelete"
                                         icon="sap-icon://delete"
                                         enabled="{view>/isDeleteEnabled}"
-                                    />
-                                                                        <Button
-                                        id="refreshButton"
-                                        type="Transparent"
-                                        press="onRefresh"
-                                        icon="sap-icon://refresh"
                                     />
 
                                 </content>

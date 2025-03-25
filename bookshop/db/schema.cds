@@ -30,7 +30,10 @@ entity Visitors : managed {
     visits:Association to Visits on visits.ID=visits_ID;
     visits_ID:Integer;
      agenda: Association to Visitors on agenda.ID=agendaID;
-     agendaID: Integer;  
+     agendaID: Integer; 
+
+       
+
 }
 
  entity Agenda {

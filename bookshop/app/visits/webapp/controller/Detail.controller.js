@@ -7,9 +7,9 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     'sap/ui/core/Fragment',
-    "sap/m/MessageBox",
-    'sap/base/util/deepExtend'
-], function (Controller, History, MessageToast, JSONModel, Filter, FilterOperator, Fragment, MessageBox, deepExtend) {
+    "sap/m/MessageBox"
+
+], function (Controller, History, MessageToast, JSONModel, Filter, FilterOperator, Fragment, MessageBox) {
     "use strict";
 
     return Controller.extend("ns.visits.controller.Detail", {
@@ -111,7 +111,7 @@ sap.ui.define([
         
             var aAgendaData = oAgendaModel.getProperty("/agendaData") || [];
         
-            // new row with an empty visitors array
+            // new row
             var oNewAgendaItem = {
                 visitorID: "",  
                 topic: "",          
@@ -164,17 +164,16 @@ sap.ui.define([
                 });
             });
 
-
             this.getView().byId("editButton").setVisible(true);
             this.getView().byId("saveButton").setVisible(false);
             this.getView().byId("cancelButton").setVisible(false);
         },
         onSelectionChange: function (oEvent) {
             var oTable = this.byId("idAgendaTable");
-            var oModel = this.getView().getModel("view"); // Getting the correct model by name
+            var oModel = this.getView().getModel("view"); // Getting model by name
             if (oModel) {
                 var bSelected = oTable.getSelectedItem() !== null;
-                oModel.setProperty("/isDeleteEnabled", bSelected); // Update property safely
+                oModel.setProperty("/isDeleteEnabled", bSelected); // Update 
             } else {
                 console.error("Model 'view' is not defined");
             }
@@ -186,8 +185,8 @@ sap.ui.define([
             var msg;
             if (oSelectedItems.length === 0) {
                 msg = "Please select atleast one row";
-                sap.m.MessageBox.show(msg, {
-                    icon: sap.m.MessageBox.Icon.ERROR,
+                MessageBox.show(msg, {
+                    icon: MessageBox.Icon.ERROR,
                     title: "Error"
                 });
             } else {
@@ -324,7 +323,7 @@ sap.ui.define([
         },
 
         _onObjectMatched: function (oEvent) {
-            var sVisitID = oEvent.getParameter("arguments").bookID;
+            var sVisitID = oEvent.getParameter("arguments").visitID;
 
             // Reset rating to 0 when a new book is selected
             this.oRatingModel.setProperty("/rating", 0);
@@ -494,6 +493,26 @@ sap.ui.define([
                 });
 
         },
+        _onRouteMatched: function (oEvent) {
+            var sVisitID = oEvent.getParameter("arguments").visitID;
+            console.log("Navigated to visit ID:", sVisitID);
+        
+            if (sVisitID) {
+                var oModel = this.getView().getModel();
+                var sPath = "/Visits(" + sVisitID + ")";
+        
+                this.getView().bindElement({
+                    path: sPath,
+                    parameters: { expand: "relatedData" },
+                    events: {
+                        dataReceived: function (oData) {
+                            console.log("Detail View Data Loaded:", oData);
+                        }
+                    }
+                });
+            }
+        },
+        
 
         onDateChange: function (oEvent) {
 
@@ -614,42 +633,47 @@ sap.ui.define([
             oBinding.filter([oFilter]);
         },
         onVisitorPress: function (oEvent) {
-            var oButton = oEvent.getSource(); // The button clicked to open the dialog
-            var oContext = oButton.getBindingContext("visits"); // The context of the clicked visit
-
-            if (oContext) {
-                // Get the visitors' data (which should be available after expanding the association)
-                var oVisitorContext = oContext.getProperty("visitors"); // Access the visitors' data from the expanded association
-
-                if (oVisitorContext && oVisitorContext.length > 0) {
-                    var oDialog = this.byId("visitorDetailDialog");
-
-                    // If the dialog is not already created, load it
-                    if (!oDialog) {
-                        Fragment.load({
-                            id: this.getView().getId(),
-                            name: "ns.visits.view.fragment.visitorDialog" // Use the correct path for your fragment
-                        }).then(function (oDialog) {
-                            this.getView().addDependent(oDialog);
-                            oDialog.setBindingContext(oVisitorContext[0], "visitors"); // Bind to the first visitor in the list
-                            oDialog.open();
-                        }.bind(this));
-                    } else {
-                        oDialog.setBindingContext(oVisitorContext[0], "visitors"); // Bind to the first visitor
-                        oDialog.open();
-                    }
-                } else {
-                    MessageToast.show("No visitors found for this visit.");
-                }
-            } else {
-                MessageToast.show("No context available.");
+            var oSource = oEvent.getSource();
+            var oContext = oSource.getBindingContext();
+        
+            if (!oContext) {
+                console.error("No context found for visitor.");
+                return;
             }
+        
+            var oVisitor = oContext.getObject();
+            var sVisitorKey = oVisitor.ID;  // Ensure the visitor has a valid ID
+        
+            if (!sVisitorKey) {
+                console.error("Visitor ID missing.");
+                return;
+            }
+        
+            //check if dialog exists load fragment
+            if (!this._oVisitorDialog) {
+                this._oVisitorDialog = sap.ui.xmlfragment("ns.visits.view.fragment.visitorDialog", this);
+                this.getView().addDependent(this._oVisitorDialog);
+            }
+        
+            // Bind the Dialog to the selected visitor
+            var sPath = "/Visitors(" + sVisitorKey + ")";
+            this._oVisitorDialog.bindElement({
+                path: sPath 
+            });
+        
+            // Open the Dialog
+            this._oVisitorDialog.open();
         },
-        onCloseDialog: function () {
-            this._oDialog.close();
-        },
-
-
+        
+        
+        onCloseVisitorDialog: function () {
+            if (this._oVisitorDialog) {
+                this._oVisitorDialog.close();
+            }
+        }
+        
+        
+        
 
     });
 });

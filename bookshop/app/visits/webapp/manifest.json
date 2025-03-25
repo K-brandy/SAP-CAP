@@ -117,10 +117,22 @@
         },
         {
           "name": "detail",
-          "pattern": "detail/{bookID}",
+          "pattern": "detail/{visitID}",
           "target":"detail"
 
-        }
+        },
+        {
+          "pattern": "Visitors",
+          "name": "visitors",
+          "target": "Visitors"
+      },
+
+    {
+        "pattern": "launchpad",
+        "name": "launchpad",
+        "target": "launchpad"
+    }
+
       ],
       "targets": {
         "TargetBooklist": {
@@ -130,7 +142,14 @@
         "detail":{
           "id": "detail",
           "name": "Detail"
-        }
+        },
+        "Visitors": {
+          "viewName": "Visitors",
+          "viewLevel": 2,
+          "viewPath": "ns.visits.view",
+          "controlAggregation": "pages"
+      }
+  
       }
     },
     "rootView": {

@@ -1,4 +1,5 @@
 <mvc:View
+    xmlns:f="sap.f"
     controllerName="ns.visits.controller.Booklist"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
@@ -29,8 +30,37 @@
                     ariaDescribedBy="searchFieldDescription"
                     placeholder="{i18n>searchFieldPlaceHolder}"
                 />
+                <MenuButton
+                    text="Menu"
+                    icon="sap-icon://menu"
+                >
+                    <menu>
+                        <Menu>
+                            <MenuItem
+                                text="Home"
+                                icon="sap-icon://home"
+                                press="onNavToLaunchpad"
+                            />
+                            <MenuItem
+                                text="Visitors"
+                                icon="sap-icon://customer"
+                                press="onNavToVisitors"
+                            />
+                            <MenuItem
+                                text="Settings"
+                                icon="sap-icon://action-settings"
+                                press="onNavToSettings"
+                            />
+                            <MenuItem
+                                text="Exit"
+                                icon="sap-icon://decline"
+                            />
+                        </Menu>
+                    </menu>
+                </MenuButton>
             </Toolbar>
         </headerToolbar>
+
         <IconTabBar
             id="idIconTabBar"
             select=".onIconTabBarSelect"
@@ -46,12 +76,12 @@
                 />
             </items>
         </IconTabBar>
-
+        <ScrollContainer height="500px" width="100%" vertical="true">
         <Table
             id="idVisitsTable"
-            width="auto"
+            width="100%"
             items="{/Visits}"
-            class="SapUiResponsiveMargin"
+            class="SapUiResponsiveMargin, sapUiResponsiveContentPadding"
         >
             <columns>
                 <Column>
@@ -94,5 +124,6 @@
                 </ColumnListItem>
             </items>
         </Table>
+       </ScrollContainer> 
     </Panel>
 </mvc:View>

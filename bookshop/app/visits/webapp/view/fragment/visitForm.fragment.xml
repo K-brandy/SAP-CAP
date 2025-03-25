@@ -5,31 +5,35 @@
         id="createVisitDialog"
         title="Create New Visit">
         <content>
-            <VBox>
-                <Label text="ID" />
+            <VBox class="sapUiMediumMarginBeginEnd">
+                <Label text="ID" required="true"/>
                 <Input id="id" />
                 
-                <Label text="Visit Date" />
+                <Label text="Visit Date" required="true"/>
                 <DateTimePicker id="visitDate" />
                 
-                <Label text="Status" />
-                <Select id="status" items="{/Status}">
-                    <core:Item key="{ID}" text="{name}" />
+                <Label text="Status"/>
+                <Select id="status" items="{/Status}" >
+                    <core:Item key="{ID}" text="{name}"/>
                 </Select>
                 
-                <Label text="Contact" />
+                <Label text="Contact" required="true"/>
                 <Input id="contact" />
                 
-                <Label text="Purpose" />
-                <Input id="purpose" />
+                <Label text="Purpose" required="true"/>
+                <Input id="purpose"/>
                 
-                <Label text="Location" />
+                <Label text="Location"/>
                 <Select id="location" items="{/Location}">
                     <core:Item key="{ID}" text="{name}" />
                 </Select>
                 
-                <Label text="Description" />
-                <TextArea id="description" />
+                <Label text="Description" required="true"/>
+                <TextArea id="description"  />
+                 <Label text="Spaces" />
+                <Select id="spaces" items="{/Spaces}" >
+                    <core:Item key="{ID}" text="{name}" />
+                </Select>
             </VBox>
         </content>
         <beginButton>

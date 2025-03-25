@@ -1,0 +1,107 @@
+<mvc:View
+    controllerName="ns.visits.controller.Visitors"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+>
+    <Table
+        id="idAllVisitorsTable"
+        items="{/Visitors}"
+        itemPress="onVisitorPress"
+    >
+        <headerToolbar>
+            <Toolbar>
+                <Title
+                    id="idVisitors"
+                    text="{i18n>Visitors}"
+                />
+
+                <ToolbarSpacer />
+
+                <SearchField
+                    id="idVisitorsSearchField"
+                    placeholder="Search All Columns"
+                    search=".onSearchVisitors"
+                    width="50%"
+                />
+                                 <MenuButton
+                text="Menu"
+                icon="sap-icon://menu"
+            >
+                <menu>
+                    <Menu>
+                        <MenuItem text="Home" icon="sap-icon://home" press="onNavToLaunchpad"/>
+                        <MenuItem text="Visits" icon="sap-icon://customer" press="onNavToVisits"/>
+                        <MenuItem text="Settings" icon="sap-icon://action-settings" press="onNavToSettings"/>
+                        	<MenuItem text="Exit" icon="sap-icon://decline"/>
+                    </Menu>
+                </menu>
+            </MenuButton>
+            </Toolbar>
+        </headerToolbar>
+
+        <columns>
+            <Column
+                hAlign="Left"
+                minScreenWidth="Small"
+                demandPopin="true"
+            >
+                <Text text="{i18n>VisitorID}" />
+            </Column>
+            <Column
+                hAlign="Left"
+                minScreenWidth="Small"
+                demandPopin="true"
+            >
+                <Text text="{i18n>VisitorName}" />
+            </Column>
+            <Column
+                hAlign="Left"
+                minScreenWidth="Small"
+                demandPopin="true"
+            >
+                <Text text="{i18n>visitorCountry}" />
+            </Column>
+            <Column
+                hAlign="Left"
+                minScreenWidth="Small"
+                demandPopin="true"
+            >
+                <Text text="{i18n>visitorStreet}" />
+            </Column>
+            <Column
+                hAlign="Left"
+                minScreenWidth="Small"
+                demandPopin="true"
+            >
+                <Text text="{i18n>visitorPostalCode}" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem
+                type="Navigation"
+                press="onVisitorPress"
+            >
+                <cells>
+                    <ObjectNumber
+                        number="{ID}"
+                        emphasized="false"
+                    />
+                    <Text text="{name}" />
+                    <Text text="{country}" />
+                    <Text text="{street}" />
+                    <Text text="{postal_code}" />
+
+                    <Button
+                        text="More Info"
+                        press="onVisitorPress"
+                    />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</mvc:View>
