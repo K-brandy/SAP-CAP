@@ -1,23 +1,21 @@
-ID,name,email,company,country,street,postal_code,visits_ID
-1,John Doe,john.doe@acme.com,Acme Corp,USA,123 Main St,10001,101
-2,Anna Müller,anna.m@globaltech.de,Global Tech,Germany,45 Berliner Str,10115,102
-3,Alice Johnson,alice.j@sunriseltd.uk,Sunrise Ltd,UK,78 Oxford St,W1D 1BN,103
-4,Rajesh Kumar,rajesh.k@futuresolutions.in,Future Solutions,India,56 MG Road,560001,104
-5,Chris Evans,chris.e@oceanic.com,Oceanic Trading,Australia,22 Bondi Rd,2026,105
-6,Nina Brown,nina.b@pinnacle.ca,Pinnacle Services,Canada,88 Maple Ave,M5H 2N2,101
-7,Eva Green,eva.g@nordicventures.se,Nordic Ventures,Sweden,12 Stockholm Ln,11120,102
-8,Takeshi Yamamoto,takeshi.y@eastasia.jp,East Asia Corp,Japan,99 Shibuya St,150-0002,103
-9,Luc Dubois,luc.d@greenenergy.fr,Green Energy,France,34 Champs-Élysées,75008,104
-10,Carlos Martinez,carlos.m@almato.es,Almato Iberia,Spain,carrer diagonal 150,08000,105
-11,Lisa Rossi,lisa.r@techinnovators.it,Tech Innovators,Italy,11 Via Roma,10123,101
-12,Markus Lahti,markus.l@smartsolutions.fi,Smart Solutions,Finland,23 Helsinki St,00100,102
-13,Tom Harris,tom.h@bluehorizon.com,Blue Horizon,USA,89 California Ave,90001,103,3
-14,Emily Clark,emily.c@unitedenterprises.ca,United Enterprises,Canada,45 Queen St,M5V 2B2,104
-15,Olivia White,olivia.w@stargroup.au,Star Group,Australia,5 Melbourne Rd,3000,105
-16,Daniel Baker,daniel.b@swifttraders.uk,Swift Traders,UK,22 Kingsway St,W2N 4DW,101
-17,Claire Moreau,claire.m@peakperformance.fr,Peak Performance,France,18 Rue de Paris,75000,102
-18,Arjun Mehta,arjun.m@transglobal.in,Trans Global,India,7 New Delhi Rd,110001,103
-19,Yuki Tanaka,yuki.t@globalsystems.jp,Global Systems,Japan,88 Shibuya Ave,150-0001,104
-20,Beatriz Silva,beatriz.s@horizonlogistics.br,Horizon Logistics,Brazil,77 Rio Ave,20031-170,105
-
-
+ID,name,email,company,country,street,postal_code
+1,John Doe,john.doe@acme.com,Acme Corp,USA,123 Main St,10001
+2,Anna Müller,anna.m@globaltech.de,Global Tech,Germany,45 Berliner Str,10115
+3,Alice Johnson,alice.j@sunriseltd.uk,Sunrise Ltd,UK,78 Oxford St,W1D 1BN
+4,Rajesh Kumar,rajesh.k@futuresolutions.in,Future Solutions,India,56 MG Road,560001
+5,Chris Evans,chris.e@oceanic.com,Oceanic Trading,Australia,22 Bondi Rd,2026
+6,Nina Brown,nina.b@pinnacle.ca,Pinnacle Services,Canada,88 Maple Ave,M5H 2N2
+7,Eva Green,eva.g@nordicventures.se,Nordic Ventures,Sweden,12 Stockholm Ln,11120
+8,Takeshi Yamamoto,takeshi.y@eastasia.jp,East Asia Corp,Japan,99 Shibuya St,150-0002
+9,Luc Dubois,luc.d@greenenergy.fr,Green Energy,France,34 Champs-Élysées,75008
+10,Carlos Martinez,carlos.m@almato.es,Almato Iberia,Spain,carrer diagonal 150,08000
+11,Lisa Rossi,lisa.r@techinnovators.it,Tech Innovators,Italy,11 Via Roma,10123
+12,Markus Lahti,markus.l@smartsolutions.fi,Smart Solutions,Finland,23 Helsinki St,00100
+13,Tom Harris,tom.h@bluehorizon.com,Blue Horizon,USA,89 California Ave,90001,103
+14,Emily Clark,emily.c@unitedenterprises.ca,United Enterprises,Canada,45 Queen St,M5V 2B2
+15,Olivia White,olivia.w@stargroup.au,Star Group,Australia,5 Melbourne Rd,3000
+16,Daniel Baker,daniel.b@swifttraders.uk,Swift Traders,UK,22 Kingsway St,W2N 4DW
+17,Claire Moreau,claire.m@peakperformance.fr,Peak Performance,France,18 Rue de Paris,75000
+18,Arjun Mehta,arjun.m@transglobal.in,Trans Global,India,7 New Delhi Rd,110001
+19,Yuki Tanaka,yuki.t@globalsystems.jp,Global Systems,Japan,88 Shibuya Ave,150-0001
+20,Beatriz Silva,beatriz.s@horizonlogistics.br,Horizon Logistics,Brazil,77 Rio Ave,20031-170

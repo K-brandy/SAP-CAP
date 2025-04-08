@@ -161,7 +161,7 @@ sap.ui.define([
         onCreateVisit: function () {
             var oFragmentId = this.getView().getId();
             var oListBinding = this.getView().byId("idVisitsTable").getBinding("items");
-            var sVisitID = Fragment.byId(oFragmentId, "id").getValue();
+           // var sVisitID = Fragment.byId(oFragmentId, "id").getValue();
             var sVisitDate = Fragment.byId(oFragmentId, "visitDate").getValue();
             var sStatusID = Fragment.byId(oFragmentId, "status").getSelectedKey();
             var sContact = Fragment.byId(oFragmentId, "contact").getValue();
@@ -170,9 +170,9 @@ sap.ui.define([
             var sDescription = Fragment.byId(oFragmentId, "description").getValue();
             var sSpaceID = Fragment.byId(oFragmentId, "spaces").getSelectedKey();
 
-            if (!sVisitID || !sVisitDate || !sStatusID || !sContact || !sPurpose || !sLocationID || !sDescription || !sSpaceID) {
+            if (!sVisitDate || !sStatusID || !sContact || !sPurpose || !sLocationID || !sDescription || !sSpaceID) {
                 //    MessageBox.error("All fields are required. Please fill in all details before creating a visit");
-                var oVisitIDControl = Fragment.byId(oFragmentId, "id");
+               // var oVisitIDControl = Fragment.byId(oFragmentId, "id");
                 var oVisitDateControl = Fragment.byId(oFragmentId, "visitDate");
                 var oStatusControl = Fragment.byId(oFragmentId, "status");
                 var oContactControl = Fragment.byId(oFragmentId, "contact");
@@ -194,7 +194,7 @@ sap.ui.define([
                         oControl.setValueState(sap.ui.core.ValueState.None); // Reset if valid
                     }
                 }
-                validateField(oVisitIDControl, "Visit ID is required!");
+               // validateField(oVisitIDControl, "Visit ID is required!");
                 validateField(oVisitDateControl, "Visit date is required!");
                 validateField(oStatusControl, "Status is required!");
                 validateField(oContactControl, "Contact is required!");
@@ -211,8 +211,9 @@ sap.ui.define([
                 return; // Stop if field is empty
             }
 
+
             var oData = {
-                ID: sVisitID,
+              //  ID: sVisitID,
                 visitDate: sVisitDate,
                 statusID: sStatusID,
                 contact: sContact,
@@ -247,6 +248,15 @@ sap.ui.define([
                 console.error("Visit creation failed:", oError);
                 MessageBox.error("Error creating visit.");
             });
+        },
+        onFieldLiveChange: function(oEvent) {
+            var oControl = oEvent.getSource();
+            var sValue = oControl.getValue ? oControl.getValue() : oControl.getSelectedKey();
+            if (sValue) {
+                oControl.setValueState(sap.ui.core.ValueState.None);
+            }else{
+                oControl.setValueState(sap.ui.core.ValueState.Error);
+            }
         },
 
         onCancelDialog: function () {

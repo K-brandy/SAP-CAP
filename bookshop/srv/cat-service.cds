@@ -6,7 +6,7 @@ service CatalogService @(path:'/browse') {
         *,
         location.name as locationName,
         status.name as statusName,
-        spaces.name as spaceName,
+        spaces.name as spaceName
     } excluding { createdBy, modifiedBy };
 
     action submitOrder (visit: Visits:ID, amount: Integer);
@@ -25,6 +25,11 @@ service CatalogService @(path:'/browse') {
         *        
     } excluding { createdBy, modifiedBy };
 
+
+    entity visitsToVisitors as SELECT from my.visitsToVisitors {
+        *        
+    } excluding { createdBy, modifiedBy };
+
     entity Status as SELECT from my.Status {
     
          *       
@@ -34,5 +39,11 @@ service CatalogService @(path:'/browse') {
     
          *       
     } excluding { createdBy, modifiedBy };
+
+    entity Feedback as select from my.Feedback {
+        *
+        
+    } excluding {createdBy, modifiedBy};
+
     
 }

@@ -108,46 +108,46 @@ sap.ui.define([
         },
         onAdd: function () {
             var oAgendaModel = this.getView().getModel("agenda");
-        
+
             var aAgendaData = oAgendaModel.getProperty("/agendaData") || [];
-        
+
             // new row
             var oNewAgendaItem = {
-                visitorID: "",  
-                topic: "",          
-                description: "",    
+                visitorID: "",
+                topic: "",
+                description: "",
                 outcome: "",
-                visitors: [  
+                visitors: [
                     { ID: "1", name: "Alice Johnson" },
                     { ID: "2", name: "Takeshi Yamamoto" },
                     { ID: "3", name: "Tom Harris" },
                     { ID: "4", name: "Arjun Mehta" }
                 ]
             };
-        
+
             aAgendaData.push(oNewAgendaItem);
-        
+
             oAgendaModel.setProperty("/agendaData", aAgendaData);
             oAgendaModel.refresh();
         },
-        
+
 
         onSave: function () {
             var oModel = this.getView().getModel(); // Get OData model
             var oAgendaModel = this.getView().getModel("agenda");
             var aAgendaData = oAgendaModel.getProperty("/agendaData");
-        
-            var oListBinding = oModel.bindList("/Agenda"); 
-        
+
+            var oListBinding = oModel.bindList("/Agenda");
+
             aAgendaData.forEach(function (oItem) {
-                if (!oItem.ID) { 
+                if (!oItem.ID) {
                     oListBinding.create(oItem);
                 }
             });
-        
+
             oModel.submitBatch("batchGroup"); // batch processing
             sap.m.MessageToast.show("Agenda saved successfully!");
-                        
+
             this.getView().byId("editButton").setVisible(true);
             this.getView().byId("saveButton").setVisible(false);
             this.getView().byId("cancelButton").setVisible(false);
@@ -331,7 +331,7 @@ sap.ui.define([
             // Bind the Books entity and expand
             this.getView().bindElement({
                 path: "/Visits(" + sVisitID + ")",
-                parameters: { expand: "visitors,location,status,spaces" }
+                parameters: { expand: "visitors/visitor,location,status,spaces,feedback" }
             });
 
         },
@@ -359,9 +359,44 @@ sap.ui.define([
 
             MessageToast.show(sMessage);
         },
+        onSendFB: function () {
+            var oView = this.getView();
+            var oModel = this.getView().getModel();
+            
+            var sFeedback = oView.byId("feedbackId").getValue();
+            var iRating = this.getView().getModel("rating").getProperty("/rating");
+            var iVisitID = oView.getBindingContext().getProperty("ID");
+            if (!sFeedback) {
+                MessageToast.show("Please provide feedback.");
+                return;
+            }
+            
+            var oNewFeedback = {
+                feedback: sFeedback,
+                rating: iRating,
+                visitID: iVisitID
+            };
+            
+            var oListBinding = oModel.bindList("/Feedback");
+            oListBinding.create(oNewFeedback);
+            
+            oModel.submitBatch("FeedbackGroup").then(function () {
+                
+                MessageToast.show("Feedback sent successfully.");
+                oView.byId("feedbackId").setValue("");
+                oView.getModel("rating").setProperty("/rating", 0);
+                oView.byId("idRatingRatingIndicator").setValue(0);
+                oModel.refresh();
+            }).catch(function (oError) {
+                MessageToast.show("Error sending feedback.");
+                console.error(oError);
+            });
+        }
+        
+        ,
 
         // search field for visitors
-        onSearchFieldBPSearch: function (oEvent) {
+        onSearchVisitor: function (oEvent) {
             const sQuery = oEvent.getParameter("query");
             const aFilters = [];
 
@@ -370,15 +405,19 @@ sap.ui.define([
 
                 // Apply ID filter only if sQuery is a number
                 if (!isNaN(parseInt(sQuery))) {
-                    filters.push(new Filter("ID", FilterOperator.EQ, sQuery));
+                    filters.push(new Filter("visitor/ID", FilterOperator.EQ, sQuery));
+                    
                 }
 
                 // String filters
                 filters.push(
-                    new Filter("name", FilterOperator.Contains, sQuery),
-                    new Filter("country", FilterOperator.Contains, sQuery),
-                    new Filter("street", FilterOperator.Contains, sQuery),
-                    new Filter("postal_code", FilterOperator.Contains, sQuery)
+                  
+                    new Filter("visitor/name", FilterOperator.Contains, sQuery),
+                    new Filter("visitor/email", FilterOperator.Contains, sQuery),
+                    new Filter("visitor/country", FilterOperator.Contains, sQuery),
+                    new Filter("visitor/street", FilterOperator.Contains, sQuery),
+                    new Filter("visitor/postal_code", FilterOperator.Contains, sQuery),
+                    new Filter("visitor/company", FilterOperator.Contains, sQuery),
                 );
 
                 // Combine filters using OR condition
@@ -496,11 +535,11 @@ sap.ui.define([
         _onRouteMatched: function (oEvent) {
             var sVisitID = oEvent.getParameter("arguments").visitID;
             console.log("Navigated to visit ID:", sVisitID);
-        
+
             if (sVisitID) {
                 var oModel = this.getView().getModel();
                 var sPath = "/Visits(" + sVisitID + ")";
-        
+
                 this.getView().bindElement({
                     path: sPath,
                     parameters: { expand: "relatedData" },
@@ -512,7 +551,7 @@ sap.ui.define([
                 });
             }
         },
-        
+
 
         onDateChange: function (oEvent) {
 
@@ -571,8 +610,6 @@ sap.ui.define([
             });
         },
 
-
-        // Example function to call when the user confirms in the dialog: onVisitorsDialogConfirm
         onVisitorsSelectDialogConfirm: async function (oEvent) {
             const oView = this.getView();
             const oModel = oView.getModel();
@@ -604,9 +641,10 @@ sap.ui.define([
 
             oActionODataContextBinding.execute().then(
                 function () {
+                    oModel.refresh();
                     MessageBox.success("Visitor successfully assigned to the Book.");
                     // Refresh the Visitors list to reflect the change immediately
-                    oModel.refresh();
+                    
                 }.bind(this),
                 function (oError) {
                     MessageBox.error("Error assigning Visitors: ");
@@ -614,7 +652,6 @@ sap.ui.define([
             );
 
         },
-
 
         onSelectDialogCancel: function (oEvent) {
             var aContexts = oEvent.getParameter("selectedContexts");
@@ -632,48 +669,7 @@ sap.ui.define([
             var oBinding = oEvent.getParameter("itemsBinding");
             oBinding.filter([oFilter]);
         },
-        onVisitorPress: function (oEvent) {
-            var oSource = oEvent.getSource();
-            var oContext = oSource.getBindingContext();
-        
-            if (!oContext) {
-                console.error("No context found for visitor.");
-                return;
-            }
-        
-            var oVisitor = oContext.getObject();
-            var sVisitorKey = oVisitor.ID;  // Ensure the visitor has a valid ID
-        
-            if (!sVisitorKey) {
-                console.error("Visitor ID missing.");
-                return;
-            }
-        
-            //check if dialog exists load fragment
-            if (!this._oVisitorDialog) {
-                this._oVisitorDialog = sap.ui.xmlfragment("ns.visits.view.fragment.visitorDialog", this);
-                this.getView().addDependent(this._oVisitorDialog);
-            }
-        
-            // Bind the Dialog to the selected visitor
-            var sPath = "/Visitors(" + sVisitorKey + ")";
-            this._oVisitorDialog.bindElement({
-                path: sPath 
-            });
-        
-            // Open the Dialog
-            this._oVisitorDialog.open();
-        },
-        
-        
-        onCloseVisitorDialog: function () {
-            if (this._oVisitorDialog) {
-                this._oVisitorDialog.close();
-            }
-        }
-        
-        
-        
+
 
     });
 });
