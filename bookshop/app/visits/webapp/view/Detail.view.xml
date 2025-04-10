@@ -187,9 +187,8 @@
                                     hAlign="Left"
                                     minScreenWidth="Small"
                                     demandPopin="true"
-                                    
                                 >
-                                    <Text text="{i18n>visitorPhoneNumber}"/>
+                                    <Text text="{i18n>visitorPhoneNumber}" />
                                 </Column>
                                 <Column
                                     hAlign="Left"
@@ -246,7 +245,7 @@
                     >
                         <Table
                             id="idAgendaTable"
-                            items="{agenda>/agendaData}"
+                            items="{path: 'agenda'}"
                             selectionChange=".onSelectionChange"
                             mode="MultiSelect"
                         >
@@ -295,6 +294,7 @@
                                     </content>
                                 </OverflowToolbar>
                             </headerToolbar>
+
                             <columns>
                                 <Column width="12em">
                                     <Text text="Visitor" />
@@ -309,37 +309,40 @@
                                     <Text text="Outcome" />
                                 </Column>
                             </columns>
+
                             <items>
                                 <ColumnListItem>
                                     <cells>
                                         <ComboBox
-                                            items="{agenda>visitors}"
+                                            items="{visitors}"
                                             selectedKey="{agenda>visitorID}"
-                                            editable="false"
+                                            editable="true"
                                         >
                                             <core:Item
-                                                key="{agenda>ID}"
-                                                text="{agenda>name}"
+                                                key="{visitorID}"
+                                                text="{name}"
                                             />
                                         </ComboBox>
 
                                         <ComboBox
-                                            items="{topics>/agendaTopics}"
-                                            selectedKey="{agenda>topic}"
-                                            editable="false"
+                                            selectedKey="{topic}"
+                                            editable="true"
                                         >
                                             <core:Item
-                                                key="{topics>key}"
-                                                text="{topics>text}"
+                                                key="{topic}"
+                                                text="{topic}"
                                             />
                                         </ComboBox>
+
                                         <Input
                                             value="{agenda>description}"
-                                            editable="false"
+                                            editable="true"
+                                            placeholder="Enter description"
                                         />
                                         <Input
                                             value="{agenda>outcome}"
-                                            editable="false"
+                                            editable="true"
+                                            placeholder="Enter outcome"
                                         />
                                     </cells>
                                 </ColumnListItem>

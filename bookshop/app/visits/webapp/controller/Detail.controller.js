@@ -31,64 +31,7 @@ sap.ui.define([
             });
             this.getView().setModel(oViewModel, "view");
 
-            const oAgendaDataModel = new JSONModel({
-                agendaData: [
-                    {
-                        visitorID: "1", topic: "Networking", description: "Business discussions", outcome: "Successful", visitors: [
-                            { ID: "1", name: "Alice Johnson" },
-                            { ID: "2", name: "Takeshi Yamamoto" }
-                        ]
-                    },
-                    {
-                        visitorID: "3", topic: "Project kickoff", description: "Introduction to new project", outcome: "In Progress", visitors: [
-                            { ID: "3", name: "Tom Harris" },
-                            { ID: "4", name: "Arjun Mehta" }
-                        ]
-                    },
-                    {
-                        visitorID: "1", topic: "Budget Review", description: "Discuss financials for Q2", outcome: "Approved", visitors: [
-                            { ID: "1", name: "Rajesh Kumar" },
-                            { ID: "3", name: "Emily Clark" }
-                        ]
-                    },
-                    {
-                        visitorID: "2", topic: "Team Building", description: "Plan activities for collaboration", outcome: "Scheduled", visitors: [
-                            { ID: "1", name: "Alice Johnson" },
-                            { ID: "2", name: "Takeshi Yamamoto" }
-                        ]
-                    },
-                    {
-                        visitorID: "3", topic: "Tech Update", description: "Review latest technology trends", outcome: "Action Items Assigned", visitors: [
-                            { ID: "3", name: "Tom Harris" },
-                            { ID: "4", name: "Arjun Mehta" }
-                        ]
-                    },
-                    {
-                        visitorID: "2", topic: "Customer Feedback", description: "Analyze user survey results", outcome: "Enhancements Planned", visitors: [
-                            { ID: "1", name: "Rajesh Kumar" },
-                            { ID: "2", name: "Takeshi Yamamoto" }
-                        ]
-                    }
-                ]
-            });
-            this.getView().setModel(oAgendaDataModel, "agenda");
-
-
-
-            const oAgendaTopic = new JSONModel({
-                agendaTopics: [
-                    { key: "Networking", text: "Networking" },
-                    { key: "Project kickoff", text: "Project Kickoff" },
-                    { key: "Budget Review", text: "Budget Review" },
-                    { key: "Team Building", text: "Team Building" },
-                    { key: "Tech Update", text: "Tech Update" },
-                    { key: "Customer Feedback", text: "Customer Feedback" },
-                ]
-            });
-
-            this.getView().setModel(oAgendaTopic, "topics")
         },
-
         onEdit: function () {
             const oTable = this.getView().byId("idAgendaTable");
 
@@ -107,35 +50,30 @@ sap.ui.define([
             this.getView().byId("cancelButton").setVisible(true);
         },
         onAdd: function () {
-            var oAgendaModel = this.getView().getModel("agenda");
-
-            var aAgendaData = oAgendaModel.getProperty("/agendaData") || [];
-
-            // new row
-            var oNewAgendaItem = {
-                visitorID: "",
+            var oTable = this.getView().byId("idAgendaTable"); // Get the Agenda table
+            var oBinding = oTable.getBinding("items"); // Get the binding of the table
+        
+            if (!oBinding) {
+                sap.m.MessageToast.show("Agenda binding is not available.");
+                return;
+            }
+        
+            // Create a new entry in the OData model
+            oBinding.create({
+                visitorID: null,
                 topic: "",
                 description: "",
-                outcome: "",
-                visitors: [
-                    { ID: "1", name: "Alice Johnson" },
-                    { ID: "2", name: "Takeshi Yamamoto" },
-                    { ID: "3", name: "Tom Harris" },
-                    { ID: "4", name: "Arjun Mehta" }
-                ]
-            };
+                outcome: ""
 
-            aAgendaData.push(oNewAgendaItem);
-
-            oAgendaModel.setProperty("/agendaData", aAgendaData);
-            oAgendaModel.refresh();
+            });
+        
+            sap.m.MessageToast.show("New row added to the agenda.");
         },
-
-
+        
         onSave: function () {
             var oModel = this.getView().getModel(); // Get OData model
             var oAgendaModel = this.getView().getModel("agenda");
-            var aAgendaData = oAgendaModel.getProperty("/agendaData");
+            var aAgendaData = oAgendaModel.getProperty("agenda");
 
             var oListBinding = oModel.bindList("/Agenda");
 
@@ -216,62 +154,6 @@ sap.ui.define([
             });
         },
 
-        // onCancel: function () {
-        //     const oTable = this.getView().byId("idAgendaTable");
-
-
-        //     oTable.getItems().forEach((oItem) => {
-        //         oItem.getCells().forEach((oCell) => {
-        //             if (oCell instanceof sap.m.Input || oCell instanceof sap.m.ComboBox) {
-        //                 oCell.setEditable(false);
-        //             }
-        //         });
-        //     });
-
-
-        //     this.getView().byId("editButton").setVisible(true);
-        //     this.getView().byId("saveButton").setVisible(false);
-        //     this.getView().byId("cancelButton").setVisible(false);
-        // },
-        /* onAdd: function () {
-            console.log("Add Row button clicked");
-
-
-            var oModel = this.getView().getModel();
-
-            var oTable = this.getView().byId("idAgendaTable");
-            var oBinding = oTable.getBinding("items");
-
-            var oNewAgendaItem = {
-                visitorID: "",
-                topic: "",
-                description: "",
-                outcome: "",
-                visitors: [
-                    { ID: "1", name: "Alice Johnson" },
-                    { ID: "2", name: "Takeshi Yamamoto" },
-                    { ID: "3", name: "Tom Harris" },
-                    { ID: "4", name: "Arjun Mehta" }
-                ]
-            };
-
-            // Create a new context for the new row
-            var oContext = oBinding.create({
-                visitorID: oNewAgendaItem.visitorID,
-                topic: oNewAgendaItem.topic,
-                description: oNewAgendaItem.description,
-                outcome: oNewAgendaItem.outcome,
-                visitors: oNewAgendaItem.visitors
-            });
-
-            oContext.created().then(function () {
-                sap.m.MessageToast.show("Agenda item added successfully");
-            }).catch(function (oError) {
-                sap.m.MessageToast.show("Failed to add agenda item: " + oError.message);
-            });
-        }, */
-
-
 
         // onDelete: function (oEvent) {
         //     // Get the button that was clicked
@@ -331,7 +213,7 @@ sap.ui.define([
             // Bind the Books entity and expand
             this.getView().bindElement({
                 path: "/Visits(" + sVisitID + ")",
-                parameters: { expand: "visitors/visitor,location,status,spaces,feedback" }
+                parameters: { expand: "visitors/visitor,location,status,spaces,feedback,agenda" }
             });
 
         },
@@ -411,7 +293,7 @@ sap.ui.define([
 
                 // String filters
                 filters.push(
-                  
+                    new Filter("visitor/phone", FilterOperator.Contains, sQuery),
                     new Filter("visitor/name", FilterOperator.Contains, sQuery),
                     new Filter("visitor/email", FilterOperator.Contains, sQuery),
                     new Filter("visitor/country", FilterOperator.Contains, sQuery),
