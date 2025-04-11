@@ -314,34 +314,33 @@
                                 <ColumnListItem>
                                     <cells>
                                         <ComboBox
-                                            items="{visitors}"
+                                            items="{path: 'visits/visitors'}"
                                             selectedKey="{agenda>visitorID}"
-                                            editable="true"
+                                            editable="false"
                                         >
                                             <core:Item
                                                 key="{visitorID}"
-                                                text="{name}"
+                                                text="{visitor/name}"
                                             />
                                         </ComboBox>
-
                                         <ComboBox
-                                            selectedKey="{topic}"
-                                            editable="true"
+                                            items="{topics>/Topics}"
+                                            selectedKey="{agenda>topic}"
+                                            editable="false"
                                         >
                                             <core:Item
-                                                key="{topic}"
-                                                text="{topic}"
+                                                key="{topics>ID}"
+                                                text="{topics>name}"
                                             />
                                         </ComboBox>
-
                                         <Input
                                             value="{agenda>description}"
-                                            editable="true"
+                                            editable="false"
                                             placeholder="Enter description"
                                         />
                                         <Input
                                             value="{agenda>outcome}"
-                                            editable="true"
+                                            editable="false"
                                             placeholder="Enter outcome"
                                         />
                                     </cells>

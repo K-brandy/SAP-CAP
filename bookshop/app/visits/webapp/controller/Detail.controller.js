@@ -31,6 +31,22 @@ sap.ui.define([
             });
             this.getView().setModel(oViewModel, "view");
 
+            // Define the topics JSON model
+            var oTopicsModel = new sap.ui.model.json.JSONModel({
+                Topics: [
+                    { ID: "Networking", name: "Networking" },
+                    { ID: "Project kickoff", name: "Project kickoff" },
+                    { ID: "Budget Review", name: "Budget Review" },
+                    { ID: "Team Building", name: "Team Building" },
+                    { ID: "Tech Update", name: "Tech Update" },
+                    { ID: "Customer Feedback", name: "Customer Feedback" }
+                ]
+            });
+
+            // Set the topics model to the view
+            this.getView().setModel(oTopicsModel, "topics");
+
+
         },
         onEdit: function () {
             const oTable = this.getView().byId("idAgendaTable");
@@ -52,12 +68,12 @@ sap.ui.define([
         onAdd: function () {
             var oTable = this.getView().byId("idAgendaTable"); // Get the Agenda table
             var oBinding = oTable.getBinding("items"); // Get the binding of the table
-        
+
             if (!oBinding) {
                 sap.m.MessageToast.show("Agenda binding is not available.");
                 return;
             }
-        
+
             // Create a new entry in the OData model
             oBinding.create({
                 visitorID: null,
@@ -66,26 +82,36 @@ sap.ui.define([
                 outcome: ""
 
             });
-        
+
             sap.m.MessageToast.show("New row added to the agenda.");
         },
-        
+
         onSave: function () {
-            var oModel = this.getView().getModel(); // Get OData model
-            var oAgendaModel = this.getView().getModel("agenda");
-            var aAgendaData = oAgendaModel.getProperty("agenda");
-
-            var oListBinding = oModel.bindList("/Agenda");
-
-            aAgendaData.forEach(function (oItem) {
-                if (!oItem.ID) {
-                    oListBinding.create(oItem);
+            var oModel = this.getView().getModel();
+            var oAgendaTable = this.getView().byId("idAgendaTable"); 
+            var oBinding = oAgendaTable.getBinding("items");
+        
+            if (!oBinding) {
+                sap.m.MessageToast.show("Agenda binding is not available.");
+                return;
+            }
+            oAgendaTable.getItems().forEach(function (oItem) {
+                var oContext = oItem.getBindingContext();
+                var oData = oContext.getObject();
+        
+                if (!oData.ID) {
+                    oBinding.create(oData);
                 }
             });
-
-            oModel.submitBatch("batchGroup"); // batch processing
-            sap.m.MessageToast.show("Agenda saved successfully!");
-
+            oModel.submitBatch("batchGroup").then(function () {
+                sap.m.MessageToast.show("Agenda saved successfully!");
+                oModel.refresh(); 
+            }).catch(function (oError) {
+                sap.m.MessageToast.show("Error saving agenda: " + oError.message);
+                console.error(oError);
+            });
+        
+            // Reset the UI state
             this.getView().byId("editButton").setVisible(true);
             this.getView().byId("saveButton").setVisible(false);
             this.getView().byId("cancelButton").setVisible(false);
@@ -244,7 +270,7 @@ sap.ui.define([
         onSendFB: function () {
             var oView = this.getView();
             var oModel = this.getView().getModel();
-            
+
             var sFeedback = oView.byId("feedbackId").getValue();
             var iRating = this.getView().getModel("rating").getProperty("/rating");
             var iVisitID = oView.getBindingContext().getProperty("ID");
@@ -252,18 +278,18 @@ sap.ui.define([
                 MessageToast.show("Please provide feedback.");
                 return;
             }
-            
+
             var oNewFeedback = {
                 feedback: sFeedback,
                 rating: iRating,
                 visitID: iVisitID
             };
-            
+
             var oListBinding = oModel.bindList("/Feedback");
             oListBinding.create(oNewFeedback);
-            
+
             oModel.submitBatch("FeedbackGroup").then(function () {
-                
+
                 MessageToast.show("Feedback sent successfully.");
                 oView.byId("feedbackId").setValue("");
                 oView.getModel("rating").setProperty("/rating", 0);
@@ -274,7 +300,7 @@ sap.ui.define([
                 console.error(oError);
             });
         }
-        
+
         ,
 
         // search field for visitors
@@ -288,7 +314,7 @@ sap.ui.define([
                 // Apply ID filter only if sQuery is a number
                 if (!isNaN(parseInt(sQuery))) {
                     filters.push(new Filter("visitor/ID", FilterOperator.EQ, sQuery));
-                    
+
                 }
 
                 // String filters
@@ -526,7 +552,7 @@ sap.ui.define([
                     oModel.refresh();
                     MessageBox.success("Visitor successfully assigned to the Book.");
                     // Refresh the Visitors list to reflect the change immediately
-                    
+
                 }.bind(this),
                 function (oError) {
                     MessageBox.error("Error assigning Visitors: ");
