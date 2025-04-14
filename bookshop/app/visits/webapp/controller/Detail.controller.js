@@ -43,9 +43,7 @@ sap.ui.define([
                 ]
             });
 
-            // Set the topics model to the view
             this.getView().setModel(oTopicsModel, "topics");
-
 
         },
         onEdit: function () {
@@ -66,8 +64,8 @@ sap.ui.define([
             this.getView().byId("cancelButton").setVisible(true);
         },
         onAdd: function () {
-            var oTable = this.getView().byId("idAgendaTable"); // Get the Agenda table
-            var oBinding = oTable.getBinding("items"); // Get the binding of the table
+            var oTable = this.getView().byId("idAgendaTable");
+            var oBinding = oTable.getBinding("items");
 
             if (!oBinding) {
                 sap.m.MessageToast.show("Agenda binding is not available.");
@@ -119,7 +117,6 @@ sap.ui.define([
         onCancel: function () {
             const oTable = this.getView().byId("idAgendaTable");
 
-
             oTable.getItems().forEach((oItem) => {
                 oItem.getCells().forEach((oCell) => {
                     if (oCell instanceof sap.m.Input || oCell instanceof sap.m.ComboBox) {
@@ -142,25 +139,57 @@ sap.ui.define([
                 console.error("Model 'view' is not defined");
             }
         },
-
         onDelete: function () {
-            var oTable = this.byId("idAgendaTable");
-            var oSelectedItems = oTable.getSelectedItems();
-            var msg;
-            if (oSelectedItems.length === 0) {
-                msg = "Please select atleast one row";
-                MessageBox.show(msg, {
-                    icon: MessageBox.Icon.ERROR,
-                    title: "Error"
+            var oSelectedItems = this.byId("idAgendaTable").getSelectedItems();
+
+            if (oSelectedItems.length > 0) {
+                var oContext = oSelectedItems[0].getBindingContext(); // first selected row
+            
+                oContext.delete("$auto").then(function () {
+                    MessageToast.show("Row deleted successfully.");
+                }.bind(this)).catch(function (oError) {
+                    MessageBox.error("Error deleting row: " + oError.message);
                 });
             } else {
-                oSelectedItems.forEach(function (oItem) {
-                    oTable.removeItem(oItem); // Proper way to remove items
-                });
-                this.onRefresh();
+                MessageBox.error("Please select a row to delete.");
             }
         },
 
+      /*  onDelete: function () {
+             var oTable = this.byId("idAgendaTable");
+             var oSelectedItems = oTable.getSelectedItems();
+        
+             if (oSelectedItems.length === 0) {
+                 MessageBox.show("Please select at least one row.", {
+                     icon: MessageBox.Icon.ERROR,
+                     title: "Error"
+                 });
+                 return;
+             }
+        
+            var oModel = this.getView().getModel(); // use default model or specify
+           var aDeletePromises = []; // Array to hold delete promises
+        
+             oSelectedItems.forEach(function (oItem) {
+                 var oContext = oItem.getBindingContext(); // if default model
+                 if (oContext) {
+                     aDeletePromises.push(oContext.delete("$direct", { groupId: "agendaGroup" }));
+                 }
+             });
+        
+             Promise.all(aDeletePromises).then(() => {
+                 return oModel.submitBatch("agendaGroup");
+             }).then(() => {
+                 MessageToast.show("Selected rows deleted successfully.");
+                 oModel.refresh();
+             }).catch(function (oError) {
+                 MessageBox.error("Error deleting rows: " + oError.message);
+                 console.error(oError);
+             });
+
+            
+        }
+        ,        */
         onRefresh: function () {
             var oTable = this.getView().byId("idAgendaTable");
             var aItems = oTable.getItems();

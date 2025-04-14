@@ -14,6 +14,7 @@
         title="{i18n>title}"
         showNavButton="true"
         navButtonPress=".onPageNavButtonPress"
+        
     >
         <content>
             <ObjectHeader
@@ -37,6 +38,7 @@
             <IconTabBar
                 id="IconTabBarId"
                 select=".onSelectIconTabBar"
+                class="myCustomTabBar"
             >
                 <items>
                     <IconTabFilter
@@ -44,10 +46,13 @@
                         text="Main"
                     >
                         <f:SimpleForm
+                        
                             id="idSimpleForm"
                             editable="true"
                             layout="ResponsiveGridLayout"
-                            width="95%"
+                           
+                            
+                            
                         >
                             <Label text="{i18n>visitDateInputText}" />
                             <DatePicker
@@ -138,6 +143,7 @@
                               $expand: 'visitor'}
                             }"
                             itemPress="onVisitorPress"
+                          
                         >
                             <headerToolbar>
                                 <Toolbar>
@@ -323,6 +329,7 @@
                                                 text="{visitor/name}"
                                             />
                                         </ComboBox>
+
                                         <ComboBox
                                             items="{topics>/Topics}"
                                             selectedKey="{agenda>topic}"
@@ -333,11 +340,13 @@
                                                 text="{topics>name}"
                                             />
                                         </ComboBox>
+
                                         <Input
                                             value="{agenda>description}"
                                             editable="false"
                                             placeholder="Enter description"
                                         />
+
                                         <Input
                                             value="{agenda>outcome}"
                                             editable="false"
