@@ -16,6 +16,7 @@ entity Visits : managed {
     locationID: Integer;
     spaceID:Integer;
     feedback: Association to many Feedback on feedback.visits = $self;
+    agenda : Association to many Agenda on agenda.visitID = ID;
 }
 
 
@@ -29,27 +30,35 @@ entity visitsToVisitors : managed {
 entity Visitors : managed {
     key ID : Integer;
     name : String;
-    email: String;
-    phone: Integer;
+    email: String;  
+    phone: String;
     company: String;
     country : String;
     street : String;
     postal_code : String;
     visits:Association to visitsToVisitors on visits.visitorID=ID;
     visits_ID:Integer;
-    agenda: Association to Visitors on agenda.ID=agendaID;
-    agendaID: Integer; 
+  
 }
 
  entity Agenda {
     key ID         : Integer;
+    visitID        : Integer;
     visitorID      : Integer;
     topic          : String;
     description    : String;
     outcome        : String;
-    visitors       : Association to many Visitors on visitors.visits_ID = ID;
+     visits :  Association to Visits on visits.ID=visitID;
+    visitors: Association to Visitors on visitors.ID = visitorID;
  }
+entity Feedback {
+    key ID         : UUID;
+    feedback       : String;
+    rating         : Integer;
+    visitID        : Integer;
+    visits :  Association to Visits on visits.ID=visitID;
 
+}
 entity Location : managed {
     key ID : Integer;
     name : String;
@@ -75,12 +84,4 @@ entity Status : managed {
     key ID : Integer;
     name : String;
     visits : Association to many Visits on visits.status = $self;
-}
-entity Feedback {
-    key ID         : UUID;
-    feedback       : String;
-    rating         : Integer;
-    visitID        : Integer;
-    visits :  Association to Visits on visits.ID=visitID;
-
 }

@@ -50,5 +50,30 @@ module.exports = cds.service.impl(async function () {
             req.error(500, 'Internal Server Error');
         }
     });
+
+   
+        this .on('createAgendaEntry', async req => {
+          const { visitId, visitorID } = req.data; // Corrected to visitId
+          console.log("Creating Agenda Entry for Visit ID: ", visitId, " with Visitor ID: ", visitorID);
+      
+          // Check if visit and visitor exist
+          const visit =  await db.read(SELECT.one.from('CatalogService.Visits').where({ ID: visitId })); // Corrected to visitId
+          const visitor =  await db.read(SELECT.one.from('CatalogService.Visitors').where({ ID: visitorID }));
+      
+          if (!visit || !visitor) {
+            req.error(400, 'Invalid visitId or visitorID'); // Corrected to visitId
+            return;
+          }
+      
+          // Create the Agenda entry
+          const agenda =  await db.read(INSERT.into('CatalogService.Agenda').entries({
+            visitID: visitId, // Corrected to visitId
+            visitorID: visitorID,
+            // Add other required fields here (topic, description, outcome, etc.)
+          }));
+      
+          return agenda;
+        });
+   
     
 });

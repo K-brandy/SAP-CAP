@@ -45,5 +45,15 @@ service CatalogService @(path:'/browse') {
         
     } excluding {createdBy, modifiedBy};
 
+    entity Agenda as select from my.Agenda {
+        *
+        
+    } excluding {createdBy, modifiedBy};
+    
+    action createAgendaEntry(
+    visitId: Visits:ID,
+    visitorID: Visitors:ID
+  ) returns Agenda;
+
     
 }

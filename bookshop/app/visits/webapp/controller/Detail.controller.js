@@ -85,35 +85,79 @@ sap.ui.define([
         },
 
         onSave: function () {
-            var oModel = this.getView().getModel();
-            var oAgendaTable = this.getView().byId("idAgendaTable"); 
-            var oBinding = oAgendaTable.getBinding("items");
+            const oView = this.getView();
+            const oModel = oView.getModel();
+            const oAgendaTable = oView.byId("idAgendaTable");
+            const aItems = oAgendaTable.getItems();
+            const that = this;
         
-            if (!oBinding) {
-                sap.m.MessageToast.show("Agenda binding is not available.");
+            if (!aItems || aItems.length === 0) {
+                sap.m.MessageBox.error("No agenda items to save.");
                 return;
             }
-            oAgendaTable.getItems().forEach(function (oItem) {
-                var oContext = oItem.getBindingContext();
-                var oData = oContext.getObject();
         
+            let allOperationsSuccessful = true;
+        
+            // Iterate through each agenda item
+            aItems.forEach(function (oItem) {
+                const oContext = oItem.getBindingContext();
+                const oData = oContext.getObject();
+        
+                // Only create new entries (check if there is no ID)
                 if (!oData.ID) {
-                    oBinding.create(oData);
+                    const visitorID = oData.visitorID; // This is the relatedEntityID
+                    const visitID = oData.visitID; // Get visitId from the item itself.
+        
+                    if (!visitorID || !visitID) {
+                        sap.m.MessageBox.error("Missing required data for agenda item.");
+                        allOperationsSuccessful = false;
+                        return;
+                    }
+        
+                    // Prepare to call the 'createAgendaEntry' action function
+                    const oActionODataContextBinding = oModel.bindContext("/createAgendaEntry");
+        
+                    oActionODataContextBinding.setParameter("visitID", visitID);
+                    oActionODataContextBinding.setParameter("visitorID", visitorID);
+                    oActionODataContextBinding.setParameter("topic", oData.topic); // Add the topic field
+                    oActionODataContextBinding.setParameter("description", oData.description); // Add the description field
+                    oActionODataContextBinding.setParameter("outcome", oData.outcome); // Add the outcome field
+        
+                    // Execute the action
+                    oActionODataContextBinding.execute().then(
+                        function () {
+                            // Success for this item.
+                        },
+                        function (oError) {
+                            sap.m.MessageBox.error("Error creating agenda item: " + oError.message);
+                            allOperationsSuccessful = false;
+                        }
+                    );
                 }
             });
-            oModel.submitBatch("batchGroup").then(function () {
-                sap.m.MessageToast.show("Agenda saved successfully!");
-                oModel.refresh(); 
-            }).catch(function (oError) {
-                sap.m.MessageToast.show("Error saving agenda: " + oError.message);
-                console.error(oError);
-            });
         
-            // Reset the UI state
+            // Submit the batch request after processing all agenda items
+            if (allOperationsSuccessful) {
+                oModel.submitBatch("batchGroup").then(function () {
+                    sap.m.MessageToast.show("Agenda saved successfully!");
+                    oModel.refresh();
+                    that.resetUI(); // Reset UI after successful save
+                }).catch(function (oError) {
+                    sap.m.MessageToast.show("Error saving agenda: " + oError.message);
+                    console.error(oError);
+                });
+            } else {
+                sap.m.MessageBox.error("One or more agenda items failed to save.");
+            }
+        },
+        
+        // Reset UI elements after saving
+        resetUI: function () {
             this.getView().byId("editButton").setVisible(true);
             this.getView().byId("saveButton").setVisible(false);
             this.getView().byId("cancelButton").setVisible(false);
-        },
+        }
+,        
         onCancel: function () {
             const oTable = this.getView().byId("idAgendaTable");
 
