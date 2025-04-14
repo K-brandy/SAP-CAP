@@ -52,28 +52,57 @@ module.exports = cds.service.impl(async function () {
     });
 
    
-        this .on('createAgendaEntry', async req => {
-          const { visitId, visitorID } = req.data; // Corrected to visitId
-          console.log("Creating Agenda Entry for Visit ID: ", visitId, " with Visitor ID: ", visitorID);
-      
-          // Check if visit and visitor exist
-          const visit =  await db.read(SELECT.one.from('CatalogService.Visits').where({ ID: visitId })); // Corrected to visitId
-          const visitor =  await db.read(SELECT.one.from('CatalogService.Visitors').where({ ID: visitorID }));
-      
-          if (!visit || !visitor) {
-            req.error(400, 'Invalid visitId or visitorID'); // Corrected to visitId
-            return;
-          }
-      
-          // Create the Agenda entry
-          const agenda =  await db.read(INSERT.into('CatalogService.Agenda').entries({
-            visitID: visitId, // Corrected to visitId
-            visitorID: visitorID,
-            // Add other required fields here (topic, description, outcome, etc.)
-          }));
-      
-          return agenda;
+    this.on('createAgendaEntry', async (req) => {
+        const { visitId, visitorID, topic, description, outcome } = req.data;
+    
+        console.log("Creating Agenda Entry:", {
+            visitId,
+            visitorID,
+            topic,
+            description,
+            outcome
         });
-   
+    
+        if (!visitId || !visitorID || !topic || !description || !outcome) {
+            req.error(400, 'All fields (visitId, visitorID, topic, description, outcome) are required');
+            return;
+        }
+    
+        const db = cds.transaction(req);
+    
+        try {
+            // Ensure related Visit and Visitor exist
+            const visit = await db.read('CatalogService.Visits').where({ ID: visitId });
+            const visitor = await db.read('CatalogService.Visitors').where({ ID: visitorID });
+    
+            if (!visit.length || !visitor.length) {
+                req.error(400, 'Invalid Visit ID or Visitor ID');
+                return;
+            }
+    
+            // Insert the agenda entry with user-provided values
+            await db.run(
+                INSERT.into('CatalogService.Agenda').entries({
+                    visitID: visitId,
+                    visitorID: visitorID,
+                    topic,
+                    description,
+                    outcome
+                })
+            );
+    
+            const agendaEntry = await db.read('CatalogService.Agenda')
+                .where({ visitID: visitId, visitorID: visitorID });
+    
+            console.log("Agenda entry successfully created:", agendaEntry);
+            return agendaEntry;
+    
+        } catch (error) {
+            console.error("Error during agenda entry creation:", error);
+            req.error(500, 'Internal Server Error');
+        }
+    });
+    
+    
     
 });
